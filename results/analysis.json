@@ -1,0 +1,3004 @@
+{
+  "baseline_model": {
+    "prior": {
+      "Stable": 0.7,
+      "Stressed": 0.2,
+      "Critical": 0.1
+    },
+    "sensor1": {
+      "Stable": {
+        "Normal": 0.8,
+        "Warning": 0.15,
+        "Alarm": 0.05
+      },
+      "Stressed": {
+        "Normal": 0.25,
+        "Warning": 0.6,
+        "Alarm": 0.15
+      },
+      "Critical": {
+        "Normal": 0.05,
+        "Warning": 0.25,
+        "Alarm": 0.7
+      }
+    },
+    "sensor2": {
+      "Stable": {
+        "Normal pH": 0.9,
+        "Abnormal pH": 0.1
+      },
+      "Stressed": {
+        "Normal pH": 0.5,
+        "Abnormal pH": 0.5
+      },
+      "Critical": {
+        "Normal pH": 0.15,
+        "Abnormal pH": 0.85
+      }
+    },
+    "transition": {
+      "Stable": {
+        "Stable": 0.8,
+        "Stressed": 0.18,
+        "Critical": 0.02
+      },
+      "Stressed": {
+        "Stable": 0.25,
+        "Stressed": 0.6,
+        "Critical": 0.15
+      },
+      "Critical": {
+        "Stable": 0.05,
+        "Stressed": 0.3,
+        "Critical": 0.65
+      }
+    },
+    "utility": {
+      "Continue": {
+        "Stable": 10,
+        "Stressed": 2,
+        "Critical": -20
+      },
+      "Reduce Feed": {
+        "Stable": 5,
+        "Stressed": 6,
+        "Critical": -5
+      },
+      "Intervene": {
+        "Stable": -4,
+        "Stressed": 3,
+        "Critical": 8
+      }
+    }
+  },
+  "task1": [
+    {
+      "evidence": "Normal",
+      "Stable": 0.9105691056910569,
+      "Stressed": 0.0813008130081301,
+      "Critical": 0.008130081300813009
+    },
+    {
+      "evidence": "Warning",
+      "Stable": 0.42,
+      "Stressed": 0.48,
+      "Critical": 0.1
+    },
+    {
+      "evidence": "Alarm",
+      "Stable": 0.25925925925925924,
+      "Stressed": 0.22222222222222224,
+      "Critical": 0.5185185185185185
+    },
+    {
+      "evidence": "Warning + Abnormal pH",
+      "Stable": 0.11444141689373298,
+      "Stressed": 0.6539509536784741,
+      "Critical": 0.23160762942779295
+    }
+  ],
+  "scenarios": {
+    "A": [
+      {
+        "time": 1,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7,
+          "Stressed": 0.2,
+          "Critical": 0.1
+        },
+        "unnormalised": {
+          "Stable": 0.5599999999999999,
+          "Stressed": 0.05,
+          "Critical": 0.005000000000000001
+        },
+        "evidence_probability": 0.615,
+        "posterior": {
+          "Stable": 0.9105691056910569,
+          "Stressed": 0.0813008130081301,
+          "Critical": 0.008130081300813009
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.105691056910569,
+          "Reduce Feed": 5.0,
+          "Intervene": -3.333333333333333
+        },
+        "decision_margin": 4.105691056910569
+      },
+      {
+        "time": 2,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7491869918699188,
+          "Stressed": 0.2151219512195122,
+          "Critical": 0.035691056910569105
+        },
+        "unnormalised": {
+          "Stable": 0.5993495934959351,
+          "Stressed": 0.05378048780487805,
+          "Critical": 0.0017845528455284554
+        },
+        "evidence_probability": 0.6549146341463415,
+        "posterior": {
+          "Stable": 0.9151568192962529,
+          "Stressed": 0.08211831741243505,
+          "Critical": 0.002724863291312093
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.261307561961157,
+          "Reduce Feed": 5.054869684499314,
+          "Intervene": -3.3924734186172096
+        },
+        "decision_margin": 4.206437877461843
+      },
+      {
+        "time": 3,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7527912779546767,
+          "Stressed": 0.21481667690818018,
+          "Critical": 0.03239204513714318
+        },
+        "unnormalised": {
+          "Stable": 0.6022330223637414,
+          "Stressed": 0.053704169227045045,
+          "Critical": 0.0016196022568571592
+        },
+        "evidence_probability": 0.6575567938476437,
+        "posterior": {
+          "Stable": 0.915864649256866,
+          "Stressed": 0.08167229010409759,
+          "Critical": 0.0024630606390364847
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.272729859996124,
+          "Reduce Feed": 5.057041683713733,
+          "Intervene": -3.398737241602879
+        },
+        "decision_margin": 4.2156881762823915
+      },
+      {
+        "time": 4,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.753232944963469,
+          "Stressed": 0.21459792912040535,
+          "Critical": 0.03216912591612567
+        },
+        "unnormalised": {
+          "Stable": 0.6025863559707753,
+          "Stressed": 0.053649482280101336,
+          "Critical": 0.0016084562958062834
+        },
+        "evidence_probability": 0.6578442945466829,
+        "posterior": {
+          "Stable": 0.9160014930068131,
+          "Stressed": 0.08155346595666824,
+          "Critical": 0.002445041036518622
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.274221041251096,
+          "Reduce Feed": 5.057103055591482,
+          "Intervene": -3.3997852458650986
+        },
+        "decision_margin": 4.2171179856596135
+      },
+      {
+        "time": 5,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7533118129464436,
+          "Stressed": 0.2145458606261829,
+          "Critical": 0.0321423264273736
+        },
+        "unnormalised": {
+          "Stable": 0.6026494503571549,
+          "Stressed": 0.05363646515654572,
+          "Critical": 0.0016071163213686802
+        },
+        "evidence_probability": 0.6578930318350693,
+        "posterior": {
+          "Stable": 0.9160295385348242,
+          "Stressed": 0.08152763832584889,
+          "Critical": 0.002442823139326967
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.2744941992134,
+          "Reduce Feed": 5.057099406932579,
+          "Intervene": -3.3999926540471344
+        },
+        "decision_margin": 4.217394792280821
+      },
+      {
+        "time": 6,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.7533276815662879,
+          "Stressed": 0.21453474687357577,
+          "Critical": 0.032137571560136344
+        },
+        "unnormalised": {
+          "Stable": 0.11299915223494318,
+          "Stressed": 0.12872084812414544,
+          "Critical": 0.008034392890034086
+        },
+        "evidence_probability": 0.2497543932491227,
+        "posterior": {
+          "Stable": 0.45244109929321574,
+          "Stressed": 0.515389725280028,
+          "Critical": 0.032169175426756215
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.911806934957089,
+          "Reduce Feed": 5.193697971012466,
+          "Intervene": -0.006241817918729076
+        },
+        "decision_margin": 0.28189103605537724
+      },
+      {
+        "time": 7,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.49240876952591744,
+          "Stressed": 0.4003239856688225,
+          "Critical": 0.10726724480526005
+        },
+        "unnormalised": {
+          "Stable": 0.39392701562073396,
+          "Stressed": 0.10008099641720562,
+          "Critical": 0.005363362240263003
+        },
+        "evidence_probability": 0.4993713742782026,
+        "posterior": {
+          "Stable": 0.7888458087733219,
+          "Stressed": 0.20041396357943805,
+          "Critical": 0.010740227647240036
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 8.074481461947295,
+          "Reduce Feed": 5.093011687107038,
+          "Intervene": -2.468219523177053
+        },
+        "decision_margin": 2.9814697748402574
+      },
+      {
+        "time": 8,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.681717149295879,
+          "Stressed": 0.2654626920210328,
+          "Critical": 0.05282015868308817
+        },
+        "unnormalised": {
+          "Stable": 0.5453737194367032,
+          "Stressed": 0.0663656730052582,
+          "Critical": 0.0026410079341544087
+        },
+        "evidence_probability": 0.6143804003761159,
+        "posterior": {
+          "Stable": 0.8876808555462257,
+          "Stressed": 0.1080204918070791,
+          "Critical": 0.004298652646695138
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.006876486142511,
+          "Reduce Feed": 5.065033965340127,
+          "Intervene": -3.1922727255901044
+        },
+        "decision_margin": 3.9418425208023846
+      },
+      {
+        "time": 9,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7373647400210851,
+          "Stressed": 0.2258844448765766,
+          "Critical": 0.03675081510233821
+        },
+        "unnormalised": {
+          "Stable": 0.5898917920168681,
+          "Stressed": 0.05647111121914415,
+          "Critical": 0.0018375407551169108
+        },
+        "evidence_probability": 0.6482004439911292,
+        "posterior": {
+          "Stable": 0.9100453378043983,
+          "Stressed": 0.08711982804491411,
+          "Critical": 0.0028348341506875888
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.21799635112006,
+          "Reduce Feed": 5.058771486538038,
+          "Intervene": -3.3561431938773505
+        },
+        "decision_margin": 4.159224864582022
+      },
+      {
+        "time": 10,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7499579689622816,
+          "Stressed": 0.21693050787694643,
+          "Critical": 0.03311152316077202
+        },
+        "unnormalised": {
+          "Stable": 0.5999663751698253,
+          "Stressed": 0.05423262696923661,
+          "Critical": 0.001655576158038601
+        },
+        "evidence_probability": 0.6558545782971005,
+        "posterior": {
+          "Stable": 0.9147856781416597,
+          "Stressed": 0.08269001812878916,
+          "Critical": 0.002524303729551201
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.262750743083151,
+          "Reduce Feed": 5.057446980833277,
+          "Intervene": -3.3908782283438614
+        },
+        "decision_margin": 4.205303762249874
+      },
+      {
+        "time": 11,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7526272622320026,
+          "Stressed": 0.2150327240616376,
+          "Critical": 0.032340013706359846
+        },
+        "unnormalised": {
+          "Stable": 0.6021018097856021,
+          "Stressed": 0.0537581810154094,
+          "Critical": 0.0016170006853179924
+        },
+        "evidence_probability": 0.6574769914863295,
+        "posterior": {
+          "Stable": 0.9157762440088691,
+          "Stressed": 0.0817643532952851,
+          "Critical": 0.0024594026958456895
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.272103092762347,
+          "Reduce Feed": 5.057170326336828,
+          "Intervene": -3.3981366945828557
+        },
+        "decision_margin": 4.214932766425519
+      },
+      {
+        "time": 12,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7531850536657089,
+          "Stressed": 0.2146361567075212,
+          "Critical": 0.032178789626769844
+        },
+        "unnormalised": {
+          "Stable": 0.6025480429325671,
+          "Stressed": 0.0536590391768803,
+          "Critical": 0.0016089394813384923
+        },
+        "evidence_probability": 0.6578160215907859,
+        "posterior": {
+          "Stable": 0.9159826199967507,
+          "Stressed": 0.0815714993488871,
+          "Critical": 0.0024458806543623244
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.274051585578034,
+          "Reduce Feed": 5.057112692805264,
+          "Intervene": -3.399648936705443
+        },
+        "decision_margin": 4.21693889277277
+      },
+      {
+        "time": 13,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.7533012648673405,
+          "Stressed": 0.21455353540505606,
+          "Critical": 0.03214519972760359
+        },
+        "unnormalised": {
+          "Stable": 0.11299518973010107,
+          "Stressed": 0.12873212124303363,
+          "Critical": 0.008036299931900897
+        },
+        "evidence_probability": 0.2497636109050356,
+        "posterior": {
+          "Stable": 0.45240853669858166,
+          "Stressed": 0.5154158397076497,
+          "Critical": 0.03217562359376857
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.911404574525744,
+          "Reduce Feed": 5.193659603769964,
+          "Intervene": -0.005981638921228882
+        },
+        "decision_margin": 0.28225502924421964
+      },
+      {
+        "time": 14,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.49238957046546616,
+          "Stressed": 0.4003357275084651,
+          "Critical": 0.10727470202606866
+        },
+        "unnormalised": {
+          "Stable": 0.39391165637237296,
+          "Stressed": 0.10008393187711627,
+          "Critical": 0.005363735101303433
+        },
+        "evidence_probability": 0.4993593233507927,
+        "posterior": {
+          "Stable": 0.7888340879051852,
+          "Stressed": 0.20042467857721113,
+          "Critical": 0.01074123351760369
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 8.0743655658542,
+          "Reduce Feed": 5.093012343401174,
+          "Intervene": -2.468132447748278
+        },
+        "decision_margin": 2.9813532224530253
+      },
+      {
+        "time": 15,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.6817105016443312,
+          "Stressed": 0.26546731302454113,
+          "Critical": 0.05282218533112777
+        },
+        "unnormalised": {
+          "Stable": 0.545368401315465,
+          "Stressed": 0.06636682825613528,
+          "Critical": 0.002641109266556389
+        },
+        "evidence_probability": 0.6143763388381567,
+        "posterior": {
+          "Stable": 0.8876780677244307,
+          "Stressed": 0.10802308627581782,
+          "Critical": 0.0042988459997515115
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.006849929800913,
+          "Reduce Feed": 5.065034626278303,
+          "Intervene": -3.1922522440722574
+        },
+        "decision_margin": 3.94181530352261
+      },
+      {
+        "time": 16,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7373631680484866,
+          "Stressed": 0.22588555775581365,
+          "Critical": 0.03675127419569977
+        },
+        "unnormalised": {
+          "Stable": 0.5898905344387892,
+          "Stressed": 0.05647138943895341,
+          "Critical": 0.0018375637097849886
+        },
+        "evidence_probability": 0.6481994875875277,
+        "posterior": {
+          "Stable": 0.9100447404459497,
+          "Stressed": 0.08712038580766075,
+          "Critical": 0.002834873746389469
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.21799070114703,
+          "Reduce Feed": 5.058771648343766,
+          "Intervene": -3.356138814389701
+        },
+        "decision_margin": 4.159219052803264
+      },
+      {
+        "time": 17,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7499576324959946,
+          "Stressed": 0.21693074688878425,
+          "Critical": 0.033111620615221264
+        },
+        "unnormalised": {
+          "Stable": 0.5999661059967957,
+          "Stressed": 0.05423268672219606,
+          "Critical": 0.0016555810307610633
+        },
+        "evidence_probability": 0.6558543737497528,
+        "posterior": {
+          "Stable": 0.9147855530284505,
+          "Stressed": 0.08269013502514057,
+          "Critical": 0.002524311946408953
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.262749561406608,
+          "Reduce Feed": 5.057447015561052,
+          "Intervene": -3.3908773114671087
+        },
+        "decision_margin": 4.205302545845556
+      },
+      {
+        "time": 18,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7526271917763661,
+          "Stressed": 0.21503277414412814,
+          "Critical": 0.03234003407950591
+        },
+        "unnormalised": {
+          "Stable": 0.6021017534210928,
+          "Stressed": 0.053758193536032034,
+          "Critical": 0.0016170017039752957
+        },
+        "evidence_probability": 0.6574769486611002,
+        "posterior": {
+          "Stable": 0.9157762179301122,
+          "Stressed": 0.0817643776645042,
+          "Critical": 0.0024594044053836287
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.272102846522458,
+          "Reduce Feed": 5.057170333610668,
+          "Intervene": -3.398136503483867
+        },
+        "decision_margin": 4.21493251291179
+      },
+      {
+        "time": 19,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.753185038980485,
+          "Stressed": 0.2146361671477378,
+          "Critical": 0.03217879387177723
+        },
+        "unnormalised": {
+          "Stable": 0.602548031184388,
+          "Stressed": 0.05365904178693445,
+          "Critical": 0.0016089396935888617
+        },
+        "evidence_probability": 0.6578160126649114,
+        "posterior": {
+          "Stable": 0.9159826145663064,
+          "Stressed": 0.08157150442348404,
+          "Critical": 0.0024458810102095346
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.274051534305842,
+          "Reduce Feed": 5.057112694321389,
+          "Intervene": -3.399648896913097
+        },
+        "decision_margin": 4.216938839984453
+      },
+      {
+        "time": 20,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.7533012618094266,
+          "Stressed": 0.21455353757908843,
+          "Critical": 0.03214520061148493
+        },
+        "unnormalised": {
+          "Stable": 0.03766506309047133,
+          "Stressed": 0.032183030636863265,
+          "Critical": 0.02250164042803945
+        },
+        "evidence_probability": 0.09234973415537405,
+        "posterior": {
+          "Stable": 0.40785242572655,
+          "Stressed": 0.348490777274105,
+          "Critical": 0.24365679699934498
+        },
+        "most_probable_state": "Stable",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": -0.09763012817318917,
+          "Reduce Feed": 2.9119228072806553,
+          "Intervene": 1.3633170049108747
+        },
+        "decision_margin": 1.5486058023697806
+      },
+      {
+        "time": 21,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4255874747497336,
+          "Stressed": 0.35560494209504545,
+          "Critical": 0.21880758315522097
+        },
+        "unnormalised": {
+          "Stable": 0.3404699797997869,
+          "Stressed": 0.08890123552376136,
+          "Critical": 0.010940379157761049
+        },
+        "evidence_probability": 0.4403115944813093,
+        "posterior": {
+          "Stable": 0.773247818288463,
+          "Stressed": 0.20190527943850253,
+          "Critical": 0.024846902273034408
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.639350696300948,
+          "Reduce Feed": 4.953436256708159,
+          "Intervene": -2.2885002166540693
+        },
+        "decision_margin": 2.685914439592789
+      },
+      {
+        "time": 22,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.6703169196040478,
+          "Stressed": 0.2677818456369352,
+          "Critical": 0.061901234759017
+        },
+        "unnormalised": {
+          "Stable": 0.5362535356832383,
+          "Stressed": 0.0669454614092338,
+          "Critical": 0.0030950617379508502
+        },
+        "evidence_probability": 0.606294058830423,
+        "posterior": {
+          "Stable": 0.8844776356834224,
+          "Stressed": 0.11041747883588954,
+          "Critical": 0.005104885480688046
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 8.963513604892242,
+          "Reduce Feed": 5.059368624029009,
+          "Intervene": -3.1658190223805165
+        },
+        "decision_margin": 3.904144980863233
+      },
+      {
+        "time": 23,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7354417225297447,
+          "Stressed": 0.22698792736875617,
+          "Critical": 0.03757035010149911
+        },
+        "unnormalised": {
+          "Stable": 0.5883533780237958,
+          "Stressed": 0.05674698184218904,
+          "Critical": 0.0018785175050749555
+        },
+        "evidence_probability": 0.6469788773710599,
+        "posterior": {
+          "Stable": 0.9093857598790807,
+          "Stressed": 0.08771071796466566,
+          "Critical": 0.0029035221562536038
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.211208591595065,
+          "Reduce Feed": 5.058675496402129,
+          "Intervene": -3.351182708372297
+        },
+        "decision_margin": 4.152533095192936
+      },
+      {
+        "time": 24,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7495814635022436,
+          "Stressed": 0.21718692420391,
+          "Critical": 0.0332316122938463
+        },
+        "unnormalised": {
+          "Stable": 0.5996651708017949,
+          "Stressed": 0.0542967310509775,
+          "Critical": 0.0016615806146923152
+        },
+        "evidence_probability": 0.6556234824674647,
+        "posterior": {
+          "Stable": 0.9146487074333145,
+          "Stressed": 0.08281694067245673,
+          "Critical": 0.0025343518942288206
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.261433917793482,
+          "Reduce Feed": 5.057473421730169,
+          "Intervene": -3.3898691925620574
+        },
+        "decision_margin": 4.2039604960633135
+      },
+      {
+        "time": 25,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7525499187094773,
+          "Stressed": 0.21508723730973928,
+          "Critical": 0.03236284398078353
+        },
+        "unnormalised": {
+          "Stable": 0.6020399349675819,
+          "Stressed": 0.05377180932743482,
+          "Critical": 0.0016181421990391768
+        },
+        "evidence_probability": 0.6574298864940559,
+        "posterior": {
+          "Stable": 0.9157477433497012,
+          "Stressed": 0.08179094141002517,
+          "Critical": 0.0024613152402736213
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.27183301151159,
+          "Reduce Feed": 5.057177789007289,
+          "Intervene": -3.39792762724654
+        },
+        "decision_margin": 4.214655222504302
+      },
+      {
+        "time": 26,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.753168995794281,
+          "Stressed": 0.2146475532210434,
+          "Critical": 0.03218345098467565
+        },
+        "unnormalised": {
+          "Stable": 0.6025351966354249,
+          "Stressed": 0.05366188830526085,
+          "Critical": 0.0016091725492337824
+        },
+        "evidence_probability": 0.6578062574899195,
+        "posterior": {
+          "Stable": 0.9159766873221913,
+          "Stressed": 0.08157704140733746,
+          "Critical": 0.0024462712704712178
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.273995530627163,
+          "Reduce Feed": 5.057114328702625,
+          "Intervene": -3.399605454902983
+        },
+        "decision_margin": 4.216881201924538
+      },
+      {
+        "time": 27,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.753297923773111,
+          "Stressed": 0.21455590994353826,
+          "Critical": 0.032146166283350736
+        },
+        "unnormalised": {
+          "Stable": 0.11299468856596664,
+          "Stressed": 0.12873354596612296,
+          "Critical": 0.008036541570837684
+        },
+        "evidence_probability": 0.2497647761029273,
+        "posterior": {
+          "Stable": 0.45240441958637867,
+          "Stressed": 0.5154191394589294,
+          "Critical": 0.0321764409546919
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.911353655687807,
+          "Reduce Feed": 5.1936547299120095,
+          "Intervene": -0.005948732331191364
+        },
+        "decision_margin": 0.28230107422420225
+      },
+      {
+        "time": 28,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4923871425815699,
+          "Stressed": 0.4003372114873133,
+          "Critical": 0.10727564593111671
+        },
+        "unnormalised": {
+          "Stable": 0.39390971406525593,
+          "Stressed": 0.10008430287182833,
+          "Critical": 0.005363782296555836
+        },
+        "evidence_probability": 0.4993577992336401,
+        "posterior": {
+          "Stable": 0.7888326059386388,
+          "Stressed": 0.2004260332479573,
+          "Critical": 0.010741360813403905
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 8.074350909614225,
+          "Reduce Feed": 5.093012425113918,
+          "Intervene": -2.468121437503452
+        },
+        "decision_margin": 2.9813384845003066
+      },
+      {
+        "time": 29,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.6817096611035706,
+          "Stressed": 0.2654678972617505,
+          "Critical": 0.052822441634678904
+        },
+        "unnormalised": {
+          "Stable": 0.5453677288828565,
+          "Stressed": 0.06636697431543763,
+          "Critical": 0.0026411220817339452
+        },
+        "evidence_probability": 0.614375825280028,
+        "posterior": {
+          "Stable": 0.8876777152393356,
+          "Stressed": 0.10802341430864089,
+          "Critical": 0.004298870452023631
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.006846571970165,
+          "Reduce Feed": 5.065034709788405,
+          "Intervene": -3.192249654415231
+        },
+        "decision_margin": 3.94181186218176
+      },
+      {
+        "time": 30,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7373629692912299,
+          "Stressed": 0.225885698463872,
+          "Critical": 0.036751332244898204
+        },
+        "unnormalised": {
+          "Stable": 0.589890375432984,
+          "Stressed": 0.056471424615968,
+          "Critical": 0.0018375666122449103
+        },
+        "evidence_probability": 0.6481993666611968,
+        "posterior": {
+          "Stable": 0.9100446649175916,
+          "Stressed": 0.0871204563294254,
+          "Critical": 0.002834878752983071
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.217989986775105,
+          "Reduce Feed": 5.058771668799595,
+          "Intervene": -3.3561382606582257
+        },
+        "decision_margin": 4.15921831797551
+      }
+    ],
+    "B": [
+      {
+        "time": 1,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7,
+          "Stressed": 0.2,
+          "Critical": 0.1
+        },
+        "unnormalised": {
+          "Stable": 0.5599999999999999,
+          "Stressed": 0.05,
+          "Critical": 0.005000000000000001
+        },
+        "evidence_probability": 0.615,
+        "posterior": {
+          "Stable": 0.9105691056910569,
+          "Stressed": 0.0813008130081301,
+          "Critical": 0.008130081300813009
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.105691056910569,
+          "Reduce Feed": 5.0,
+          "Intervene": -3.333333333333333
+        },
+        "decision_margin": 4.105691056910569
+      },
+      {
+        "time": 2,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7491869918699188,
+          "Stressed": 0.2151219512195122,
+          "Critical": 0.035691056910569105
+        },
+        "unnormalised": {
+          "Stable": 0.5993495934959351,
+          "Stressed": 0.05378048780487805,
+          "Critical": 0.0017845528455284554
+        },
+        "evidence_probability": 0.6549146341463415,
+        "posterior": {
+          "Stable": 0.9151568192962529,
+          "Stressed": 0.08211831741243505,
+          "Critical": 0.002724863291312093
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.261307561961157,
+          "Reduce Feed": 5.054869684499314,
+          "Intervene": -3.3924734186172096
+        },
+        "decision_margin": 4.206437877461843
+      },
+      {
+        "time": 3,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7527912779546767,
+          "Stressed": 0.21481667690818018,
+          "Critical": 0.03239204513714318
+        },
+        "unnormalised": {
+          "Stable": 0.6022330223637414,
+          "Stressed": 0.053704169227045045,
+          "Critical": 0.0016196022568571592
+        },
+        "evidence_probability": 0.6575567938476437,
+        "posterior": {
+          "Stable": 0.915864649256866,
+          "Stressed": 0.08167229010409759,
+          "Critical": 0.0024630606390364847
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.272729859996124,
+          "Reduce Feed": 5.057041683713733,
+          "Intervene": -3.398737241602879
+        },
+        "decision_margin": 4.2156881762823915
+      },
+      {
+        "time": 4,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.753232944963469,
+          "Stressed": 0.21459792912040535,
+          "Critical": 0.03216912591612567
+        },
+        "unnormalised": {
+          "Stable": 0.6025863559707753,
+          "Stressed": 0.053649482280101336,
+          "Critical": 0.0016084562958062834
+        },
+        "evidence_probability": 0.6578442945466829,
+        "posterior": {
+          "Stable": 0.9160014930068131,
+          "Stressed": 0.08155346595666824,
+          "Critical": 0.002445041036518622
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.274221041251096,
+          "Reduce Feed": 5.057103055591482,
+          "Intervene": -3.3997852458650986
+        },
+        "decision_margin": 4.2171179856596135
+      },
+      {
+        "time": 5,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7533118129464436,
+          "Stressed": 0.2145458606261829,
+          "Critical": 0.0321423264273736
+        },
+        "unnormalised": {
+          "Stable": 0.6026494503571549,
+          "Stressed": 0.05363646515654572,
+          "Critical": 0.0016071163213686802
+        },
+        "evidence_probability": 0.6578930318350693,
+        "posterior": {
+          "Stable": 0.9160295385348242,
+          "Stressed": 0.08152763832584889,
+          "Critical": 0.002442823139326967
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.2744941992134,
+          "Reduce Feed": 5.057099406932579,
+          "Intervene": -3.3999926540471344
+        },
+        "decision_margin": 4.217394792280821
+      },
+      {
+        "time": 6,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7533276815662879,
+          "Stressed": 0.21453474687357577,
+          "Critical": 0.032137571560136344
+        },
+        "unnormalised": {
+          "Stable": 0.6026621452530304,
+          "Stressed": 0.05363368671839394,
+          "Critical": 0.0016068785780068173
+        },
+        "evidence_probability": 0.6579027105494312,
+        "posterior": {
+          "Stable": 0.9160353584038772,
+          "Stressed": 0.08152221575983946,
+          "Critical": 0.002442425836283411
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.274549498832782,
+          "Reduce Feed": 5.057097957397006,
+          "Intervene": -3.400035379645723
+        },
+        "decision_margin": 4.217451541435776
+      },
+      {
+        "time": 7,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7533309619548758,
+          "Stressed": 0.21453242171948658,
+          "Critical": 0.032136616325637676
+        },
+        "unnormalised": {
+          "Stable": 0.6026647695639007,
+          "Stressed": 0.053633105429871646,
+          "Critical": 0.001606830816281884
+        },
+        "evidence_probability": 0.6579047058100542,
+        "posterior": {
+          "Stable": 0.9160365691895476,
+          "Stressed": 0.08152108497815827,
+          "Critical": 0.0024423458322941336
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.27456094520591,
+          "Reduce Feed": 5.057097626655216,
+          "Intervene": -3.4000442551653625
+        },
+        "decision_margin": 4.217463318550693
+      },
+      {
+        "time": 8,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7533316438877924,
+          "Stressed": 0.21453193719070177,
+          "Critical": 0.03213641892150588
+        },
+        "unnormalised": {
+          "Stable": 0.6026653151102339,
+          "Stressed": 0.05363298429767544,
+          "Critical": 0.001606820946075294
+        },
+        "evidence_probability": 0.6579051203539846,
+        "posterior": {
+          "Stable": 0.9160368212151487,
+          "Stressed": 0.08152084949394878,
+          "Critical": 0.0024423292909025347
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.274563325321335,
+          "Reduce Feed": 5.057097556584924,
+          "Intervene": -3.4000461020515282
+        },
+        "decision_margin": 4.217465768736411
+      },
+      {
+        "time": 9,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.7533317858101513,
+          "Stressed": 0.2145318363023668,
+          "Critical": 0.03213637788748194
+        },
+        "unnormalised": {
+          "Stable": 0.11299976787152269,
+          "Stressed": 0.12871910178142007,
+          "Critical": 0.008034094471870486
+        },
+        "evidence_probability": 0.24975296412481324,
+        "posterior": {
+          "Stable": 0.452446153211825,
+          "Stressed": 0.5153856821378628,
+          "Critical": 0.03216816465031211
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.911869603387734,
+          "Reduce Feed": 5.193704035634742,
+          "Intervene": -0.006282249231214676
+        },
+        "decision_margin": 0.2818344322470079
+      },
+      {
+        "time": 10,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4924117513364414,
+          "Stressed": 0.40032216625593986,
+          "Critical": 0.1072660824076188
+        },
+        "unnormalised": {
+          "Stable": 0.39392940106915314,
+          "Stressed": 0.10008054156398496,
+          "Critical": 0.005363304120380941
+        },
+        "evidence_probability": 0.499373246753519,
+        "posterior": {
+          "Stable": 0.7888476277616632,
+          "Stressed": 0.2004123012488548,
+          "Critical": 0.01074007098948207
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 8.0744994603247,
+          "Reduce Feed": 5.093011591354035,
+          "Intervene": -2.4682330393842316
+        },
+        "decision_margin": 2.9814878689706656
+      },
+      {
+        "time": 11,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.6817181810710183,
+          "Stressed": 0.26546197504325686,
+          "Critical": 0.052819843885724825
+        },
+        "unnormalised": {
+          "Stable": 0.10225772716065275,
+          "Stressed": 0.15927718502595412,
+          "Critical": 0.013204960971431206
+        },
+        "evidence_probability": 0.27473987315803805,
+        "posterior": {
+          "Stable": 0.37219834887901854,
+          "Stressed": 0.5797381471976346,
+          "Critical": 0.048063503923346955
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 3.9201897047185157,
+          "Reduce Feed": 5.099103107964166,
+          "Intervene": 0.6349290774636054
+        },
+        "decision_margin": 1.1789134032456503
+      },
+      {
+        "time": 12,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.44509639109879084,
+          "Stressed": 0.42925764229380814,
+          "Critical": 0.12564596660740107
+        },
+        "unnormalised": {
+          "Stable": 0.06676445866481863,
+          "Stressed": 0.2575545853762849,
+          "Critical": 0.03141149165185027
+        },
+        "evidence_probability": 0.35573053569295376,
+        "posterior": {
+          "Stable": 0.18768267541262157,
+          "Stressed": 0.7240159602114992,
+          "Critical": 0.08830136437587936
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 1.5588313870316266,
+          "Reduce Feed": 4.841002316452705,
+          "Intervene": 2.127728093991046
+        },
+        "decision_margin": 2.7132742224616595
+      },
+      {
+        "time": 13,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.33556519860176603,
+          "Stressed": 0.4946828670139352,
+          "Critical": 0.1697519343842989
+        },
+        "unnormalised": {
+          "Stable": 0.050334779790264905,
+          "Stressed": 0.2968097202083611,
+          "Critical": 0.04243798359607472
+        },
+        "evidence_probability": 0.3895824835947007,
+        "posterior": {
+          "Stable": 0.12920185560147085,
+          "Stressed": 0.7618661842023291,
+          "Critical": 0.10893196019620012
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 0.6371117204953642,
+          "Reduce Feed": 4.672546582240328,
+          "Intervene": 2.6402468117707047
+        },
+        "decision_margin": 2.032299770469623
+      },
+      {
+        "time": 14,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.29927462854156894,
+          "Stressed": 0.5130556325885223,
+          "Critical": 0.18766973886990887
+        },
+        "unnormalised": {
+          "Stable": 0.04489119428123534,
+          "Stressed": 0.30783337955311335,
+          "Critical": 0.04691743471747722
+        },
+        "evidence_probability": 0.3996420085518259,
+        "posterior": {
+          "Stable": 0.11232851732455902,
+          "Stressed": 0.7702728265944877,
+          "Critical": 0.11739865608095332
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 0.31585770481549913,
+          "Reduce Feed": 4.596286265784954,
+          "Intervene": 2.8006936591328535
+        },
+        "decision_margin": 1.7955926066521006
+      },
+      {
+        "time": 15,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.2883009533123168,
+          "Stressed": 0.5176024258993992,
+          "Critical": 0.194096620788284
+        },
+        "unnormalised": {
+          "Stable": 0.01441504766561584,
+          "Stressed": 0.07764036388490987,
+          "Critical": 0.1358676345517988
+        },
+        "evidence_probability": 0.2279230461023245,
+        "posterior": {
+          "Stable": 0.06324523961979826,
+          "Stressed": 0.3406428845727771,
+          "Critical": 0.5961118758074246
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -10.608499350804955,
+          "Reduce Feed": -0.6204758735014693,
+          "Intervene": 5.537842701698535
+        },
+        "decision_margin": 6.1583185752000045
+      },
+      {
+        "time": 16,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.1655625066294041,
+          "Stressed": 0.39460343661745734,
+          "Critical": 0.4398340567531385
+        },
+        "unnormalised": {
+          "Stable": 0.1324500053035233,
+          "Stressed": 0.09865085915436433,
+          "Critical": 0.02199170283765693
+        },
+        "evidence_probability": 0.2530925672955446,
+        "posterior": {
+          "Stable": 0.5233263335973712,
+          "Stressed": 0.38978173167435004,
+          "Critical": 0.08689193472827864
+        },
+        "most_probable_state": "Stable",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.274988104756839,
+          "Reduce Feed": 4.520862384391563,
+          "Intervene": -0.22882466154020586
+        },
+        "decision_margin": 0.24587427963472397
+      },
+      {
+        "time": 17,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.5204510965328984,
+          "Stressed": 0.3541353594706204,
+          "Critical": 0.12541354399648103
+        },
+        "unnormalised": {
+          "Stable": 0.07806766447993477,
+          "Stressed": 0.21248121568237224,
+          "Critical": 0.031353385999120256
+        },
+        "evidence_probability": 0.32190226616142725,
+        "posterior": {
+          "Stable": 0.24251977288282112,
+          "Stressed": 0.6600799000769301,
+          "Critical": 0.09740032704024888
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 1.7973509881770935,
+          "Reduce Feed": 4.686076629674441,
+          "Intervene": 1.7893632250214968
+        },
+        "decision_margin": 2.8887256414973477
+      },
+      {
+        "time": 18,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.36390580967750186,
+          "Stressed": 0.46892159727714045,
+          "Critical": 0.1671725930453577
+        },
+        "unnormalised": {
+          "Stable": 0.2911246477420015,
+          "Stressed": 0.11723039931928511,
+          "Critical": 0.008358629652267885
+        },
+        "evidence_probability": 0.41671367671355447,
+        "posterior": {
+          "Stable": 0.698620333361696,
+          "Stressed": 0.28132121854946535,
+          "Critical": 0.020058448088838558
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.14767680893912,
+          "Reduce Feed": 5.08073673766108,
+          "Intervene": -1.7900500930876797
+        },
+        "decision_margin": 2.06694007127804
+      },
+      {
+        "time": 19,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.6302294937311651,
+          "Stressed": 0.30056192556143607,
+          "Critical": 0.06920858070739878
+        },
+        "unnormalised": {
+          "Stable": 0.03151147468655826,
+          "Stressed": 0.04508428883421541,
+          "Critical": 0.04844600649517915
+        },
+        "evidence_probability": 0.12504177001595282,
+        "posterior": {
+          "Stable": 0.25200758660516426,
+          "Stressed": 0.3605538279605572,
+          "Critical": 0.38743858543427856
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -4.507588186712814,
+          "Reduce Feed": 1.4861679736177718,
+          "Intervene": 3.1731398209352433
+        },
+        "decision_margin": 1.6869718473174715
+      },
+      {
+        "time": 20,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.31111645554598466,
+          "Stressed": 0.37792523799554745,
+          "Critical": 0.31095830645846795
+        },
+        "unnormalised": {
+          "Stable": 0.0466674683318977,
+          "Stressed": 0.22675514279732845,
+          "Critical": 0.07773957661461699
+        },
+        "evidence_probability": 0.3511621877438431,
+        "posterior": {
+          "Stable": 0.13289434329968208,
+          "Stressed": 0.6457276743096726,
+          "Critical": 0.22137798239064532
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": -1.80716086619674,
+          "Reduce Feed": 3.43194785040322,
+          "Intervene": 3.176629508855452
+        },
+        "decision_margin": 0.2553183415477678
+      },
+      {
+        "time": 21,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.2788162923366961,
+          "Stressed": 0.4777709810969399,
+          "Critical": 0.24341272656636398
+        },
+        "unnormalised": {
+          "Stable": 0.013940814616834805,
+          "Stressed": 0.07166564716454098,
+          "Critical": 0.17038890859645478
+        },
+        "evidence_probability": 0.25599537037783054,
+        "posterior": {
+          "Stable": 0.054457291927815635,
+          "Stressed": 0.27994899696337355,
+          "Critical": 0.6655937111088108
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -12.207403308971314,
+          "Reduce Feed": -1.3759881141247345,
+          "Intervene": 5.946767512049345
+        },
+        "decision_margin": 7.322755626174079
+      },
+      {
+        "time": 22,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.14683276833853645,
+          "Stressed": 0.3774498240576742,
+          "Critical": 0.4757174076037894
+        },
+        "unnormalised": {
+          "Stable": 0.02202491525078047,
+          "Stressed": 0.2264698944346045,
+          "Critical": 0.11892935190094735
+        },
+        "evidence_probability": 0.3674241615863323,
+        "posterior": {
+          "Stable": 0.05994411242768899,
+          "Stressed": 0.6163718070603577,
+          "Critical": 0.32368408051195335
+        },
+        "most_probable_state": "Stressed",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -4.641496871841462,
+          "Reduce Feed": 2.379531001940824,
+          "Intervene": 4.198811615565944
+        },
+        "decision_margin": 1.81928061362512
+      },
+      {
+        "time": 23,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.2182324457328383,
+          "Stressed": 0.4777182486267846,
+          "Critical": 0.30404930564037713
+        },
+        "unnormalised": {
+          "Stable": 0.010911622286641914,
+          "Stressed": 0.07165773729401768,
+          "Critical": 0.21283451394826397
+        },
+        "evidence_probability": 0.29540387352892356,
+        "posterior": {
+          "Stable": 0.03693797970991581,
+          "Stressed": 0.24257548297518022,
+          "Critical": 0.720486537314904
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -13.55519998324856,
+          "Reduce Feed": -1.9622898901738595,
+          "Intervene": 6.343866828605109
+        },
+        "decision_margin": 8.306156718778968
+      },
+      {
+        "time": 24,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.1262185813774729,
+          "Stressed": 0.3683400873273642,
+          "Critical": 0.505441331295163
+        },
+        "unnormalised": {
+          "Stable": 0.018932787206620935,
+          "Stressed": 0.2210040523964185,
+          "Critical": 0.12636033282379075
+        },
+        "evidence_probability": 0.3662971724268302,
+        "posterior": {
+          "Stable": 0.05168695974687836,
+          "Stressed": 0.6033463237845911,
+          "Critical": 0.3449667164685305
+        },
+        "most_probable_state": "Stressed",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -5.175772084332644,
+          "Reduce Feed": 2.1536791590992856,
+          "Intervene": 4.363024864114504
+        },
+        "decision_margin": 2.209345705015218
+      },
+      {
+        "time": 25,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.20943448456707697,
+          "Stressed": 0.4748014619657519,
+          "Critical": 0.31576405346717107
+        },
+        "unnormalised": {
+          "Stable": 0.03141517268506155,
+          "Stressed": 0.28488087717945115,
+          "Critical": 0.07894101336679277
+        },
+        "evidence_probability": 0.3952370632313055,
+        "posterior": {
+          "Stable": 0.07948437939555374,
+          "Stressed": 0.7207848243036096,
+          "Critical": 0.19973079630083665
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": -1.7582024834539767,
+          "Reduce Feed": 3.723476861295243,
+          "Intervene": 3.4422633257353072
+        },
+        "decision_margin": 0.28121353555993567
+      },
+      {
+        "time": 26,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.25377024940738724,
+          "Stressed": 0.5066973217636164,
+          "Critical": 0.23953242882899634
+        },
+        "unnormalised": {
+          "Stable": 0.012688512470369362,
+          "Stressed": 0.07600459826454245,
+          "Critical": 0.16767270018029742
+        },
+        "evidence_probability": 0.2563658109152092,
+        "posterior": {
+          "Stable": 0.049493777758712054,
+          "Stressed": 0.2964693224623478,
+          "Critical": 0.6540368997789402
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -11.992861573066989,
+          "Reduce Feed": -1.243899675327054,
+          "Intervene": 5.923728054583717
+        },
+        "decision_margin": 7.1676277299107705
+      },
+      {
+        "time": 27,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.1464141978115036,
+          "Stressed": 0.3830015434076589,
+          "Critical": 0.47058425878083754
+        },
+        "unnormalised": {
+          "Stable": 0.02196212967172554,
+          "Stressed": 0.22980092604459534,
+          "Critical": 0.11764606469520938
+        },
+        "evidence_probability": 0.3694091204115303,
+        "posterior": {
+          "Stable": 0.05945205047254713,
+          "Stressed": 0.622077023405897,
+          "Critical": 0.3184709261215558
+        },
+        "most_probable_state": "Stressed",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -4.530743970893852,
+          "Reduce Feed": 2.4373677621903385,
+          "Intervene": 4.176190277299949
+        },
+        "decision_margin": 1.7388225151096108
+      },
+      {
+        "time": 28,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.21900444253558976,
+          "Stressed": 0.47948886096506343,
+          "Critical": 0.3015066964993468
+        },
+        "unnormalised": {
+          "Stable": 0.17520355402847182,
+          "Stressed": 0.11987221524126586,
+          "Critical": 0.01507533482496734
+        },
+        "evidence_probability": 0.31015110409470503,
+        "posterior": {
+          "Stable": 0.5648974055400209,
+          "Stressed": 0.38649617447327456,
+          "Critical": 0.04860641998670451
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 5.449838004612667,
+          "Reduce Feed": 4.900431974606229,
+          "Intervene": -0.7112497388466239
+        },
+        "decision_margin": 0.5494060300064385
+      },
+      {
+        "time": 29,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.5509722890496705,
+          "Stressed": 0.34816116367717986,
+          "Critical": 0.10086654727314953
+        },
+        "unnormalised": {
+          "Stable": 0.08264584335745058,
+          "Stressed": 0.2088966982063079,
+          "Critical": 0.025216636818287383
+        },
+        "evidence_probability": 0.31675917838204587,
+        "posterior": {
+          "Stable": 0.26091065073344377,
+          "Stressed": 0.6594811215047284,
+          "Critical": 0.07960822776182791
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 2.3359041951073363,
+          "Reduce Feed": 4.86339884388645,
+          "Intervene": 1.5716665836750332
+        },
+        "decision_margin": 2.5274946487791135
+      },
+      {
+        "time": 30,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.37757921235102854,
+          "Stressed": 0.46653505836340525,
+          "Critical": 0.15588572928556627
+        },
+        "unnormalised": {
+          "Stable": 0.05663688185265428,
+          "Stressed": 0.27992103501804316,
+          "Critical": 0.038971432321391566
+        },
+        "evidence_probability": 0.375529349192089,
+        "posterior": {
+          "Stable": 0.1508187894621351,
+          "Stressed": 0.7454038828663143,
+          "Critical": 0.1037773276715506
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 0.9234491069229678,
+          "Reduce Feed": 4.707630606150809,
+          "Intervene": 2.4631551121228075
+        },
+        "decision_margin": 2.244475494028001
+      }
+    ],
+    "C": [
+      {
+        "time": 1,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7,
+          "Stressed": 0.2,
+          "Critical": 0.1
+        },
+        "unnormalised": {
+          "Stable": 0.5599999999999999,
+          "Stressed": 0.05,
+          "Critical": 0.005000000000000001
+        },
+        "evidence_probability": 0.615,
+        "posterior": {
+          "Stable": 0.9105691056910569,
+          "Stressed": 0.0813008130081301,
+          "Critical": 0.008130081300813009
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.105691056910569,
+          "Reduce Feed": 5.0,
+          "Intervene": -3.333333333333333
+        },
+        "decision_margin": 4.105691056910569
+      },
+      {
+        "time": 2,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7491869918699188,
+          "Stressed": 0.2151219512195122,
+          "Critical": 0.035691056910569105
+        },
+        "unnormalised": {
+          "Stable": 0.5993495934959351,
+          "Stressed": 0.05378048780487805,
+          "Critical": 0.0017845528455284554
+        },
+        "evidence_probability": 0.6549146341463415,
+        "posterior": {
+          "Stable": 0.9151568192962529,
+          "Stressed": 0.08211831741243505,
+          "Critical": 0.002724863291312093
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.261307561961157,
+          "Reduce Feed": 5.054869684499314,
+          "Intervene": -3.3924734186172096
+        },
+        "decision_margin": 4.206437877461843
+      },
+      {
+        "time": 3,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7527912779546767,
+          "Stressed": 0.21481667690818018,
+          "Critical": 0.03239204513714318
+        },
+        "unnormalised": {
+          "Stable": 0.6022330223637414,
+          "Stressed": 0.053704169227045045,
+          "Critical": 0.0016196022568571592
+        },
+        "evidence_probability": 0.6575567938476437,
+        "posterior": {
+          "Stable": 0.915864649256866,
+          "Stressed": 0.08167229010409759,
+          "Critical": 0.0024630606390364847
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.272729859996124,
+          "Reduce Feed": 5.057041683713733,
+          "Intervene": -3.398737241602879
+        },
+        "decision_margin": 4.2156881762823915
+      },
+      {
+        "time": 4,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.753232944963469,
+          "Stressed": 0.21459792912040535,
+          "Critical": 0.03216912591612567
+        },
+        "unnormalised": {
+          "Stable": 0.11298494174452035,
+          "Stressed": 0.1287587574722432,
+          "Critical": 0.008042281479031417
+        },
+        "evidence_probability": 0.24978598069579497,
+        "posterior": {
+          "Stable": 0.4523269938120366,
+          "Stressed": 0.5154763174201265,
+          "Critical": 0.032196688767836865
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.910288797603882,
+          "Reduce Feed": 5.193509429741757,
+          "Intervene": -0.005305512845072191
+        },
+        "decision_margin": 0.2832206321378754
+      },
+      {
+        "time": 5,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.4923405088430528,
+          "Stressed": 0.4003636559685935,
+          "Critical": 0.10729583518835367
+        },
+        "unnormalised": {
+          "Stable": 0.02461702544215264,
+          "Stressed": 0.06005454839528902,
+          "Critical": 0.07510708463184756
+        },
+        "evidence_probability": 0.15977865846928924,
+        "posterior": {
+          "Stable": 0.15406954644624354,
+          "Stressed": 0.37586088762180964,
+          "Critical": 0.47006956593194676
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -7.1089740789328815,
+          "Reduce Feed": 0.6751652283023415,
+          "Intervene": 4.271861004536029
+        },
+        "decision_margin": 3.5966957762336875
+      },
+      {
+        "time": 6,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.24072433735904458,
+          "Stressed": 0.3942699207129936,
+          "Critical": 0.3650057419279617
+        },
+        "unnormalised": {
+          "Stable": 0.036108650603856686,
+          "Stressed": 0.23656195242779615,
+          "Critical": 0.09125143548199043
+        },
+        "evidence_probability": 0.36392203851364324,
+        "posterior": {
+          "Stable": 0.09922084068152139,
+          "Stressed": 0.6500346980742898,
+          "Critical": 0.25074446124418887
+        },
+        "most_probable_state": "Stressed",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -2.722611421919984,
+          "Reduce Feed": 3.142590085632402,
+          "Intervene": 3.559176421450295
+        },
+        "decision_margin": 0.41658633581789317
+      },
+      {
+        "time": 7,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.254422570125999,
+          "Stressed": 0.4831039085405044,
+          "Critical": 0.26247352133349666
+        },
+        "unnormalised": {
+          "Stable": 0.20353805610079923,
+          "Stressed": 0.1207759771351261,
+          "Critical": 0.013123676066674833
+        },
+        "evidence_probability": 0.33743770930260014,
+        "posterior": {
+          "Stable": 0.6031870490155407,
+          "Stressed": 0.3579208067312335,
+          "Critical": 0.0388921442532259
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 5.969869218553356,
+          "Reduce Feed": 4.968999364198975,
+          "Intervene": -1.0278486218426548
+        },
+        "decision_margin": 1.0008698543543808
+      },
+      {
+        "time": 8,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.5739744481079022,
+          "Stressed": 0.3349937961375052,
+          "Critical": 0.09103175575459267
+        },
+        "unnormalised": {
+          "Stable": 0.4591795584863218,
+          "Stressed": 0.0837484490343763,
+          "Critical": 0.004551587787729633
+        },
+        "evidence_probability": 0.5474795953084277,
+        "posterior": {
+          "Stable": 0.8387153830411501,
+          "Stressed": 0.15297090476439734,
+          "Critical": 0.00831371219445257
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 8.526821396051245,
+          "Reduce Feed": 5.069833782819872,
+          "Intervene": -2.829439120315788
+        },
+        "decision_margin": 3.456987613231373
+      },
+      {
+        "time": 9,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.7096307182337421,
+          "Stressed": 0.2452454254643812,
+          "Critical": 0.04512385630187678
+        },
+        "unnormalised": {
+          "Stable": 0.10644460773506131,
+          "Stressed": 0.1471472552786287,
+          "Critical": 0.011280964075469194
+        },
+        "evidence_probability": 0.2648728270891592,
+        "posterior": {
+          "Stable": 0.40187062185594014,
+          "Stressed": 0.5555392634862363,
+          "Critical": 0.04259011465782367
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.277982452375401,
+          "Reduce Feed": 5.129638116908,
+          "Intervene": 0.39985622029753753
+        },
+        "decision_margin": 0.8516556645325988
+      },
+      {
+        "time": 10,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4625108190892024,
+          "Stressed": 0.4184373044231581,
+          "Critical": 0.11905187648763962
+        },
+        "unnormalised": {
+          "Stable": 0.37000865527136195,
+          "Stressed": 0.10460932610578952,
+          "Critical": 0.005952593824381982
+        },
+        "evidence_probability": 0.48057057520153346,
+        "posterior": {
+          "Stable": 0.7699361433358546,
+          "Stressed": 0.21767734335777894,
+          "Critical": 0.012386513306366469
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.886985853946775,
+          "Reduce Feed": 5.093812210294114,
+          "Intervene": -2.3276204368191498
+        },
+        "decision_margin": 2.7931736436526604
+      },
+      {
+        "time": 11,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.6709875761734468,
+          "Stressed": 0.2729108658070311,
+          "Critical": 0.05610155801952214
+        },
+        "unnormalised": {
+          "Stable": 0.10064813642601703,
+          "Stressed": 0.16374651948421867,
+          "Critical": 0.014025389504880534
+        },
+        "evidence_probability": 0.2784200454151162,
+        "posterior": {
+          "Stable": 0.36149744992661564,
+          "Stressed": 0.5881276229234047,
+          "Critical": 0.05037492714997975
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 3.783731202113371,
+          "Reduce Feed": 5.084378351423608,
+          "Intervene": 0.7213924862635895
+        },
+        "decision_margin": 1.3006471493102367
+      },
+      {
+        "time": 12,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4387486120296427,
+          "Stressed": 0.43305859288582754,
+          "Critical": 0.12819279508452985
+        },
+        "unnormalised": {
+          "Stable": 0.35099888962371417,
+          "Stressed": 0.10826464822145689,
+          "Critical": 0.006409639754226493
+        },
+        "evidence_probability": 0.4656731775993975,
+        "posterior": {
+          "Stable": 0.7537451296489881,
+          "Stressed": 0.23249062524832212,
+          "Critical": 0.013764245102689775
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.727147644932729,
+          "Reduce Feed": 5.094848174221424,
+          "Intervene": -2.207394682029468
+        },
+        "decision_margin": 2.632299470711305
+      },
+      {
+        "time": 13,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.6618069722864056,
+          "Stressed": 0.27929777201661804,
+          "Critical": 0.05889525569697643
+        },
+        "unnormalised": {
+          "Stable": 0.09927104584296084,
+          "Stressed": 0.1675786632099708,
+          "Critical": 0.014723813924244107
+        },
+        "evidence_probability": 0.28157352297717575,
+        "posterior": {
+          "Stable": 0.3525581695087422,
+          "Stressed": 0.595150642852008,
+          "Critical": 0.05229118763924978
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 3.6700592280064424,
+          "Reduce Feed": 5.0722387664595106,
+          "Intervene": 0.7935487516350537
+        },
+        "decision_margin": 1.4021795384530682
+      },
+      {
+        "time": 14,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4334487557019583,
+          "Stressed": 0.43623821251455336,
+          "Critical": 0.1303130317834884
+        },
+        "unnormalised": {
+          "Stable": 0.34675900456156666,
+          "Stressed": 0.10905955312863834,
+          "Critical": 0.006515651589174421
+        },
+        "evidence_probability": 0.4623342092793794,
+        "posterior": {
+          "Stable": 0.7500180553414924,
+          "Stressed": 0.23588899748219974,
+          "Critical": 0.014092947176307997
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.690099604853162,
+          "Reduce Feed": 5.09495952571912,
+          "Intervene": -2.1796616515089062
+        },
+        "decision_margin": 2.595140079134042
+      },
+      {
+        "time": 15,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.6596913410025593,
+          "Stressed": 0.28076453260368084,
+          "Critical": 0.05954412639376001
+        },
+        "unnormalised": {
+          "Stable": 0.09895370115038389,
+          "Stressed": 0.1684587195622085,
+          "Critical": 0.014886031598440002
+        },
+        "evidence_probability": 0.2822984523110324,
+        "posterior": {
+          "Stable": 0.35052867042061614,
+          "Stressed": 0.5967397914622752,
+          "Critical": 0.05273153811710871
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 3.6441355247885374,
+          "Reduce Feed": 5.069424410291188,
+          "Intervene": 0.8099569976412306
+        },
+        "decision_margin": 1.4252888855026509
+      },
+      {
+        "time": 16,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.43224446110791714,
+          "Stressed": 0.4369584969882086,
+          "Critical": 0.13079704190387426
+        },
+        "unnormalised": {
+          "Stable": 0.3457955688863337,
+          "Stressed": 0.10923962424705215,
+          "Critical": 0.006539852095193713
+        },
+        "evidence_probability": 0.4615750452285796,
+        "posterior": {
+          "Stable": 0.7491643503281032,
+          "Stressed": 0.23666709319814913,
+          "Critical": 0.014168556473747556
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.68160656020238,
+          "Reduce Feed": 5.094981528460673,
+          "Intervene": -2.173307669927985
+        },
+        "decision_margin": 2.5866250317417068
+      },
+      {
+        "time": 17,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.6592066813857073,
+          "Stressed": 0.28110040592007235,
+          "Critical": 0.05969291269422035
+        },
+        "unnormalised": {
+          "Stable": 0.03296033406928536,
+          "Stressed": 0.04216506088801085,
+          "Critical": 0.041785038885954244
+        },
+        "evidence_probability": 0.11691043384325045,
+        "posterior": {
+          "Stable": 0.28192807934899516,
+          "Stressed": 0.3606612301562779,
+          "Critical": 0.357410690494727
+        },
+        "most_probable_state": "Stressed",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -3.6076105560920326,
+          "Reduce Feed": 1.786554325209008,
+          "Intervene": 2.813556897030669
+        },
+        "decision_margin": 1.027002571821661
+      },
+      {
+        "time": 18,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.333578305543002,
+          "Stressed": 0.37436699952500396,
+          "Critical": 0.29205469493199415
+        },
+        "unnormalised": {
+          "Stable": 0.2668626444344016,
+          "Stressed": 0.09359174988125099,
+          "Critical": 0.014602734746599708
+        },
+        "evidence_probability": 0.3750571290622523,
+        "posterior": {
+          "Stable": 0.7115253217600018,
+          "Stressed": 0.24953998372263056,
+          "Critical": 0.038934694517367606
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 6.835639294697927,
+          "Reduce Feed": 4.860193038548954,
+          "Intervene": -1.7860037797331747
+        },
+        "decision_margin": 1.975446256148973
+      },
+      {
+        "time": 19,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.6335519880645275,
+          "Stressed": 0.28947895650558897,
+          "Critical": 0.07696905542988355
+        },
+        "unnormalised": {
+          "Stable": 0.506841590451622,
+          "Stressed": 0.07236973912639724,
+          "Critical": 0.003848452771494178
+        },
+        "evidence_probability": 0.5830597823495135,
+        "posterior": {
+          "Stable": 0.8692789415336442,
+          "Stressed": 0.12412061561641961,
+          "Critical": 0.006600442849936157
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 8.809021789570558,
+          "Reduce Feed": 5.058116187117058,
+          "Intervene": -3.0519503764858285
+        },
+        "decision_margin": 3.7509056024535
+      },
+      {
+        "time": 20,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.7267833292735171,
+          "Stressed": 0.23292271170088857,
+          "Critical": 0.04029395902559433
+        },
+        "unnormalised": {
+          "Stable": 0.5814266634188137,
+          "Stressed": 0.058230677925222143,
+          "Critical": 0.0020146979512797166
+        },
+        "evidence_probability": 0.6416720392953155,
+        "posterior": {
+          "Stable": 0.9061118886485013,
+          "Stressed": 0.09074834862552388,
+          "Critical": 0.0031397627259748748
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 9.179820329216565,
+          "Reduce Feed": 5.059350721365775,
+          "Intervene": -3.3270844069096346
+        },
+        "decision_margin": 4.120469607850789
+      },
+      {
+        "time": 21,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.7477335862114809,
+          "Stressed": 0.21849107794983702,
+          "Critical": 0.03377533583868228
+        },
+        "unnormalised": {
+          "Stable": 0.11216003793172213,
+          "Stressed": 0.1310946467699022,
+          "Critical": 0.00844383395967057
+        },
+        "evidence_probability": 0.2516985186612949,
+        "posterior": {
+          "Stable": 0.44561262628110027,
+          "Stressed": 0.5208399615029652,
+          "Critical": 0.03354741221593461
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 4.826857941498241,
+          "Reduce Feed": 5.1853658393436195,
+          "Intervene": 0.04844867711197126
+        },
+        "decision_margin": 0.35850789784537884
+      },
+      {
+        "time": 22,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.48837746201141824,
+          "Stressed": 0.40277847329715755,
+          "Critical": 0.10884406469142428
+        },
+        "unnormalised": {
+          "Stable": 0.07325661930171273,
+          "Stressed": 0.2416670839782945,
+          "Critical": 0.02721101617285607
+        },
+        "evidence_probability": 0.34213471945286333,
+        "posterior": {
+          "Stable": 0.21411629728448375,
+          "Stressed": 0.7063506573222527,
+          "Critical": 0.07953304539326356
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 1.9632033796240718,
+          "Reduce Feed": 4.911020203389617,
+          "Intervene": 1.8988511459749313
+        },
+        "decision_margin": 2.947816823765545
+      },
+      {
+        "time": 23,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.35185735442781335,
+          "Stressed": 0.48621124152253775,
+          "Critical": 0.1619314040496489
+        },
+        "unnormalised": {
+          "Stable": 0.017592867721390668,
+          "Stressed": 0.07293168622838066,
+          "Critical": 0.11335198283475421
+        },
+        "evidence_probability": 0.20387653678452555,
+        "posterior": {
+          "Stable": 0.08629177245630938,
+          "Stressed": 0.35772476508888906,
+          "Critical": 0.5559834624548015
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -9.541301994355157,
+          "Reduce Feed": -0.20210985945912602,
+          "Intervene": 5.175874905079842
+        },
+        "decision_margin": 5.377984764538968
+      },
+      {
+        "time": 24,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.18626378236000984,
+          "Stressed": 0.3969624168319096,
+          "Critical": 0.41677380080808046
+        },
+        "unnormalised": {
+          "Stable": 0.009313189118000493,
+          "Stressed": 0.05954436252478643,
+          "Critical": 0.2917416605656563
+        },
+        "evidence_probability": 0.36059921220844326,
+        "posterior": {
+          "Stable": 0.02582698132079399,
+          "Stressed": 0.16512615809700382,
+          "Critical": 0.8090468605822021
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -15.592415082242095,
+          "Reduce Feed": -2.925342447725018,
+          "Intervene": 6.864445433665452
+        },
+        "decision_margin": 9.78978788139047
+      },
+      {
+        "time": 25,
+        "observation": "Alarm",
+        "prediction": {
+          "Stable": 0.10239546760999625,
+          "Stressed": 0.34643860967060586,
+          "Critical": 0.5511659227193979
+        },
+        "unnormalised": {
+          "Stable": 0.005119773380499813,
+          "Stressed": 0.051965791450590874,
+          "Critical": 0.3858161459035785
+        },
+        "evidence_probability": 0.44290171073466916,
+        "posterior": {
+          "Stable": 0.011559615274475505,
+          "Stressed": 0.11733030194078935,
+          "Critical": 0.8711100827847352
+        },
+        "most_probable_state": "Critical",
+        "action": "Intervene",
+        "expected_utilities": {
+          "Continue": -17.07194489906837,
+          "Reduce Feed": -3.5937705259065624,
+          "Intervene": 7.274633107002348
+        },
+        "decision_margin": 10.86840363290891
+      },
+      {
+        "time": 26,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.08213577184401451,
+          "Stressed": 0.3338119367492997,
+          "Critical": 0.5840522914066858
+        },
+        "unnormalised": {
+          "Stable": 0.0657086174752116,
+          "Stressed": 0.08345298418732493,
+          "Critical": 0.029202614570334292
+        },
+        "evidence_probability": 0.17836421623287083,
+        "posterior": {
+          "Stable": 0.36839574026116867,
+          "Stressed": 0.46787963387437204,
+          "Critical": 0.1637246258644593
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 1.3452241530712445,
+          "Reduce Feed": 3.830633375229779,
+          "Intervene": 1.2398529474941158
+        },
+        "decision_margin": 2.4854092221585344
+      },
+      {
+        "time": 27,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4198727319707509,
+          "Stressed": 0.39615640133097135,
+          "Critical": 0.18397086669827772
+        },
+        "unnormalised": {
+          "Stable": 0.3358981855766008,
+          "Stressed": 0.09903910033274284,
+          "Critical": 0.009198543334913887
+        },
+        "evidence_probability": 0.4441358292442575,
+        "posterior": {
+          "Stable": 0.7562960775944735,
+          "Stressed": 0.2229928184386024,
+          "Critical": 0.020711103966924146
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.594724333483456,
+          "Reduce Feed": 5.015881778769361,
+          "Intervene": -2.1905170233266933
+        },
+        "decision_margin": 2.578842554714095
+      },
+      {
+        "time": 28,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.6618206218835756,
+          "Stressed": 0.2761423162202439,
+          "Critical": 0.06203706189618052
+        },
+        "unnormalised": {
+          "Stable": 0.09927309328253633,
+          "Stressed": 0.16568538973214633,
+          "Critical": 0.01550926547404513
+        },
+        "evidence_probability": 0.2804677484887278,
+        "posterior": {
+          "Stable": 0.35395546838258374,
+          "Stressed": 0.590746674528267,
+          "Critical": 0.05529785708914927
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 3.615090891099386,
+          "Reduce Feed": 5.0377681036367745,
+          "Intervene": 0.7988010067676603
+        },
+        "decision_margin": 1.4226772125373883
+      },
+      {
+        "time": 29,
+        "observation": "Normal",
+        "prediction": {
+          "Stable": 0.4336159361925912,
+          "Stressed": 0.43474934615257005,
+          "Critical": 0.13163471765483875
+        },
+        "unnormalised": {
+          "Stable": 0.34689274895407296,
+          "Stressed": 0.10868733653814251,
+          "Critical": 0.006581735882741938
+        },
+        "evidence_probability": 0.4621618213749574,
+        "posterior": {
+          "Stable": 0.7505872032485235,
+          "Stressed": 0.23517160334618634,
+          "Critical": 0.01424119340529017
+        },
+        "most_probable_state": "Stable",
+        "action": "Continue",
+        "expected_utilities": {
+          "Continue": 7.691391371071804,
+          "Reduce Feed": 5.092759669293284,
+          "Intervene": -2.1829044557132136
+        },
+        "decision_margin": 2.59863170177852
+      },
+      {
+        "time": 30,
+        "observation": "Warning",
+        "prediction": {
+          "Stable": 0.6599747231056299,
+          "Stressed": 0.2804810166140331,
+          "Critical": 0.05954426028033703
+        },
+        "unnormalised": {
+          "Stable": 0.09899620846584448,
+          "Stressed": 0.16828860996841985,
+          "Critical": 0.014886065070084258
+        },
+        "evidence_probability": 0.2821708835043486,
+        "posterior": {
+          "Stable": 0.3508377875009163,
+          "Stressed": 0.5964067159531232,
+          "Critical": 0.0527554965459604
+        },
+        "most_probable_state": "Stressed",
+        "action": "Reduce Feed",
+        "expected_utilities": {
+          "Continue": 3.646081375996202,
+          "Reduce Feed": 5.068851750493519,
+          "Intervene": 0.8079129702233876
+        },
+        "decision_margin": 1.4227703744973175
+      }
+    ]
+  },
+  "summary": {
+    "A": {
+      "observations": {
+        "Normal": 26,
+        "Warning": 3,
+        "Alarm": 1
+      },
+      "state_counts": {
+        "Stable": 27,
+        "Stressed": 3
+      },
+      "action_counts": {
+        "Continue": 26,
+        "Reduce Feed": 4
+      },
+      "action_changes": [
+        {
+          "time": 6,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 7,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 13,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 14,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 20,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 21,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 27,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 28,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        }
+      ],
+      "final_posterior": {
+        "Stable": 0.9100446649175916,
+        "Stressed": 0.0871204563294254,
+        "Critical": 0.002834878752983071
+      },
+      "map_action_disagreements": [
+        20
+      ],
+      "peak_critical": 0.24365679699934498
+    },
+    "B": {
+      "observations": {
+        "Normal": 12,
+        "Warning": 13,
+        "Alarm": 5
+      },
+      "state_counts": {
+        "Stable": 12,
+        "Stressed": 13,
+        "Critical": 5
+      },
+      "action_counts": {
+        "Continue": 11,
+        "Reduce Feed": 11,
+        "Intervene": 8
+      },
+      "action_changes": [
+        {
+          "time": 9,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 10,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 11,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 15,
+          "from": "Reduce Feed",
+          "to": "Intervene"
+        },
+        {
+          "time": 16,
+          "from": "Intervene",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 18,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 19,
+          "from": "Continue",
+          "to": "Intervene"
+        },
+        {
+          "time": 20,
+          "from": "Intervene",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 21,
+          "from": "Reduce Feed",
+          "to": "Intervene"
+        },
+        {
+          "time": 25,
+          "from": "Intervene",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 26,
+          "from": "Reduce Feed",
+          "to": "Intervene"
+        },
+        {
+          "time": 28,
+          "from": "Intervene",
+          "to": "Continue"
+        },
+        {
+          "time": 29,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        }
+      ],
+      "final_posterior": {
+        "Stable": 0.1508187894621351,
+        "Stressed": 0.7454038828663143,
+        "Critical": 0.1037773276715506
+      },
+      "map_action_disagreements": [
+        16,
+        22,
+        24,
+        27
+      ],
+      "peak_critical": 0.720486537314904
+    },
+    "C": {
+      "observations": {
+        "Normal": 15,
+        "Warning": 10,
+        "Alarm": 5
+      },
+      "state_counts": {
+        "Stable": 14,
+        "Stressed": 12,
+        "Critical": 4
+      },
+      "action_counts": {
+        "Continue": 14,
+        "Reduce Feed": 10,
+        "Intervene": 6
+      },
+      "action_changes": [
+        {
+          "time": 4,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 5,
+          "from": "Reduce Feed",
+          "to": "Intervene"
+        },
+        {
+          "time": 7,
+          "from": "Intervene",
+          "to": "Continue"
+        },
+        {
+          "time": 9,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 10,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 11,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 12,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 13,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 14,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 15,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 16,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 17,
+          "from": "Continue",
+          "to": "Intervene"
+        },
+        {
+          "time": 18,
+          "from": "Intervene",
+          "to": "Continue"
+        },
+        {
+          "time": 21,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 23,
+          "from": "Reduce Feed",
+          "to": "Intervene"
+        },
+        {
+          "time": 26,
+          "from": "Intervene",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 27,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 28,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        },
+        {
+          "time": 29,
+          "from": "Reduce Feed",
+          "to": "Continue"
+        },
+        {
+          "time": 30,
+          "from": "Continue",
+          "to": "Reduce Feed"
+        }
+      ],
+      "final_posterior": {
+        "Stable": 0.3508377875009163,
+        "Stressed": 0.5964067159531232,
+        "Critical": 0.0527554965459604
+      },
+      "map_action_disagreements": [
+        6,
+        17
+      ],
+      "peak_critical": 0.8711100827847352
+    }
+  },
+  "sensitivity": [
+    {
+      "experiment": "25% uniform sensor mixture",
+      "scenario": "A",
+      "changed_actions": 3,
+      "changed_times": "6;13;27",
+      "Continue": 29,
+      "Reduce Feed": 1,
+      "Intervene": 0
+    },
+    {
+      "experiment": "25% uniform sensor mixture",
+      "scenario": "B",
+      "changed_actions": 3,
+      "changed_times": "9;19;28",
+      "Continue": 11,
+      "Reduce Feed": 12,
+      "Intervene": 7
+    },
+    {
+      "experiment": "25% uniform sensor mixture",
+      "scenario": "C",
+      "changed_actions": 4,
+      "changed_times": "4;6;17;21",
+      "Continue": 16,
+      "Reduce Feed": 10,
+      "Intervene": 4
+    },
+    {
+      "experiment": "50% identity transition mixture",
+      "scenario": "A",
+      "changed_actions": 4,
+      "changed_times": "6;13;20;27",
+      "Continue": 30,
+      "Reduce Feed": 0,
+      "Intervene": 0
+    },
+    {
+      "experiment": "50% identity transition mixture",
+      "scenario": "B",
+      "changed_actions": 4,
+      "changed_times": "9;11;25;28",
+      "Continue": 12,
+      "Reduce Feed": 9,
+      "Intervene": 9
+    },
+    {
+      "experiment": "50% identity transition mixture",
+      "scenario": "C",
+      "changed_actions": 6,
+      "changed_times": "4;5;6;17;21;26",
+      "Continue": 16,
+      "Reduce Feed": 10,
+      "Intervene": 4
+    },
+    {
+      "experiment": "Continue/Critical utility -40",
+      "scenario": "A",
+      "changed_actions": 0,
+      "changed_times": "",
+      "Continue": 26,
+      "Reduce Feed": 4,
+      "Intervene": 0
+    },
+    {
+      "experiment": "Continue/Critical utility -40",
+      "scenario": "B",
+      "changed_actions": 1,
+      "changed_times": "28",
+      "Continue": 10,
+      "Reduce Feed": 12,
+      "Intervene": 8
+    },
+    {
+      "experiment": "Continue/Critical utility -40",
+      "scenario": "C",
+      "changed_actions": 0,
+      "changed_times": "",
+      "Continue": 14,
+      "Reduce Feed": 10,
+      "Intervene": 6
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+test_combined_evidence_matches_manual_fraction (test_inference.InferenceTests.test_combined_evidence_matches_manual_fraction) ... ok
+test_empty_sequence_and_bad_transition (test_inference.InferenceTests.test_empty_sequence_and_bad_transition) ... ok
+test_filter_matches_enumeration_of_all_hidden_paths (test_inference.InferenceTests.test_filter_matches_enumeration_of_all_hidden_paths) ... ok
+test_first_step_has_no_transition (test_inference.InferenceTests.test_first_step_has_no_transition) ... ok
+test_general_observations_and_sensor_order (test_inference.InferenceTests.test_general_observations_and_sensor_order) ... ok
+test_impossible_evidence_rejected (test_inference.InferenceTests.test_impossible_evidence_rejected) ... ok
+test_invalid_probability_and_observation_rejected (test_inference.InferenceTests.test_invalid_probability_and_observation_rejected) ... ok
+test_pure_states_and_deterministic_ties (test_inference.InferenceTests.test_pure_states_and_deterministic_ties) ... ok
+test_utility_can_disagree_with_most_likely_state (test_inference.InferenceTests.test_utility_can_disagree_with_most_likely_state) ... ok
+test_warning_matches_manual_fraction (test_inference.InferenceTests.test_warning_matches_manual_fraction) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.001s
+
+OK
+
+Integration and deliverable checks
+PASS: Clean-output reproduction: every numerical CSV and JSON is byte-identical.
+PASS: All three input datasets are byte-identical to the supplied attachments.
+PASS: All 90 posterior/prediction distributions normalise and all 90 chosen actions maximise expected utility; no ties.
+PASS: Report action counts and all nine sensitivity counts match computed output.
+PASS: All values in report Table 4 match full-precision results rounded to six decimal places.
+PASS: Report word count: 2064 including tables/headings; 1849 prose-only; references, captions and appendices excluded.
+PASS: PDF: 10 A4 pages, rendered and visually reviewed; no clipped text, tables or equations.
+Python 3.12.14

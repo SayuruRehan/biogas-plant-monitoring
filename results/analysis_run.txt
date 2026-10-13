@@ -1,0 +1,382 @@
+Bayesian results:
+{'evidence': 'Normal', 'Stable': 0.9105691056910569, 'Stressed': 0.0813008130081301, 'Critical': 0.008130081300813009}
+{'evidence': 'Warning', 'Stable': 0.42, 'Stressed': 0.48, 'Critical': 0.1}
+{'evidence': 'Alarm', 'Stable': 0.25925925925925924, 'Stressed': 0.22222222222222224, 'Critical': 0.5185185185185185}
+{'evidence': 'Warning + Abnormal pH', 'Stable': 0.11444141689373298, 'Stressed': 0.6539509536784741, 'Critical': 0.23160762942779295}
+Scenario summaries:
+{
+  "A": {
+    "observations": {
+      "Normal": 26,
+      "Warning": 3,
+      "Alarm": 1
+    },
+    "state_counts": {
+      "Stable": 27,
+      "Stressed": 3
+    },
+    "action_counts": {
+      "Continue": 26,
+      "Reduce Feed": 4
+    },
+    "action_changes": [
+      {
+        "time": 6,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 7,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 13,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 14,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 20,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 21,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 27,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 28,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      }
+    ],
+    "final_posterior": {
+      "Stable": 0.9100446649175916,
+      "Stressed": 0.0871204563294254,
+      "Critical": 0.002834878752983071
+    },
+    "map_action_disagreements": [
+      20
+    ],
+    "peak_critical": 0.24365679699934498
+  },
+  "B": {
+    "observations": {
+      "Normal": 12,
+      "Warning": 13,
+      "Alarm": 5
+    },
+    "state_counts": {
+      "Stable": 12,
+      "Stressed": 13,
+      "Critical": 5
+    },
+    "action_counts": {
+      "Continue": 11,
+      "Reduce Feed": 11,
+      "Intervene": 8
+    },
+    "action_changes": [
+      {
+        "time": 9,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 10,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 11,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 15,
+        "from": "Reduce Feed",
+        "to": "Intervene"
+      },
+      {
+        "time": 16,
+        "from": "Intervene",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 18,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 19,
+        "from": "Continue",
+        "to": "Intervene"
+      },
+      {
+        "time": 20,
+        "from": "Intervene",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 21,
+        "from": "Reduce Feed",
+        "to": "Intervene"
+      },
+      {
+        "time": 25,
+        "from": "Intervene",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 26,
+        "from": "Reduce Feed",
+        "to": "Intervene"
+      },
+      {
+        "time": 28,
+        "from": "Intervene",
+        "to": "Continue"
+      },
+      {
+        "time": 29,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      }
+    ],
+    "final_posterior": {
+      "Stable": 0.1508187894621351,
+      "Stressed": 0.7454038828663143,
+      "Critical": 0.1037773276715506
+    },
+    "map_action_disagreements": [
+      16,
+      22,
+      24,
+      27
+    ],
+    "peak_critical": 0.720486537314904
+  },
+  "C": {
+    "observations": {
+      "Normal": 15,
+      "Warning": 10,
+      "Alarm": 5
+    },
+    "state_counts": {
+      "Stable": 14,
+      "Stressed": 12,
+      "Critical": 4
+    },
+    "action_counts": {
+      "Continue": 14,
+      "Reduce Feed": 10,
+      "Intervene": 6
+    },
+    "action_changes": [
+      {
+        "time": 4,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 5,
+        "from": "Reduce Feed",
+        "to": "Intervene"
+      },
+      {
+        "time": 7,
+        "from": "Intervene",
+        "to": "Continue"
+      },
+      {
+        "time": 9,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 10,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 11,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 12,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 13,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 14,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 15,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 16,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 17,
+        "from": "Continue",
+        "to": "Intervene"
+      },
+      {
+        "time": 18,
+        "from": "Intervene",
+        "to": "Continue"
+      },
+      {
+        "time": 21,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 23,
+        "from": "Reduce Feed",
+        "to": "Intervene"
+      },
+      {
+        "time": 26,
+        "from": "Intervene",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 27,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 28,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      },
+      {
+        "time": 29,
+        "from": "Reduce Feed",
+        "to": "Continue"
+      },
+      {
+        "time": 30,
+        "from": "Continue",
+        "to": "Reduce Feed"
+      }
+    ],
+    "final_posterior": {
+      "Stable": 0.3508377875009163,
+      "Stressed": 0.5964067159531232,
+      "Critical": 0.0527554965459604
+    },
+    "map_action_disagreements": [
+      6,
+      17
+    ],
+    "peak_critical": 0.8711100827847352
+  }
+}
+Sensitivity: [
+  {
+    "experiment": "25% uniform sensor mixture",
+    "scenario": "A",
+    "changed_actions": 3,
+    "changed_times": "6;13;27",
+    "Continue": 29,
+    "Reduce Feed": 1,
+    "Intervene": 0
+  },
+  {
+    "experiment": "25% uniform sensor mixture",
+    "scenario": "B",
+    "changed_actions": 3,
+    "changed_times": "9;19;28",
+    "Continue": 11,
+    "Reduce Feed": 12,
+    "Intervene": 7
+  },
+  {
+    "experiment": "25% uniform sensor mixture",
+    "scenario": "C",
+    "changed_actions": 4,
+    "changed_times": "4;6;17;21",
+    "Continue": 16,
+    "Reduce Feed": 10,
+    "Intervene": 4
+  },
+  {
+    "experiment": "50% identity transition mixture",
+    "scenario": "A",
+    "changed_actions": 4,
+    "changed_times": "6;13;20;27",
+    "Continue": 30,
+    "Reduce Feed": 0,
+    "Intervene": 0
+  },
+  {
+    "experiment": "50% identity transition mixture",
+    "scenario": "B",
+    "changed_actions": 4,
+    "changed_times": "9;11;25;28",
+    "Continue": 12,
+    "Reduce Feed": 9,
+    "Intervene": 9
+  },
+  {
+    "experiment": "50% identity transition mixture",
+    "scenario": "C",
+    "changed_actions": 6,
+    "changed_times": "4;5;6;17;21;26",
+    "Continue": 16,
+    "Reduce Feed": 10,
+    "Intervene": 4
+  },
+  {
+    "experiment": "Continue/Critical utility -40",
+    "scenario": "A",
+    "changed_actions": 0,
+    "changed_times": "",
+    "Continue": 26,
+    "Reduce Feed": 4,
+    "Intervene": 0
+  },
+  {
+    "experiment": "Continue/Critical utility -40",
+    "scenario": "B",
+    "changed_actions": 1,
+    "changed_times": "28",
+    "Continue": 10,
+    "Reduce Feed": 12,
+    "Intervene": 8
+  },
+  {
+    "experiment": "Continue/Critical utility -40",
+    "scenario": "C",
+    "changed_actions": 0,
+    "changed_times": "",
+    "Continue": 14,
+    "Reduce Feed": 10,
+    "Intervene": 6
+  }
+]

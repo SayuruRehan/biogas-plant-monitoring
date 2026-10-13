@@ -1,0 +1,57 @@
+"""Publication-quality charts from computed results, with no inference logic."""
+from pathlib import Path
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
+COLORS = {'Stable': '#176B65', 'Stressed': '#B97812', 'Critical': '#B4444A'}
+TITLES = {'A':'Stable operation', 'B':'Deteriorating operation', 'C':'Noisy monitoring'}
+ACTION_COLORS = ['#176B65', '#B97812', '#B4444A']
+
+
+def make_figures(payload, destination):
+    destination = Path(destination)
+    plt.rcParams.update({'font.family':'DejaVu Sans', 'font.size':10, 'axes.spines.top':False, 'axes.spines.right':False, 'axes.titleweight':'bold', 'savefig.facecolor':'white'})
+    for scenario, rows in payload['scenarios'].items():
+        times = [r['time'] for r in rows]
+        fig, (ax, sensor_ax) = plt.subplots(2,1,figsize=(8.0,3.6),sharex=True, layout='constrained', gridspec_kw={'height_ratios':[5,1],'hspace':0.08})
+        for state,color in COLORS.items():
+            ax.plot(times, [r['posterior'][state] for r in rows], label=state, color=color, linewidth=2, marker='o', markersize=2.5)
+        ax.set(ylim=(0,1), ylabel='Filtered state probability', title=f'Scenario {scenario}: {TITLES[scenario]}')
+        ax.grid(axis='y', alpha=0.2)
+        ax.legend(ncol=3, loc='upper right', fontsize=9, frameon=False)
+        sensor_colors={'Normal':'#176B65','Warning':'#B97812','Alarm':'#B4444A'}
+        for r in rows:
+            sensor_ax.text(r['time'],0.5,r['observation'][0],ha='center',va='center',fontsize=9,color=sensor_colors[r['observation']],fontweight='bold')
+        sensor_ax.set(xlabel='Time step (N = Normal, W = Warning, A = Alarm)',xlim=(0.4,30.6),ylim=(0,1),yticks=[],xticks=[1,5,10,15,20,25,30])
+        sensor_ax.spines['left'].set_visible(False)
+        fig.savefig(destination/f'scenario_{scenario}_beliefs.png',dpi=220,bbox_inches='tight')
+        fig.savefig(destination/f'scenario_{scenario}_beliefs.pdf',bbox_inches='tight')
+        plt.close(fig)
+    actions=list(payload['baseline_model']['utility'])
+    heatmap=[[actions.index(r['action']) for r in payload['scenarios'][s]] for s in ('A','B','C')]
+    fig,ax=plt.subplots(figsize=(8,2.0))
+    ax.imshow(heatmap,cmap=ListedColormap(ACTION_COLORS),vmin=-0.5,vmax=2.5,aspect='auto',interpolation='nearest',extent=(0.5,30.5,2.5,-0.5))
+    for i,row in enumerate(heatmap):
+        for j,v in enumerate(row):
+            ax.text(j+1,i,['C','R','I'][v],ha='center',va='center',color='white',fontsize=8)
+    ax.set(yticks=[0,1,2],yticklabels=['A: stable','B: deteriorating','C: noisy'],xticks=[1,5,10,15,20,25,30],xlabel='Time step',title='Recommended actions from expected utility')
+    from matplotlib.patches import Patch
+    ax.legend(handles=[Patch(facecolor=c,label=l) for c,l in zip(ACTION_COLORS,['C: Continue','R: Reduce Feed','I: Intervene'])],ncol=3,loc='upper center',bbox_to_anchor=(0.5,-0.34),frameon=False,fontsize=9)
+    fig.savefig(destination/'recommended_actions.png',dpi=220,bbox_inches='tight')
+    fig.savefig(destination/'recommended_actions.pdf',bbox_inches='tight')
+    plt.close(fig)
+    fig,axes=plt.subplots(3,1,figsize=(8,6.4),sharex=True)
+    for ax,(scenario,rows) in zip(axes,payload['scenarios'].items()):
+        for action,color in zip(actions,ACTION_COLORS):
+            ax.plot([r['time'] for r in rows],[r['expected_utilities'][action] for r in rows],label=action,color=color,linewidth=1.8)
+        ax.set(ylabel='Expected utility',title=f'Scenario {scenario}')
+        ax.grid(alpha=0.2)
+        ax.axhline(0,color='#666666',linewidth=0.6)
+    axes[0].legend(ncol=3,frameon=False,fontsize=9)
+    axes[-1].set(xlabel='Time step',xticks=[1,5,10,15,20,25,30])
+    fig.tight_layout()
+    fig.savefig(destination/'expected_utilities.png',dpi=220,bbox_inches='tight')
+    fig.savefig(destination/'expected_utilities.pdf',bbox_inches='tight')
+    plt.close(fig)
