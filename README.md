@@ -18,6 +18,7 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python run_analysis.py
 python build_report.py
+python verify_submission.py --reproduce --run-tests
 ```
 
 On Windows, create the environment with `py -m venv .venv` and activate it
@@ -39,9 +40,14 @@ requires access to Python's package index.
 | `report/COMP6009_Part_B_Report.md` | Editable report source |
 | `biogas.py` | Baseline models, generic Bayesian updating, explicit HMM filtering and reusable decision function |
 | `run_analysis.py` | Dataset validation, results generation and three separate sensitivity experiments |
+| `robustness.py` | Worked HMM step, utility margins, analytical switch threshold and one-factor parameter sweeps |
+| `verify_submission.py` | Rerunnable input, numerical, report-table and PDF-freshness audit |
+| `report_contract.py` | Shared report word-count, table and provenance contracts |
 | `plot_results.py` | State probability, action timeline and expected-utility plots |
 | `build_report.py` | Rebuilds the PDF from Markdown and generated figures |
 | `tests/test_inference.py` | Ten numerical and validation checks, including independent hidden-path enumeration |
+| `tests/test_robustness.py` | Six checks of the worked step, margins, threshold and sweeps |
+| `tests/test_verification.py` | Eleven end-to-end checks, including deliberate input/output/report corruption |
 | `data/` | The three original supplied CSV datasets |
 | `results/` | Full numerical outputs, audit records and sensitivity results |
 | `figures/` | PNG and vector PDF charts |
@@ -60,7 +66,16 @@ requires access to Python's package index.
 - `analysis.json`: baseline configuration and all results at full precision.
 - `sensitivity_summary.csv` and `sensitivity_details.csv`: action differences
   and all per-step results for three separate perturbations.
-- Three probability plots, one action timeline and one expected-utility chart,
+- `worked_hmm_step.csv`: previous belief, each state's contribution to the
+  prediction, likelihood, unnormalised weight and posterior at A's second step.
+- `decision_margins.csv` and `closest_decisions.csv`: every winning action,
+  runner-up, utility difference and the closest choice in each scenario.
+- `parameter_sweep_summary.csv` and `parameter_sweep_details.csv`: 42
+  scenario-setting summaries and 1,260 complete per-step evaluations.
+- `robustness.json`: full-precision derived results and the analytical
+  Continue/Reduce Feed switching threshold at B, t=28.
+- Three probability plots, one action timeline, one expected-utility chart,
+  and one parameter-sweep comparison,
   each in PNG and PDF format.
 
 Optional paths:
@@ -102,6 +117,47 @@ distributions. Changed-action counts compare each variant to baseline on the
 same 30 steps. They do not measure real-world accuracy or simulate the effect
 of implementing actions; there are no true-state labels or action-dependent
 transitions in the supplied data.
+
+The extended one-factor sweeps are separate from those original experiments:
+
+| Family | Tested settings | Meaning |
+| --- | --- | --- |
+| Sensor uncertainty | 0, 0.10, 0.25, 0.50 | Emissions become `(1-alpha)*baseline + alpha/3` |
+| State persistence | 0, 0.25, 0.50, 0.75 | Transitions become `(1-lambda)*T + lambda*identity` |
+| Critical failure utility | -20, -25, -30, -35, -40, -50 | Replace only `U(Continue, Critical)` |
+
+Every family includes a baseline anchor. Sweep results never feed into the
+baseline beliefs or actions. A decision margin is the best expected utility
+minus the second best; it is not a probability of correctness. A pairwise
+utility tie is a global decision boundary only after checking that the third
+action does not dominate. The B, t=28 calculation performs that check.
+
+## Repeatable verification
+
+```bash
+python verify_submission.py
+python verify_submission.py --reproduce --run-tests
+```
+
+The default command checks original SHA-256 input hashes, exactly 30 steps per
+dataset, every baseline prediction/posterior/state/utility/action, all sweep
+outputs, every report table, key worked calculations and the word limit.
+The PDF records fingerprints of its Markdown source, numerical JSON outputs
+and embedded figures; the audit rejects a PDF that predates an edit to any
+of these inputs. It exits with status 1 and a specific `FAIL` message when
+an audit fails, making it suitable for automated checks.
+
+`--reproduce` runs the analysis in an isolated temporary directory and checks
+that all 13 numerical CSV/JSON files and six PNG figures reproduce byte for
+byte. It compares freshly generated artifacts to the checked-in outputs,
+so strict image reproduction uses the pinned rendering environment. The
+ordinary audit compares numbers with a 1e-12 tolerance and requires no plotting
+dependencies. `--run-tests` also runs the complete 27-test suite. GitHub Actions
+runs the suite and audit on pushes to `dev` and pull requests targeting `dev`.
+
+After an intentional change, use this order: regenerate analysis, review and
+update the report's narrative/tables, rebuild the PDF, then verify. Updating the
+PDF metadata alone cannot repair stale CSVs or mismatched report tables.
 
 ## Report and final review
 

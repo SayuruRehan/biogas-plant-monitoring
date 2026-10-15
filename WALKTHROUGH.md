@@ -87,3 +87,38 @@ Always show all three expected utilities when explaining a decision.
 Start reading `biogas.py` with `bayesian_update`, then `hmm_filter`, then
 `recommend_action`. Use a result CSV to follow one complete step from
 prediction through posterior to recommendation.
+
+## 4. Following the numerical HMM example
+
+Report Table 3 uses A's second Normal reading. The previous belief is
+approximately (0.910569, 0.081301, 0.008130). Multiplying it by the transition
+table predicts (0.749187, 0.215122, 0.035691). Multiply these by the Normal
+likelihoods (0.80, 0.25, 0.05) to get weights approximately
+(0.599350, 0.053780, 0.001785). Divide by their full-precision sum, 0.654915
+when rounded, to obtain (0.915157, 0.082118, 0.002725).
+
+The `from_stable`, `from_stressed` and `from_critical` columns of
+`results/worked_hmm_step.csv` show exactly where each prediction comes from.
+
+## 5. Understanding decision robustness
+
+At B, step 16, Reduce Feed wins by only 0.245874 utility units over Continue.
+This is a close choice under the supplied utility model. It does not mean
+there is a 24.59% chance of correctness: utilities and probabilities have
+different meanings. `decision_margins.csv` records all 90 comparisons.
+
+At B, step 28, the baseline recommends Continue. Keeping its belief fixed,
+vary only the utility of continuing when Critical. Continue and Reduce Feed
+tie at approximately -31.303158. A more negative value favours Reduce Feed;
+a less negative value favours Continue. Intervene scores below both at this
+tie, so the boundary really changes the best action.
+
+Parameter sweeps ask whether this behaviour holds across several settings.
+Each family changes one assumption, with all other parts kept baseline.
+For example, a 10% uniform sensor mixture changes two C recommendations but
+increases its number of action changes from 20 to 21. We should therefore
+avoid claiming that greater uncertainty always produces fewer switches.
+
+Use `python verify_submission.py --reproduce --run-tests` to rerun the checks.
+This verifies mathematical consistency and reproducibility, not real-world
+digester accuracy or the benefits of actually implementing the actions.

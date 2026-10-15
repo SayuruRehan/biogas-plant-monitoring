@@ -10,7 +10,7 @@ TITLES = {'A':'Stable operation', 'B':'Deteriorating operation', 'C':'Noisy moni
 ACTION_COLORS = ['#176B65', '#B97812', '#B4444A']
 
 
-def make_figures(payload, destination):
+def make_figures(payload, destination, extension=None):
     destination = Path(destination)
     plt.rcParams.update({'font.family':'DejaVu Sans', 'font.size':10, 'axes.spines.top':False, 'axes.spines.right':False, 'axes.titleweight':'bold', 'savefig.facecolor':'white'})
     for scenario, rows in payload['scenarios'].items():
@@ -54,4 +54,28 @@ def make_figures(payload, destination):
     fig.tight_layout()
     fig.savefig(destination/'expected_utilities.png',dpi=220,bbox_inches='tight')
     fig.savefig(destination/'expected_utilities.pdf',bbox_inches='tight')
+    plt.close(fig)
+    if extension is not None:
+        make_sweep_figure(extension['sweep_summary'], destination)
+
+
+def make_sweep_figure(summary, destination):
+    """Show how each separate assumption changes the 30 baseline decisions."""
+    specifications=[('sensor_noise','Uniform sensor mixture (fraction)'),
+                    ('persistence','Identity transition mixture (fraction)'),
+                    ('critical_utility','Magnitude of Continue/Critical penalty')]
+    ceiling=max(row['changed_actions'] for row in summary)+1
+    fig,axes=plt.subplots(3,1,figsize=(8,6.8),layout='constrained')
+    for ax,(family,label) in zip(axes,specifications):
+        for scenario,color in zip(('A','B','C'),('#28658C','#A36217','#80508E')):
+            rows=[r for r in summary if r['family']==family and r['scenario']==scenario]
+            xs=[-r['parameter'] if family=='critical_utility' else r['parameter'] for r in rows]
+            ax.plot(xs,[r['changed_actions'] for r in rows],marker='o',color=color,label=f'Scenario {scenario}')
+        ax.set(xlabel=label,ylabel='Changed actions / 30',ylim=(-0.2,ceiling))
+        from matplotlib.ticker import MaxNLocator
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True,nbins=5))
+        ax.grid(alpha=0.2)
+    axes[0].legend(ncol=3,frameon=False,fontsize=9)
+    fig.savefig(destination/'parameter_sweeps.png',dpi=220,bbox_inches='tight')
+    fig.savefig(destination/'parameter_sweeps.pdf',bbox_inches='tight')
     plt.close(fig)

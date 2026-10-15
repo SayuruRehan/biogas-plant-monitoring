@@ -51,6 +51,16 @@ $$\hat b_t(x)=\sum_y b_{t-1}(y)T_{yx},\quad w_t(x)=\hat b_t(x)P(e_t\mid x),\quad
 
 The first observation updates the supplied prior directly, as required by the brief; no transition is applied before it. Thus the first Normal observation gives (0.910569, 0.081301, 0.008130). Transitions begin at step 2. Each scenario starts afresh from the same prior. The pH sensor is excluded from this analysis. Each result row records prediction, unnormalised weights, the normalising constant, posterior, and most probable state.
 
+At A's second Normal reading, predicted Stable is approximately 0.910569(0.80) + 0.081301(0.25) + 0.008130(0.05) = 0.749187. Table 3 follows prediction through likelihood multiplication and normalisation. The weights sum to Z = 0.654915; dividing each by Z gives posterior (0.915157, 0.082118, 0.002725). Calculations retain full precision before rounding.
+
+| State | Previous | Prediction | Likelihood | Weight | Posterior |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Stable | 0.910569 | 0.749187 | 0.800000 | 0.599350 | 0.915157 |
+| Stressed | 0.081301 | 0.215122 | 0.250000 | 0.053780 | 0.082118 |
+| Critical | 0.008130 | 0.035691 | 0.050000 | 0.001785 | 0.002725 |
+
+*Table 3. Worked HMM update at A, t=2. Previous and final beliefs each sum to one before display rounding.*
+
 ### Scenario A: stable operation
 
 ![Scenario A filtered state probabilities](../figures/scenario_A_beliefs.png)
@@ -95,9 +105,9 @@ $$EU(a\mid b_t)=\sum_x b_t(x)U(a,x),\qquad a_t^*=\arg\max_a EU(a\mid b_t)$$
 | B | 11 | 11 | 8 | 13 |
 | C | 14 | 10 | 6 | 20 |
 
-*Table 3. Baseline action counts and changes between consecutive recommendations.*
+*Table 4. Baseline action counts and changes between consecutive recommendations.*
 
-Table 4 highlights three decision points. At A's step 20, Continue has expected utility 10b(Stable) + 2b(Stressed) - 20b(Critical) = -0.097630, using full-precision values before rounding. Reduce Feed gives 2.911923 and Intervene gives 1.363317. Reduce Feed therefore wins although Stable is most probable. The potential loss from continuing under Critical outweighs the benefit of treating the most likely state alone.
+Table 5 highlights three decision points. At A's step 20, Continue has expected utility 10b(Stable) + 2b(Stressed) - 20b(Critical) = -0.097630, using full-precision values before rounding. Reduce Feed gives 2.911923 and Intervene gives 1.363317. Reduce Feed therefore wins although Stable is most probable. The potential loss from continuing under Critical outweighs the benefit of treating the most likely state alone.
 
 | Point | Belief: Stable / Stressed / Critical | EU Continue | EU Reduce | EU Intervene | Choice |
 | --- | --- | ---: | ---: | ---: | --- |
@@ -105,9 +115,11 @@ Table 4 highlights three decision points. At A's step 20, Continue has expected 
 | B, t=15 | .063245 / .340643 / .596112 | -10.608499 | -0.620476 | 5.537843 | Intervene |
 | B, t=22 | .059944 / .616372 / .323684 | -4.641497 | 2.379531 | 4.198812 | Intervene |
 
-*Table 4. Selected beliefs and expected utilities; calculations use unrounded posteriors.*
+*Table 5. Selected beliefs and expected utilities; calculations use unrounded posteriors.*
 
 At B's step 15, Critical becomes dominant and intervention has a clear utility advantage. At step 22, Stressed is most likely, yet Intervene still wins because Critical retains 0.323684 probability after earlier alarms. A simple Stable/Continue, Stressed/Reduce Feed, Critical/Intervene lookup would disagree with expected utility at one step in A, four in B and two in C. It discards uncertainty that remains relevant to the consequences of an action.
+
+Decision strength also matters. At B's step 16, Reduce Feed scores 4.520862 versus Continue's 4.274988: a margin of 0.245874. This is a close utility comparison, not a probability that the action is correct. Appendix C compares each scenario's closest decision.
 
 The recommendations also reveal operational trade-offs. A favours throughput during normal evidence while temporarily reducing feed during concern. B recommends intervention on eight steps. C changes actions 20 times, which could be disruptive if recommendations directly controlled equipment. Switching costs or minimum action durations could reduce oscillation, but would require a different decision model and careful evaluation of delayed responses.
 
@@ -115,7 +127,7 @@ The baseline assumes fixed utilities and optimises only immediate expected value
 
 ### Sensitivity to modelling choices
 
-Three separate experiments retain the same observations and prior. Sensor uncertainty is increased by replacing each likelihood with 0.75 times its baseline value plus 0.25/3. Persistence is increased using T' = 0.5T + 0.5I. Finally, the Continue/Critical utility changes from -20 to -40. All other components remain baseline.
+Separate sweeps retain the observations and prior. Sensor likelihoods become (1-alpha) times baseline plus alpha/3, for alpha in {0, 0.10, 0.25, 0.50}. Transitions become T' = (1-lambda)T + lambda I, for lambda in {0, 0.25, 0.50, 0.75}. Continue/Critical utilities are {-20, -25, -30, -35, -40, -50}. All probability rows remain normalised. Table 6 retains the original three comparisons; Appendix C gives every setting.
 
 | Separate perturbation | Changed actions: A | B | C |
 | --- | ---: | ---: | ---: |
@@ -123,17 +135,19 @@ Three separate experiments retain the same observations and prior. Sensor uncert
 | 50% identity transition mixture | 4 | 4 | 6 |
 | Continue/Critical utility -40 | 0 | 1 | 0 |
 
-*Table 5. Recommendations differing from baseline out of 30 steps per scenario.*
+*Table 6. Recommendations differing from baseline out of 30 steps per scenario.*
 
-Higher persistence removes all four feed reductions in A, but also prolongs some concern in B. These changes illustrate a responsiveness-versus-persistence trade-off, not evidence that the altered model is more accurate. The harsher utility changes B's step 28 from Continue to Reduce Feed without changing its posterior. Probability-model uncertainty and utility uncertainty therefore affect decisions through different mechanisms. These are illustrative sensitivity checks rather than estimated uncertainty intervals or validated alternative plant models.
+At alpha = 0.10, C changes two recommendations, yet its action changes increase from 20 to 21. Less informative readings therefore do not guarantee less switching. At lambda = 0.75, B and C differ from baseline on six and seven steps. Greater persistence can suppress disturbances while delaying responses.
+
+At B's step 28, holding belief fixed, Continue and Reduce Feed tie when Continue/Critical utility is -31.303158; Intervene remains inferior. More negative values favour Reduce Feed, explaining the -20 versus -40 result. These experiments reveal model dependence, not improved accuracy or measured plant outcomes.
 
 ## 5. Conclusion
 
-The system connects uncertain evidence, sequential state estimation and operational choice in a reproducible pipeline. Bayesian inference distinguishes sensor labels from true conditions: Warning alone gives only 0.48 probability to Stressed, while adding Abnormal pH raises it to 0.653951. HMM filtering preserves observation history, explaining why an Alarm following persistent warnings produces more concern than an Alarm after predominantly normal readings.
+The system connects uncertain observations, sequential belief estimation and operational choice. Warning alone gives 0.48 probability to Stressed; adding Abnormal pH raises it to 0.653951. HMM filtering preserves history, explaining different responses to identical observation labels. The baseline favours Continue in A, more intervention in B, and frequent switching in C.
 
-The baseline recommends Continue most often in A, more frequent intervention in B, and rapidly changing responses in C. Expected utility improves on a most-probable-state lookup by accounting for costly alternatives that retain meaningful probability. The sensitivity experiments demonstrate that recommendations also depend on sensor reliability, assumed persistence and the consequences assigned to actions. Recording the complete probability vector and all three expected utilities makes these choices auditable: an operator can see whether a recommendation reflects a decisive critical signal or a cautious response to unresolved uncertainty. This transparency is particularly useful when competing actions have similar expected values.
+Expected utility incorporates costly alternatives that a most-probable-state lookup discards. Margins distinguish close choices from decisive comparisons, while sweeps and switching thresholds expose dependence on modelling assumptions. The worked calculations and automated audits make the numerical reasoning reproducible and check report consistency.
 
-Ten automated checks validate the manual calculations, first-step convention, utility decisions and filtering against independent hidden-path enumeration. However, mathematical correctness does not establish biological calibration or beneficial real-world control. The next practical step would be to assess probabilities and utilities against labelled operating records, investigate sensor dependence, and model how operational actions affect subsequent conditions.
+Mathematical correctness does not establish biological calibration or beneficial control. Deployment would require independently assessed operating records, investigation of sensor dependence, plant-specific utility estimates, and action-dependent dynamics. Within those limits, the approach provides an interpretable foundation for decision support: it records both the uncertainty about condition and the consequences underlying each recommendation.
 
 ## References
 
@@ -178,3 +192,40 @@ The following tables reproduce the supplied models [1]. Probability rows sum to 
 ![Expected utilities in the three scenarios](../figures/expected_utilities.png)
 
 *Figure B1. All three actions' expected utilities over every time step; the highest curve determines the recommendation.*
+
+## Appendix C. Decision robustness and full sensitivity sweeps
+
+| Scenario / step | Choice | Runner-up | EU choice | EU runner-up | Margin |
+| --- | --- | --- | ---: | ---: | ---: |
+| A, t=6 | Reduce Feed | Continue | 5.193698 | 4.911807 | 0.281891 |
+| B, t=16 | Reduce Feed | Continue | 4.520862 | 4.274988 | 0.245874 |
+| C, t=4 | Reduce Feed | Continue | 5.193509 | 4.910289 | 0.283221 |
+
+*Table C1. Closest baseline action choices. The margin is the highest expected utility minus the runner-up's expected utility, in the same utility units.*
+
+For B, t=28, let k replace only U(Continue, Critical). With the belief fixed, EU(Continue) = 10b(Stable) + 2b(Stressed) + kb(Critical). Equating this to EU(Reduce Feed) gives k = [EU(Reduce Feed) - 10b(Stable) - 2b(Stressed)] / b(Critical) = -31.303158. Both actions then score 4.900432, exceeding Intervene's -0.711250. This is therefore a global decision boundary, rather than a pairwise tie dominated by a third action. At an exact tie, the documented action order selects Continue. A small increase in k favours Continue; a small decrease favours Reduce Feed.
+
+The following one-factor experiments cover 42 scenario-setting combinations and 1,260 time steps. Each family includes its own baseline anchor. Zero disagreements at those anchors confirms that the sweep preserves the original calculation. Counts compare recommendations with baseline, not true-state labels. The complete step-level probabilities, utilities and recommendations are exported alongside the summaries.
+
+| Family | Setting | Changed actions: A | B | C |
+| --- | ---: | ---: | ---: | ---: |
+| Sensor noise | 0.00 | 0 | 0 | 0 |
+| Sensor noise | 0.10 | 0 | 0 | 2 |
+| Sensor noise | 0.25 | 3 | 3 | 4 |
+| Sensor noise | 0.50 | 4 | 4 | 6 |
+| Persistence | 0.00 | 0 | 0 | 0 |
+| Persistence | 0.25 | 3 | 3 | 2 |
+| Persistence | 0.50 | 4 | 4 | 6 |
+| Persistence | 0.75 | 4 | 6 | 7 |
+| Critical utility | -20 | 0 | 0 | 0 |
+| Critical utility | -25 | 0 | 0 | 0 |
+| Critical utility | -30 | 0 | 0 | 0 |
+| Critical utility | -35 | 0 | 1 | 0 |
+| Critical utility | -40 | 0 | 1 | 0 |
+| Critical utility | -50 | 0 | 1 | 1 |
+
+*Table C2. Recommendations differing from baseline, out of 30 per scenario. Sensor noise and persistence settings are mixture fractions; critical utility is the replacement score.*
+
+![Sensitivity parameter sweeps](../figures/parameter_sweeps.png)
+
+*Figure C1. Separate effects of observation uncertainty, persistence and failure penalty. Curves interpolate between tested settings; untested intermediate settings are not additional experiments.*
