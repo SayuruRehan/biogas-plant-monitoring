@@ -20,9 +20,9 @@ This system represents the hidden state as Stable, Stressed or Critical, and Sen
 
 ## 2. Probabilistic modelling and Bayesian inference
 
-The prior probabilities for Stable, Stressed and Critical are 0.70, 0.20 and 0.10. Sensor models specify the probability of an observation given a true state, not the probability of a state given an observation. For example, P(Alarm | Critical) = 0.70 does not mean that an Alarm gives a 70% posterior probability of Critical. The prior and alternative likelihoods matter.
+The priors for Stable, Stressed and Critical are 0.70, 0.20 and 0.10. I interpret Stable as steady methane yield and normal pH; Stressed as early signs such as rising volatile fatty acids or drifting pH; and Critical as acidification or process-failure risk. These illustrative digester descriptions are my interpretation, not definitions supplied by the brief; literature informs their biological context [5], [6].
 
-For evidence e, Bayesian updating multiplies each prior probability by its likelihood, then divides by their sum. For two sensors, conditional independence permits multiplication of the two likelihoods. Python accepts observation-model pairs with any valid labels. It rejects invalid probability tables, unknown observations and evidence having zero model probability.
+Bayesian updating multiplies priors by likelihoods and normalises. Conditional independence permits multiplying sensor likelihoods. Python accepts valid observation-model pairs, rejecting invalid tables, unknown observations and zero-probability evidence. P(Alarm | Critical) = 0.70 is a likelihood, not a 70% Critical posterior.
 
 $$P(x\mid e_1,e_2)=\frac{P(x)P(e_1\mid x)P(e_2\mid x)}{\sum_y P(y)P(e_1\mid y)P(e_2\mid y)}$$
 
@@ -37,7 +37,7 @@ Table 1 reports the single-sensor and combined-sensor posteriors. The state orde
 
 *Table 1. Computed posterior probabilities; displayed values are rounded.*
 
-A Normal reading strongly supports Stable, although it does not eliminate the alternatives. Warning makes Stressed the most likely state, but its 0.48 probability indicates substantial uncertainty. Alarm makes Critical most likely at 0.518519; almost half the probability remains on other states. Observation labels therefore differ from hidden-state labels.
+A Normal reading supports Stable. Warning favours Stressed at 0.48. Alarm assigns Critical 0.518519: roughly half the model's belief lies on acidification or failure risk, warranting investigation of loading and independent pH checks. Almost half remains on other states; an operator should assess uncertainty and action consequences rather than treat Alarm as proof of failure. These are model-based beliefs, not measured failure frequencies; validating them requires operating records with independently assessed digester conditions.
 
 For the manual combined-evidence calculation, the unnormalised weights are shown in Table 2. Their sum is Z = 0.01050 + 0.06000 + 0.02125 = 0.09175. Dividing each weight by Z gives (0.114441, 0.653951, 0.231608), agreeing with Python to the displayed precision. Warning alone similarly gives weights (0.105, 0.120, 0.025), Z = 0.250, and posterior (0.420, 0.480, 0.100).
 
@@ -49,9 +49,9 @@ For the manual combined-evidence calculation, the unnormalised weights are shown
 
 *Table 2. Manual Bayesian calculation for Warning and Abnormal pH.*
 
-Adding Abnormal pH reduces Stable by 30.56 percentage points and increases Stressed and Critical by 17.40 and 13.16 points. This happens because abnormal pH is substantially more likely in Stressed and Critical than in Stable under the supplied model.
+Adding Abnormal pH reduces Stable by 30.56 percentage points and increases Stressed and Critical by 17.40 and 13.16 points because abnormal pH favours these states under the supplied model.
 
-Conditional independence is a strong assumption. If Sensor 1 incorporates pH, multiplying its likelihood by the pH sensor likelihood could double-count overlapping evidence and produce overconfident beliefs. A joint sensor model would be preferable if residual dependence remained after conditioning on state. Also, fixed probabilities may not transfer between plants or remain valid after sensor drift. The three categories compress complex biology: mechanistic digestion models include several biochemical and physicochemical processes [4]. Calibration against independently assessed conditions would be needed before treating these posteriors as reliable operational probabilities.
+At a red-meat processing digester, variable fat/protein loading and ammonia inhibition challenge fixed likelihoods [5], [6]. Protein degradation can release ammonia, disrupting methane production [5]. pH probe fouling or drift can distort observations [6]. Shared probes or disturbances could correlate sensor errors even given the state, breaking conditional independence: multiplying likelihoods would double-count evidence. A joint sensor model and plant-specific calibration are needed. Three categories also compress the biochemical and physicochemical processes represented in mechanistic models [4].
 
 ## 3. HMM-based state estimation
 
@@ -111,11 +111,11 @@ At steps 4 and 5, Warning followed by Alarm increases Critical from 0.032197 to 
 
 A mainly shows short departures from stability; B accumulates evidence of stress; C changes sharply and can briefly appear more critical than B. Identical observation labels can yield different posteriors because their preceding beliefs differ.
 
-The first-order, time-homogeneous HMM assumes dependence only on the current state and fixed transitions. It omits loading history, biological delays and changing operating conditions. Observations are independent across time given hidden states. Persistent sensor faults could therefore be mistaken for persistent biological deterioration. Without a sampling interval, transitions apply per supplied step, not per hour or day.
+The first-order, time-homogeneous HMM omits feed history and delays between loading changes and sensor response. Variable fat/protein inputs and ammonia inhibition challenge fixed transitions [5], [6]. Conditional observation independence also misses persistent pH probe fouling/drift [6], potentially mistaking correlated errors for sustained deterioration. Without a sampling interval, transitions apply per supplied step, not per hour or day.
 
 ## 4. Expected-utility decision making
 
-The decision function calculates each action's probability-weighted utility and selects the largest value, following the decision-theoretic agent principle [2]. It uses the full posterior, so a less probable but costly state can influence the recommendation. Utilities are dimensionless scores rather than measured financial returns. Exact ties are resolved by the supplied action order.
+The decision function calculates each action's probability-weighted utility and selects the largest value, following decision theory [2, ch. 16]. It uses the full posterior, so a less probable but costly state can influence the recommendation. Utilities are dimensionless scores rather than measured financial returns. Exact ties follow the supplied action order.
 
 $$EU(a\mid b_t)=\sum_x b_t(x)U(a,x),\qquad a_t^*=\arg\max_a EU(a\mid b_t)$$
 
@@ -163,11 +163,15 @@ Mathematical correctness does not establish biological calibration or beneficial
 
 [1] COMP6009, "Assignment Part B: Biogas Plant Intelligent Monitoring and Decision System," supplied assignment brief and scenario datasets, undated.
 
-[2] S. Russell and P. Norvig, "Algorithms from Artificial Intelligence: A Modern Approach," 4th ed., online supplementary material. [Online]. Available: https://aima.cs.berkeley.edu/algorithms.pdf. Accessed: Oct. 13, 2026.
+[2] S. Russell and P. Norvig, Artificial Intelligence: A Modern Approach, 4th ed. Pearson, 2021, ch. 16, "Making Simple Decisions."
 
 [3] L. R. Rabiner, "A tutorial on hidden Markov models and selected applications in speech recognition," Proceedings of the IEEE, vol. 77, no. 2, pp. 257-286, Feb. 1989, doi: 10.1109/5.18626.
 
 [4] D. J. Batstone et al., "The IWA Anaerobic Digestion Model No 1 (ADM1)," Water Science and Technology, vol. 45, no. 10, pp. 65-73, 2002, doi: 10.2166/wst.2002.0292.
+
+[5] Y. Chen, J. J. Cheng, and K. S. Creamer, "Inhibition of anaerobic digestion process: A review," Bioresource Technology, vol. 99, no. 10, pp. 4044-4064, Jul. 2008, doi: 10.1016/j.biortech.2007.01.057.
+
+[6] T. Schmidt, B. McCabe, and P. Harris, "Process monitoring and control for an anaerobic covered lagoon treating abattoir wastewater," Chemical Engineering & Technology, vol. 41, no. 4, pp. 755-760, 2018, doi: 10.1002/ceat.201700391.
 
 ## Appendix A. Baseline model tables
 

@@ -170,7 +170,7 @@ PDF metadata alone cannot repair stale CSVs or mismatched report tables.
 
 The report stays within the recommended 1,800-2,200 main-body words, including
 its body tables and headings and excluding the title block, references,
-captions, display equations, generation markers and appendices. The main body is 1,964 words;
+captions, display equations, generation markers and appendices. The main body is 1,961 words;
 the exact total and section counts are printed by `build_report.py` and
 checked by `verify_submission.py`.
 
@@ -184,9 +184,9 @@ body font. The build prints the page count; the visual review is recorded in
 | Section | Brief target | Current count |
 | --- | ---: | ---: |
 | 1 Introduction | 150-200 | 189 |
-| 2 Bayesian inference | 400-450 | 449 |
-| 3 HMM estimation | 550-650 | 646 |
-| 4 Expected utility | 400-500 | 489 |
+| 2 Bayesian inference | 400-450 | 446 |
+| 3 HMM estimation | 550-650 | 648 |
+| 4 Expected utility | 400-500 | 487 |
 | 5 Conclusion | 150-200 | 191 |
 
 The sensitivity subsection, its original Table 6 and all full sweeps are in
@@ -208,6 +208,17 @@ Belief figures distinguish observed N/W/A readings from a thin MAP strip below
 them. The strip encodes the most probable posterior state at each step, using
 the state colours and a separate legend row. It represents inference, not a
 measured hidden-state label or the recommended action.
+
+Section 2 explicitly identifies its Stable/Stressed/Critical digester examples
+as the student's interpretation rather than definitions from the brief. It
+interprets the Alarm posterior operationally and discusses red-meat processing
+loads, ammonia inhibition, pH probe fouling/drift and correlated sensor errors.
+Section 3 addresses the delay between loading changes and sensor response.
+Reference [2] is the Russell and Norvig fourth-edition textbook, Chapter 16;
+two peer-reviewed digestion papers supply domain context. Verified bibliographic
+details, source links and the US/Global edition distinction are recorded in
+`docs/REFERENCE_VERIFICATION.md`. These contextual edits reduce the body count
+by three words and leave all numerical results, tables and audit checks intact.
 
 The Markdown and PDF title block identify unit COMP6009, Assignment Part B,
 student Sayuru Bopitiya, student ID 24071158 and date 26 October 2026.

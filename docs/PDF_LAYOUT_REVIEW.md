@@ -5,6 +5,13 @@ layout revision reduced the report to 11 pages; the complete 90-step Appendix D
 adds three pages. Every final page was rendered to PNG at 120 dpi and
 individually inspected after PDF compaction.
 
+Rechecked after the biogas-context revision: the main body is now **1,961
+words**, three fewer than the preceding report. Two peer-reviewed domain
+references and the corrected textbook entry still fit on page 7. All 14 pages
+were rendered again and individually inspected; no page count or font-size
+change was needed. Bibliographic evidence is recorded in
+`REFERENCE_VERIFICATION.md`.
+
 ## Changes
 
 - Replaced whole-scenario, whole-conclusion and whole-reference grouping with
@@ -27,13 +34,13 @@ individually inspected after PDF compaction.
 
 | Page | Content and inspection result |
 | --- | --- |
-| 1 | Title block, introduction and Bayesian setup; equation complete and clear. |
-| 2 | Bayesian Tables 1 and 2 stay with their introductions and captions; HMM heading has following prose; equation fits above the footer. |
-| 3 | Worked HMM example, Table 3 and caption; comparison introduction, Table 3a and caption; Scenario A heading, plot, MAP strip and caption paired. |
+| 1 | Title block, introduction, illustrative digester-state interpretations and Bayesian setup; equation complete and clear. |
+| 2 | Bayesian Tables 1 and 2 stay with their introductions and captions; Alarm interpretation and red-meat limitations readable; HMM heading has following prose. |
+| 3 | HMM equation, worked example, Table 3 and caption; comparison introduction, Table 3a and caption; Scenario A heading, plot, MAP strip and caption paired. |
 | 4 | Scenario A continuation and Scenario B plot, strip, legend, caption and interpretation; no orphaned heading. |
-| 5 | Scenario C plot, strip and caption; HMM discussion and decision section; equation complete. |
+| 5 | Scenario C plot, strip and caption; loading-response delay and probe-error discussion; decision section and equation complete. |
 | 6 | Action plot and Table 4 with captions; decision introduction and Table 5 paired; decision analysis flows naturally. |
-| 7 | Decision discussion continuation, conclusion and complete references; no short reference spillover page. |
+| 7 | Decision discussion continuation, conclusion and all six references; bibliography fits above the footer with no spillover page. |
 | 8 | Appendix A starts at the top of a fresh page; all four baseline tables readable and complete. |
 | 9 | Appendix B starts on a fresh page; full expected-utility figure and caption together. |
 | 10 | Appendix C starts on a fresh page; sensitivity introduction, Table 6 and caption together; closest-decision table and caption together. |
@@ -49,6 +56,8 @@ individually inspected after PDF compaction.
   leave space below the captions; each scenario table remains on one page.
 - Page 10 leaves room at the bottom because the next sweep introduction and
   table are kept together on page 11. Page 11 is denser but remains readable.
+- Page 4 retains space below Scenario B because the next scenario's heading,
+  complete figure and caption are kept together on page 5.
 - No detached captions, orphaned headings, clipped text, missing mathematical
   glyphs or overlapping content were observed.
 
@@ -62,7 +71,8 @@ also passed. Tests also pass without third-party site packages.
 
 The protected functions and numerical result files are unchanged. Generated
 tables are read from CSV/JSON outputs and checked against recomputed results.
-Prose trims offset the comparison table; the main-body count is 1,964 words.
+Prose trims offset the comparison table and domain context; the main-body count
+is 1,961 words (S1 189, S2 446, S3 648, S4 487, S5 191).
 Additional PDF geometry checks confirmed 14 pages, 12 captioned table pairs and their
 explicit lead-ins, six figure-caption pairs, fresh appendix starts and text
 inside the page bounds. The other four tables are the uncaptioned baseline
