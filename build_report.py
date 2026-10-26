@@ -17,6 +17,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle, KeepTogether, PageBreak
 from report_contract import REPORT_TITLE_BLOCK, report_fingerprints, report_sections, report_word_count
+from generate_report_tables import update_generated_tables
 
 
 def register_fonts():
@@ -45,6 +46,7 @@ def equation_image(latex, output_path):
 
 def main():
     root=Path(__file__).resolve().parent
+    update_generated_tables(root)
     source=root/'report'/'COMP6009_Part_B_Report.md'
     output=root/'report'/'COMP6009_Part_B_Report.pdf'
     temporary=root/'report'/'_equations'
@@ -59,6 +61,8 @@ def main():
     styles.add(ParagraphStyle(name='Caption',fontName='BodyItalic',fontSize=8.5,leading=11,spaceAfter=8,textColor=colors.HexColor('#4B555B')))
     styles.add(ParagraphStyle(name='Cell',fontName='Sans',fontSize=8.4,leading=11))
     styles.add(ParagraphStyle(name='HeaderCell',fontName='SansBold',fontSize=8.4,leading=11,textColor=colors.white))
+    styles.add(ParagraphStyle(name='StepCell',fontName='Sans',fontSize=7.8,leading=10))
+    styles.add(ParagraphStyle(name='StepHeader',fontName='SansBold',fontSize=7.8,leading=10,textColor=colors.white))
     styles.add(ParagraphStyle(name='Reference',fontName='Body',fontSize=9,leading=13,spaceAfter=8,wordWrap='CJK'))
     source_text=source.read_text(encoding='utf-8')
     if not source_text.startswith(REPORT_TITLE_BLOCK+'\n\n'):
@@ -75,6 +79,8 @@ def main():
     equation_count=0
     references=False
     for block in blocks:
+        if re.fullmatch(r'<!-- generated:[a-z-]+:(?:start|end) -->',block):
+            continue
         if block.startswith('# '):
             story.append(Paragraph(escape(block[2:]),styles['ReportTitle']))
         elif block.startswith('## '):
@@ -109,7 +115,11 @@ def main():
         elif block.startswith('|'):
             rows=[[cell.strip() for cell in line.strip('|').split('|')] for line in block.splitlines() if not re.match(r'^\|\s*:?-',line)]
             ncols=len(rows[0])
-            if ncols==6 and rows[0][0]=='State':
+            if ncols==7 and rows[0][0]=='t':
+                col_widths=[width*x for x in [0.06,0.15,0.14,0.14,0.14,0.18,0.19]]
+            elif ncols==6 and rows[0][1]=='Observed N / W / A':
+                col_widths=[width*x for x in [0.125,0.17,0.18,0.15,0.08,0.295]]
+            elif ncols==6 and rows[0][0]=='State':
                 col_widths=[width*x for x in [0.16,0.17,0.17,0.13,0.18,0.19]]
             elif ncols==6 and rows[0][0]=='Scenario / step':
                 col_widths=[width*x for x in [0.15,0.18,0.17,0.17,0.17,0.16]]
@@ -123,9 +133,10 @@ def main():
                 col_widths=[width*0.34]+[width*0.66/(ncols-1)]*(ncols-1)
             else:
                 col_widths=[width/ncols]*ncols
-            cells=[[Paragraph(escape(c),styles['HeaderCell'] if i==0 else styles['Cell']) for c in row] for i,row in enumerate(rows)]
+            cell_style,header_style=('StepCell','StepHeader') if ncols==7 else ('Cell','HeaderCell')
+            cells=[[Paragraph(escape(c),styles[header_style] if i==0 else styles[cell_style]) for c in row] for i,row in enumerate(rows)]
             table=Table(cells,colWidths=col_widths,repeatRows=1,hAlign='LEFT')
-            padding=2.5 if rows[0][0]=='Family' else 5
+            padding=2 if ncols==7 else (3 if rows[0][1]=='Observed N / W / A' else (2.5 if rows[0][0]=='Family' else 5))
             table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#264D50')),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),7),('RIGHTPADDING',(0,0),(-1,-1),7),('TOPPADDING',(0,0),(-1,-1),padding),('BOTTOMPADDING',(0,0),(-1,-1),padding),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.HexColor('#F3F6F6'),colors.white]),('LINEBELOW',(0,-1),(-1,-1),0.5,colors.HexColor('#CAD3D4'))]))
             story.extend([table,Spacer(1,4)])
         elif block.startswith('*') and block.endswith('*'):

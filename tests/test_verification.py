@@ -1,5 +1,6 @@
 """End-to-end audit tests, including deliberately corrupted submissions."""
 import csv
+import json
 import re
 import shutil
 import tempfile
@@ -107,6 +108,59 @@ Date: 26 October 2026
         path.write_text(text)
         with self.assertRaisesRegex(VerificationError,'Sensitivity.*Appendix C'):
             verify_submission(self.root)
+
+    def test_appendix_d_contains_all_90_steps(self):
+        from report_contract import parse_tables
+        text=(self.root/'report'/'COMP6009_Part_B_Report.md').read_text()
+        tables=[t for t in parse_tables(text) if t[0][0]=='t']
+        self.assertEqual(len(tables),3)
+        for table in tables:
+            self.assertEqual(len(table),31)
+            self.assertEqual([row[0] for row in table[1:]],[str(t) for t in range(1,31)])
+
+    def test_corrupt_appendix_probability_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        text=path.read_text()
+        row='| 1 | Normal | 0.910569 | 0.081301 | 0.008130 | Stable | Continue |'
+        self.assertIn(row,text)
+        path.write_text(text.replace(row,row.replace('0.910569','0.900000'),1))
+        with self.assertRaisesRegex(VerificationError,'report table'):
+            verify_submission(self.root)
+
+    def test_appendix_generator_reads_csv(self):
+        import importlib.util
+        self.assertIsNotNone(importlib.util.find_spec('generate_report_tables'))
+        from generate_report_tables import update_generated_tables
+        self.edit_csv('scenario_A_results.csv',lambda rows:rows[0].update(posterior_stable='0.123456'))
+        update_generated_tables(self.root)
+        text=(self.root/'report'/'COMP6009_Part_B_Report.md').read_text()
+        self.assertIn('| 1 | Normal | 0.123456 | 0.081301 | 0.008130 | Stable | Continue |',text)
+
+    def test_scenario_comparison_contains_counts_peaks_and_final_beliefs(self):
+        text=(self.root/'report'/'COMP6009_Part_B_Report.md').read_text()
+        self.assertIn('| A | 26 / 3 / 1 | 27 / 3 / 0 | 0.243657 | 20 | 0.910045 / 0.087120 / 0.002835 |',text)
+        self.assertIn('| C | 15 / 10 / 5 | 14 / 12 / 4 | 0.871110 | 25 | 0.350838 / 0.596407 / 0.052755 |',text)
+
+    def test_incorrect_comparison_peak_time_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        text=path.read_text();self.assertIn('| 0.243657 | 20 |',text)
+        path.write_text(text.replace('| 0.243657 | 20 |','| 0.243657 | 21 |',1))
+        with self.assertRaisesRegex(VerificationError,'report table'):
+            verify_submission(self.root)
+
+    def test_comparison_generator_reads_analysis_json(self):
+        from generate_report_tables import update_generated_tables
+        path=self.root/'results'/'analysis.json'
+        data=json.loads(path.read_text());data['summary']['A']['observations']['Normal']=99
+        path.write_text(json.dumps(data))
+        update_generated_tables(self.root)
+        text=(self.root/'report'/'COMP6009_Part_B_Report.md').read_text()
+        self.assertIn('| A | 99 / 3 / 1 | 27 / 3 / 0 |',text)
+
+    def test_generation_markers_are_not_report_words(self):
+        body='## 3. Results\n\n| A | 26 | 3 | 1 |'
+        marked='<!-- generated:comparison:start -->\n\n'+body+'\n\n<!-- generated:comparison:end -->'
+        self.assertEqual(report_word_count(marked),report_word_count(body))
 
     def test_modified_dataset_is_rejected(self):
         path=self.root/'data'/'scenario_A_stable.csv'

@@ -55,13 +55,13 @@ Conditional independence is a strong assumption. If Sensor 1 incorporates pH, mu
 
 ## 3. HMM-based state estimation
 
-HMM filtering estimates P(X_t | e_1:t) from observations available at time t. It carries the previous posterior forward through the transition model, incorporates the current likelihood, and normalises. This is forward filtering, not retrospective smoothing or complete-sequence decoding [3]. Transition rows represent current states and columns next states; diagonal probabilities 0.80, 0.60 and 0.65 encode persistence.
+HMM filtering estimates P(X_t | e_1:t) from available observations. It predicts through the transition model, incorporates the likelihood, and normalises. This is forward filtering, not retrospective smoothing or complete-sequence decoding [3]. Transition rows represent current states and columns next states; diagonal probabilities 0.80, 0.60 and 0.65 encode persistence.
 
 $$\hat b_t(x)=\sum_y b_{t-1}(y)T_{yx},\quad w_t(x)=\hat b_t(x)P(e_t\mid x),\quad b_t(x)=\frac{w_t(x)}{\sum_y w_t(y)}$$
 
-The first observation updates the supplied prior directly, without a preceding transition, as required. Thus the first Normal observation gives (0.910569, 0.081301, 0.008130). Transitions begin at step 2. Scenarios restart from the same prior; pH is excluded. Outputs record prediction, unnormalised weights, normalising constant, posterior and most probable state.
+The first observation updates the prior directly, without a preceding transition. Thus the first Normal observation gives (0.910569, 0.081301, 0.008130). Transitions begin at step 2. Scenarios restart from the same prior; pH is excluded. Outputs record prediction, unnormalised weights, normalising constant, posterior and most probable state.
 
-At A's second Normal reading, predicted Stable is approximately 0.910569(0.80) + 0.081301(0.25) + 0.008130(0.05) = 0.749187. Table 3 shows prediction, weighting and normalisation. The weights sum to Z = 0.654915; dividing each by Z gives posterior (0.915157, 0.082118, 0.002725). Calculations retain full precision.
+At A's second Normal reading, predicted Stable is approximately 0.910569(0.80) + 0.081301(0.25) + 0.008130(0.05) = 0.749187. Table 3 shows the calculation. The weights sum to Z = 0.654915; dividing each by Z gives posterior (0.915157, 0.082118, 0.002725). Precision is retained.
 
 | State | Previous | Prediction | Likelihood | Weight | Posterior |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -71,31 +71,45 @@ At A's second Normal reading, predicted Stable is approximately 0.910569(0.80) +
 
 *Table 3. Worked HMM update at A, t=2. Previous and final beliefs each sum to one before display rounding.*
 
+Table 3a compares the scenarios. Appendix D lists every step.
+
+<!-- generated:comparison:start -->
+
+| Scenario | Observed N / W / A | Most probable S / St / C | Peak P(Critical) | Peak t | Final posterior S / St / C |
+| --- | --- | --- | --- | --- | --- |
+| A | 26 / 3 / 1 | 27 / 3 / 0 | 0.243657 | 20 | 0.910045 / 0.087120 / 0.002835 |
+| B | 12 / 13 / 5 | 12 / 13 / 5 | 0.720487 | 23 | 0.150819 / 0.745404 / 0.103777 |
+| C | 15 / 10 / 5 | 14 / 12 / 4 | 0.871110 | 25 | 0.350838 / 0.596407 / 0.052755 |
+
+*Table 3a. Generated scenario comparison. N/W/A = Normal/Warning/Alarm; S/St/C = Stable/Stressed/Critical. Peak ties select the earliest step. Probabilities are rounded to six decimals.*
+
+<!-- generated:comparison:end -->
+
 ### Scenario A: stable operation
 
 ![Scenario A filtered state probabilities](../figures/scenario_A_beliefs.png)
 
-*Figure 1. Scenario A beliefs and the observed Sensor 1 labels over all 30 steps.*
+*Figure 1. Scenario A beliefs and observed Sensor 1 labels over all 30 steps. The thin MAP strip marks the most probable posterior state, not ground truth; colours match the belief curves.*
 
-Scenario A contains 26 Normal readings, three Warnings and one Alarm. At step 5, Stable is 0.916030. The Warning at step 6 moves the belief to (0.452441, 0.515390, 0.032169): Stressed becomes most likely, but the preceding normal history keeps Critical low. Normal at step 7 restores Stable to 0.788846. At step 20, Alarm raises Critical from 0.002446 to 0.243657. Stable nevertheless remains the most likely state at 0.407852 because the preceding belief strongly favoured it. Normal at step 21 raises Stable to 0.773248. The final belief assigns 0.910045 to Stable, consistent with the predominantly normal evidence.
+At step 5, Stable is 0.916030. The Warning at step 6 moves the belief to (0.452441, 0.515390, 0.032169): Stressed becomes most likely, but the preceding normal history keeps Critical low. Normal at step 7 restores Stable to 0.788846. At step 20, Alarm raises Critical from 0.002446 to 0.243657. Stable nevertheless remains the most likely state at 0.407852 because the preceding belief strongly favoured it. Normal at step 21 raises Stable to 0.773248.
 
 ### Scenario B: deteriorating operation
 
 ![Scenario B filtered state probabilities](../figures/scenario_B_beliefs.png)
 
-*Figure 2. Scenario B beliefs; accumulated Warning and Alarm evidence increases concern.*
+*Figure 2. Scenario B beliefs; accumulated Warning and Alarm evidence increases concern. The MAP strip marks the most probable posterior state at every step.*
 
-Scenario B has 12 Normal readings, 13 Warnings and five Alarms. Warnings from steps 11 to 14 increase Stressed from 0.579738 to 0.770273, indicating accumulating evidence rather than an isolated disturbance. Alarm at step 15 then raises Critical to 0.596112, compared with only 0.243657 after A's step-20 Alarm. The preceding stressed belief explains this. Across steps 21 to 23, Alarm, Warning, Alarm produces Critical probabilities 0.665594, 0.323684 and 0.720487. The intervening Warning lowers immediate critical concern without restoring confidence in stability. At step 30, Stressed remains dominant at 0.745404. The sequence therefore supports persistent concern, although its fluctuations do not establish uninterrupted deterioration.
+Warnings from steps 11 to 14 increase Stressed from 0.579738 to 0.770273, indicating accumulating evidence rather than an isolated disturbance. Alarm at step 15 then raises Critical to 0.596112, compared with only 0.243657 after A's step-20 Alarm. The preceding stressed belief explains this. Across steps 21 to 23, Alarm, Warning, Alarm produces Critical probabilities 0.665594, 0.323684 and 0.720487. The intervening Warning lowers immediate critical concern without restoring confidence in stability. At step 30, Stressed remains dominant at 0.745404. The sequence therefore supports persistent concern, although its fluctuations do not establish uninterrupted deterioration.
 
 ### Scenario C: noisy monitoring
 
 ![Scenario C filtered state probabilities](../figures/scenario_C_beliefs.png)
 
-*Figure 3. Scenario C beliefs; alternating readings and an Alarm cluster produce abrupt changes.*
+*Figure 3. Scenario C beliefs; alternating readings and an Alarm cluster produce abrupt changes. The MAP strip marks the most probable posterior state at every step.*
 
-Scenario C contains 15 Normal readings, ten Warnings and five Alarms. At steps 4 and 5, Warning followed by Alarm increases Critical from 0.032197 to 0.470070. Warning at step 6 makes Stressed dominant at 0.650035, while retaining 0.250744 on Critical; Normal at step 7 restores Stable to 0.603187. Consecutive Alarms at steps 23 to 25 raise Critical from 0.555983 to 0.871110. Normal readings at steps 26 and 27 reduce it to 0.163725 and 0.020711. The noisy scenario has the highest critical peak; scenario names cannot substitute for evidence or ground truth.
+At steps 4 and 5, Warning followed by Alarm increases Critical from 0.032197 to 0.470070. Warning at step 6 makes Stressed dominant at 0.650035, while retaining 0.250744 on Critical; Normal at step 7 restores Stable to 0.603187. Consecutive Alarms at steps 23 to 25 raise Critical from 0.555983 to 0.871110. Normal readings at steps 26 and 27 reduce it to 0.163725 and 0.020711. The noisy scenario has the highest critical peak; scenario names cannot substitute for evidence or ground truth.
 
-Across the scenarios, Stable is most probable on 27 steps in A, 12 in B and 14 in C. A mainly shows short departures from stability; B accumulates evidence of stress; C changes sharply and can briefly appear more critical than B. Identical observation labels can yield different posteriors because their preceding beliefs differ.
+A mainly shows short departures from stability; B accumulates evidence of stress; C changes sharply and can briefly appear more critical than B. Identical observation labels can yield different posteriors because their preceding beliefs differ.
 
 The first-order, time-homogeneous HMM assumes dependence only on the current state and fixed transitions. It omits loading history, biological delays and changing operating conditions. Observations are independent across time given hidden states. Persistent sensor faults could therefore be mistaken for persistent biological deterioration. Without a sampling interval, transitions apply per supplied step, not per hour or day.
 
@@ -241,3 +255,122 @@ The following one-factor experiments cover 42 scenario-setting combinations and 
 ![Sensitivity parameter sweeps](../figures/parameter_sweeps.png)
 
 *Figure C1. Separate effects of observation uncertainty, persistence and failure penalty. Curves interpolate between tested settings; untested intermediate settings are not additional experiments.*
+
+<!-- generated:appendix-d:start -->
+
+## Appendix D. Complete scenario results
+
+All probabilities are rounded to six decimal places for display. State labels and actions use the full-precision calculation; rounded probabilities may not sum exactly to one.
+
+### Scenario A
+
+| t | Observation | P(Stable) | P(Stressed) | P(Critical) | Most probable state | Recommended action |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Normal | 0.910569 | 0.081301 | 0.008130 | Stable | Continue |
+| 2 | Normal | 0.915157 | 0.082118 | 0.002725 | Stable | Continue |
+| 3 | Normal | 0.915865 | 0.081672 | 0.002463 | Stable | Continue |
+| 4 | Normal | 0.916001 | 0.081553 | 0.002445 | Stable | Continue |
+| 5 | Normal | 0.916030 | 0.081528 | 0.002443 | Stable | Continue |
+| 6 | Warning | 0.452441 | 0.515390 | 0.032169 | Stressed | Reduce Feed |
+| 7 | Normal | 0.788846 | 0.200414 | 0.010740 | Stable | Continue |
+| 8 | Normal | 0.887681 | 0.108020 | 0.004299 | Stable | Continue |
+| 9 | Normal | 0.910045 | 0.087120 | 0.002835 | Stable | Continue |
+| 10 | Normal | 0.914786 | 0.082690 | 0.002524 | Stable | Continue |
+| 11 | Normal | 0.915776 | 0.081764 | 0.002459 | Stable | Continue |
+| 12 | Normal | 0.915983 | 0.081571 | 0.002446 | Stable | Continue |
+| 13 | Warning | 0.452409 | 0.515416 | 0.032176 | Stressed | Reduce Feed |
+| 14 | Normal | 0.788834 | 0.200425 | 0.010741 | Stable | Continue |
+| 15 | Normal | 0.887678 | 0.108023 | 0.004299 | Stable | Continue |
+| 16 | Normal | 0.910045 | 0.087120 | 0.002835 | Stable | Continue |
+| 17 | Normal | 0.914786 | 0.082690 | 0.002524 | Stable | Continue |
+| 18 | Normal | 0.915776 | 0.081764 | 0.002459 | Stable | Continue |
+| 19 | Normal | 0.915983 | 0.081572 | 0.002446 | Stable | Continue |
+| 20 | Alarm | 0.407852 | 0.348491 | 0.243657 | Stable | Reduce Feed |
+| 21 | Normal | 0.773248 | 0.201905 | 0.024847 | Stable | Continue |
+| 22 | Normal | 0.884478 | 0.110417 | 0.005105 | Stable | Continue |
+| 23 | Normal | 0.909386 | 0.087711 | 0.002904 | Stable | Continue |
+| 24 | Normal | 0.914649 | 0.082817 | 0.002534 | Stable | Continue |
+| 25 | Normal | 0.915748 | 0.081791 | 0.002461 | Stable | Continue |
+| 26 | Normal | 0.915977 | 0.081577 | 0.002446 | Stable | Continue |
+| 27 | Warning | 0.452404 | 0.515419 | 0.032176 | Stressed | Reduce Feed |
+| 28 | Normal | 0.788833 | 0.200426 | 0.010741 | Stable | Continue |
+| 29 | Normal | 0.887678 | 0.108023 | 0.004299 | Stable | Continue |
+| 30 | Normal | 0.910045 | 0.087120 | 0.002835 | Stable | Continue |
+
+*Table D1. All 30 steps for scenario A, generated from its result CSV.*
+
+### Scenario B
+
+| t | Observation | P(Stable) | P(Stressed) | P(Critical) | Most probable state | Recommended action |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Normal | 0.910569 | 0.081301 | 0.008130 | Stable | Continue |
+| 2 | Normal | 0.915157 | 0.082118 | 0.002725 | Stable | Continue |
+| 3 | Normal | 0.915865 | 0.081672 | 0.002463 | Stable | Continue |
+| 4 | Normal | 0.916001 | 0.081553 | 0.002445 | Stable | Continue |
+| 5 | Normal | 0.916030 | 0.081528 | 0.002443 | Stable | Continue |
+| 6 | Normal | 0.916035 | 0.081522 | 0.002442 | Stable | Continue |
+| 7 | Normal | 0.916037 | 0.081521 | 0.002442 | Stable | Continue |
+| 8 | Normal | 0.916037 | 0.081521 | 0.002442 | Stable | Continue |
+| 9 | Warning | 0.452446 | 0.515386 | 0.032168 | Stressed | Reduce Feed |
+| 10 | Normal | 0.788848 | 0.200412 | 0.010740 | Stable | Continue |
+| 11 | Warning | 0.372198 | 0.579738 | 0.048064 | Stressed | Reduce Feed |
+| 12 | Warning | 0.187683 | 0.724016 | 0.088301 | Stressed | Reduce Feed |
+| 13 | Warning | 0.129202 | 0.761866 | 0.108932 | Stressed | Reduce Feed |
+| 14 | Warning | 0.112329 | 0.770273 | 0.117399 | Stressed | Reduce Feed |
+| 15 | Alarm | 0.063245 | 0.340643 | 0.596112 | Critical | Intervene |
+| 16 | Normal | 0.523326 | 0.389782 | 0.086892 | Stable | Reduce Feed |
+| 17 | Warning | 0.242520 | 0.660080 | 0.097400 | Stressed | Reduce Feed |
+| 18 | Normal | 0.698620 | 0.281321 | 0.020058 | Stable | Continue |
+| 19 | Alarm | 0.252008 | 0.360554 | 0.387439 | Critical | Intervene |
+| 20 | Warning | 0.132894 | 0.645728 | 0.221378 | Stressed | Reduce Feed |
+| 21 | Alarm | 0.054457 | 0.279949 | 0.665594 | Critical | Intervene |
+| 22 | Warning | 0.059944 | 0.616372 | 0.323684 | Stressed | Intervene |
+| 23 | Alarm | 0.036938 | 0.242575 | 0.720487 | Critical | Intervene |
+| 24 | Warning | 0.051687 | 0.603346 | 0.344967 | Stressed | Intervene |
+| 25 | Warning | 0.079484 | 0.720785 | 0.199731 | Stressed | Reduce Feed |
+| 26 | Alarm | 0.049494 | 0.296469 | 0.654037 | Critical | Intervene |
+| 27 | Warning | 0.059452 | 0.622077 | 0.318471 | Stressed | Intervene |
+| 28 | Normal | 0.564897 | 0.386496 | 0.048606 | Stable | Continue |
+| 29 | Warning | 0.260911 | 0.659481 | 0.079608 | Stressed | Reduce Feed |
+| 30 | Warning | 0.150819 | 0.745404 | 0.103777 | Stressed | Reduce Feed |
+
+*Table D2. All 30 steps for scenario B, generated from its result CSV.*
+
+### Scenario C
+
+| t | Observation | P(Stable) | P(Stressed) | P(Critical) | Most probable state | Recommended action |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Normal | 0.910569 | 0.081301 | 0.008130 | Stable | Continue |
+| 2 | Normal | 0.915157 | 0.082118 | 0.002725 | Stable | Continue |
+| 3 | Normal | 0.915865 | 0.081672 | 0.002463 | Stable | Continue |
+| 4 | Warning | 0.452327 | 0.515476 | 0.032197 | Stressed | Reduce Feed |
+| 5 | Alarm | 0.154070 | 0.375861 | 0.470070 | Critical | Intervene |
+| 6 | Warning | 0.099221 | 0.650035 | 0.250744 | Stressed | Intervene |
+| 7 | Normal | 0.603187 | 0.357921 | 0.038892 | Stable | Continue |
+| 8 | Normal | 0.838715 | 0.152971 | 0.008314 | Stable | Continue |
+| 9 | Warning | 0.401871 | 0.555539 | 0.042590 | Stressed | Reduce Feed |
+| 10 | Normal | 0.769936 | 0.217677 | 0.012387 | Stable | Continue |
+| 11 | Warning | 0.361497 | 0.588128 | 0.050375 | Stressed | Reduce Feed |
+| 12 | Normal | 0.753745 | 0.232491 | 0.013764 | Stable | Continue |
+| 13 | Warning | 0.352558 | 0.595151 | 0.052291 | Stressed | Reduce Feed |
+| 14 | Normal | 0.750018 | 0.235889 | 0.014093 | Stable | Continue |
+| 15 | Warning | 0.350529 | 0.596740 | 0.052732 | Stressed | Reduce Feed |
+| 16 | Normal | 0.749164 | 0.236667 | 0.014169 | Stable | Continue |
+| 17 | Alarm | 0.281928 | 0.360661 | 0.357411 | Stressed | Intervene |
+| 18 | Normal | 0.711525 | 0.249540 | 0.038935 | Stable | Continue |
+| 19 | Normal | 0.869279 | 0.124121 | 0.006600 | Stable | Continue |
+| 20 | Normal | 0.906112 | 0.090748 | 0.003140 | Stable | Continue |
+| 21 | Warning | 0.445613 | 0.520840 | 0.033547 | Stressed | Reduce Feed |
+| 22 | Warning | 0.214116 | 0.706351 | 0.079533 | Stressed | Reduce Feed |
+| 23 | Alarm | 0.086292 | 0.357725 | 0.555983 | Critical | Intervene |
+| 24 | Alarm | 0.025827 | 0.165126 | 0.809047 | Critical | Intervene |
+| 25 | Alarm | 0.011560 | 0.117330 | 0.871110 | Critical | Intervene |
+| 26 | Normal | 0.368396 | 0.467880 | 0.163725 | Stressed | Reduce Feed |
+| 27 | Normal | 0.756296 | 0.222993 | 0.020711 | Stable | Continue |
+| 28 | Warning | 0.353955 | 0.590747 | 0.055298 | Stressed | Reduce Feed |
+| 29 | Normal | 0.750587 | 0.235172 | 0.014241 | Stable | Continue |
+| 30 | Warning | 0.350838 | 0.596407 | 0.052755 | Stressed | Reduce Feed |
+
+*Table D3. All 30 steps for scenario C, generated from its result CSV.*
+
+<!-- generated:appendix-d:end -->

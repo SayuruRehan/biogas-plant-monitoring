@@ -43,11 +43,13 @@ requires access to Python's package index.
 | `robustness.py` | Worked HMM step, utility margins, analytical switch threshold and one-factor parameter sweeps |
 | `verify_submission.py` | Rerunnable input, numerical, report-table and PDF-freshness audit |
 | `report_contract.py` | Shared report word-count, table and provenance contracts |
-| `plot_results.py` | State probability, action timeline and expected-utility plots |
+| `generate_report_tables.py` | Generates the Section 3 comparison from `analysis.json` and Appendix D from the three result CSVs |
+| `plot_results.py` | State probability plots with inferred-state strips, action timeline and expected-utility plots |
 | `build_report.py` | Rebuilds the PDF from Markdown and generated figures |
 | `tests/test_inference.py` | Ten numerical and validation checks, including independent hidden-path enumeration |
 | `tests/test_robustness.py` | Six checks of the worked step, margins, threshold and sweeps |
-| `tests/test_verification.py` | Nineteen end-to-end checks, including deliberate input/output/report corruption, title details, PDF author, section budgets and appendix placement |
+| `tests/test_verification.py` | Twenty-six end-to-end checks, including corruption detection, report budgets, generated-table provenance and all 90 appendix steps |
+| `tests/test_plot_data.py` | Two checks that the inferred-state strip encodes state labels rather than observations |
 | `data/` | The three original supplied CSV datasets |
 | `results/` | Full numerical outputs, audit records and sensitivity results |
 | `figures/` | PNG and vector PDF charts |
@@ -157,7 +159,7 @@ that all 13 numerical CSV/JSON files and six PNG figures reproduce byte for
 byte. It compares freshly generated artifacts to the checked-in outputs,
 so strict image reproduction uses the pinned rendering environment. The
 ordinary audit compares numbers with a 1e-12 tolerance and requires no plotting
-dependencies. `--run-tests` also runs the complete 35-test suite. GitHub Actions
+dependencies. `--run-tests` also runs the complete 44-test suite. GitHub Actions
 runs the suite and audit on pushes to `dev` and pull requests targeting `dev`.
 
 After an intentional change, use this order: regenerate analysis, review and
@@ -168,11 +170,12 @@ PDF metadata alone cannot repair stale CSVs or mismatched report tables.
 
 The report stays within the recommended 1,800-2,200 main-body words, including
 its body tables and headings and excluding the title block, references,
-captions, display equations and appendices. The main body is 1,966 words;
+captions, display equations, generation markers and appendices. The main body is 1,964 words;
 the exact total and section counts are printed by `build_report.py` and
 checked by `verify_submission.py`.
 
-The PDF is typeset in 11 pages. Tables stay with their captions and immediate
+The PDF is typeset in 14 pages, including three new pages for Appendix D.
+Tables stay with their captions and immediate
 lead-ins, figures stay with captions and their immediate headings, and each
 appendix starts on a fresh page. Equations use DejaVu Serif math to match the
 body font. The build prints the page count; the visual review is recorded in
@@ -182,14 +185,29 @@ body font. The build prints the page count; the visual review is recorded in
 | --- | ---: | ---: |
 | 1 Introduction | 150-200 | 189 |
 | 2 Bayesian inference | 400-450 | 449 |
-| 3 HMM estimation | 550-650 | 648 |
+| 3 HMM estimation | 550-650 | 646 |
 | 4 Expected utility | 400-500 | 489 |
 | 5 Conclusion | 150-200 | 191 |
 
 The sensitivity subsection, its original Table 6 and all full sweeps are in
 Appendix C. Section 4 retains a short pointer; its decision examples remain
-in the main body. Moving Table 6 changes table order but retains all 12
-computed-table checks and every numerical value.
+in the main body. All 12 original computed-table checks remain. The generated
+comparison and three complete scenario tables increase the audit to 16 tables.
+
+`build_report.py` refreshes the marked Markdown regions before typesetting.
+The comparison in Section 3 (Table 3a) reads `results/analysis.json`, including
+observation/state counts, the peak Critical probability and earliest peak step,
+and the final posterior. Appendix D reads `results/scenario_*_results.csv` and
+shows all 90 observations, posterior vectors, most probable states and actions.
+Probabilities are displayed to six decimals; no result file is changed.
+Regenerate these tables without plotting or building a PDF using
+`python generate_report_tables.py`. Do not hand-edit the marked regions.
+The audit compares every cell with independently recomputed baseline results.
+
+Belief figures distinguish observed N/W/A readings from a thin MAP strip below
+them. The strip encodes the most probable posterior state at each step, using
+the state colours and a separate legend row. It represents inference, not a
+measured hidden-state label or the recommended action.
 
 The Markdown and PDF title block identify unit COMP6009, Assignment Part B,
 student Sayuru Bopitiya, student ID 24071158 and date 26 October 2026.

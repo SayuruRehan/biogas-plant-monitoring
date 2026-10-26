@@ -160,6 +160,11 @@ def verify_submission(root):
     _require(len(tables)==len(expected_tables),'report table count differs')
     for i,(actual,wanted) in enumerate(zip(tables,expected_tables),1):
         _require(actual==wanted,f'report table {i} differs from computed results')
+    appendix_d=report.partition('## Appendix D. Complete scenario results\n\n')[2]
+    _require(len(parse_tables(appendix_d))==3,'Appendix D must contain all three complete scenario tables')
+    _require(any(t[0][1]=='Observed N / W / A' for t in parse_tables(sections[3])),
+             'Section 3 must contain the generated scenario comparison table')
+    checks.append('Generated Section 3 comparison and all 90 Appendix D steps match independently computed results')
     words=report_word_count(report)
     _require(1800<=words<=2200,f'Report word count is {words}; expected 1,800-2,200')
     _require(1950<=words<=2100,f'Report word count is {words}; expected safety margin 1,950-2,100')
