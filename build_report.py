@@ -16,7 +16,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle, KeepTogether, PageBreak
-from report_contract import REPORT_TITLE_BLOCK, report_fingerprints, report_word_count
+from report_contract import REPORT_TITLE_BLOCK, report_fingerprints, report_sections, report_word_count
 
 
 def register_fonts():
@@ -172,6 +172,7 @@ def main():
     doc.build(packed,onFirstPage=footer,onLaterPages=footer)
     words=report_word_count(source.read_text(encoding='utf-8'))
     print(f'Created {output.name}; main-body word count including tables and headings: {words}')
+    print('Section word counts: '+', '.join(f'S{n} {report_word_count(text)}' for n,text in report_sections(source_text).items()))
     if not 1800 <= words <= 2200:
         raise ValueError('Report is outside the recommended 1800-2200 word range')
 

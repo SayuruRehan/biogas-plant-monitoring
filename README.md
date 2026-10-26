@@ -47,7 +47,7 @@ requires access to Python's package index.
 | `build_report.py` | Rebuilds the PDF from Markdown and generated figures |
 | `tests/test_inference.py` | Ten numerical and validation checks, including independent hidden-path enumeration |
 | `tests/test_robustness.py` | Six checks of the worked step, margins, threshold and sweeps |
-| `tests/test_verification.py` | Fifteen end-to-end checks, including deliberate input/output/report corruption, title details, PDF author and word-count exclusions |
+| `tests/test_verification.py` | Nineteen end-to-end checks, including deliberate input/output/report corruption, title details, PDF author, section budgets and appendix placement |
 | `data/` | The three original supplied CSV datasets |
 | `results/` | Full numerical outputs, audit records and sensitivity results |
 | `figures/` | PNG and vector PDF charts |
@@ -144,6 +144,9 @@ dataset, every baseline prediction/posterior/state/utility/action, all sweep
 outputs, every report table, key worked calculations and the word limit.
 It also validates the complete title block and PDF Author metadata against
 the submission details, and excludes the title block from the word count.
+Each numbered section must meet its own brief target, the main body must
+stay within the tighter 1,950-2,100 safety margin, and the sensitivity
+subsection and Table 6 must appear in Appendix C.
 The PDF records fingerprints of its Markdown source, numerical JSON outputs
 and embedded figures; the audit rejects a PDF that predates an edit to any
 of these inputs. It exits with status 1 and a specific `FAIL` message when
@@ -154,7 +157,7 @@ that all 13 numerical CSV/JSON files and six PNG figures reproduce byte for
 byte. It compares freshly generated artifacts to the checked-in outputs,
 so strict image reproduction uses the pinned rendering environment. The
 ordinary audit compares numbers with a 1e-12 tolerance and requires no plotting
-dependencies. `--run-tests` also runs the complete 31-test suite. GitHub Actions
+dependencies. `--run-tests` also runs the complete 35-test suite. GitHub Actions
 runs the suite and audit on pushes to `dev` and pull requests targeting `dev`.
 
 After an intentional change, use this order: regenerate analysis, review and
@@ -165,8 +168,22 @@ PDF metadata alone cannot repair stale CSVs or mismatched report tables.
 
 The report stays within the recommended 1,800-2,200 main-body words, including
 its body tables and headings and excluding the title block, references,
-captions and appendices. The main body is 2,162 words; the exact count is
-printed by `build_report.py` and checked by `verify_submission.py`.
+captions, display equations and appendices. The main body is 1,966 words;
+the exact total and section counts are printed by `build_report.py` and
+checked by `verify_submission.py`.
+
+| Section | Brief target | Current count |
+| --- | ---: | ---: |
+| 1 Introduction | 150-200 | 189 |
+| 2 Bayesian inference | 400-450 | 449 |
+| 3 HMM estimation | 550-650 | 648 |
+| 4 Expected utility | 400-500 | 489 |
+| 5 Conclusion | 150-200 | 191 |
+
+The sensitivity subsection, its original Table 6 and all full sweeps are in
+Appendix C. Section 4 retains a short pointer; its decision examples remain
+in the main body. Moving Table 6 changes table order but retains all 12
+computed-table checks and every numerical value.
 
 The Markdown and PDF title block identify unit COMP6009, Assignment Part B,
 student Sayuru Bopitiya, student ID 24071158 and date 26 October 2026.

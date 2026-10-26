@@ -25,11 +25,12 @@
 | Evaluate effects of uncertainty/modelling assumptions | Report Table 6; Appendix C; original and extended sensitivity CSV files |
 | Decision strength and switching threshold | Section 4 and Appendix C; `results/decision_margins.csv` and `robustness.json` |
 | Parameter sweeps across plausible modelling choices | Appendix C: 42 settings/scenarios and 1,260 evaluated time steps |
-| Reusable dataset, results and report audit | `verify_submission.py`; 27 tests and dev-branch GitHub Actions |
+| Reusable dataset, results and report audit | `verify_submission.py`; 35 tests, section word budgets, sensitivity appendix placement and dev-branch GitHub Actions |
 | Report PDF and recommended word range | `report/COMP6009_Part_B_Report.pdf`; count printed by builder |
 | IEEE-style references | Report references [1]-[4] |
 | Python source and data/results | Package source, `data/`, `results/` and `figures/` |
 | Reproduction instructions | `README.md` |
 
-The package provides a worked solution. Student identity and any institution-specific
-submission cover sheet remain for the student to add; no identity details were invented.
+The package provides a worked solution and the supplied student identity in the
+report title block. Check whether an additional institution-specific cover sheet
+is required before submission.

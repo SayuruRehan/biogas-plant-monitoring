@@ -19,11 +19,15 @@ test_incorrect_pdf_author_is_rejected (test_verification.VerificationTests.test_
 test_incorrect_student_id_is_rejected (test_verification.VerificationTests.test_incorrect_student_id_is_rejected) ... ok
 test_missing_baseline_row_is_rejected (test_verification.VerificationTests.test_missing_baseline_row_is_rejected) ... ok
 test_missing_figure_is_rejected (test_verification.VerificationTests.test_missing_figure_is_rejected) ... ok
+test_missing_numbered_section_is_rejected (test_verification.VerificationTests.test_missing_numbered_section_is_rejected) ... ok
 test_missing_title_block_is_rejected (test_verification.VerificationTests.test_missing_title_block_is_rejected) ... ok
 test_modified_dataset_is_rejected (test_verification.VerificationTests.test_modified_dataset_is_rejected) ... ok
 test_nonfinite_probability_is_rejected (test_verification.VerificationTests.test_nonfinite_probability_is_rejected) ... ok
+test_oversized_introduction_is_rejected (test_verification.VerificationTests.test_oversized_introduction_is_rejected) ... ok
 test_pdf_becomes_stale_after_a_narrative_edit (test_verification.VerificationTests.test_pdf_becomes_stale_after_a_narrative_edit) ... ok
 test_pdf_becomes_stale_after_an_embedded_figure_changes (test_verification.VerificationTests.test_pdf_becomes_stale_after_an_embedded_figure_changes) ... ok
+test_report_sections_meet_their_word_budgets (test_verification.VerificationTests.test_report_sections_meet_their_word_budgets) ... ok
+test_sensitivity_in_main_body_is_rejected (test_verification.VerificationTests.test_sensitivity_in_main_body_is_rejected) ... ok
 test_stale_report_table_is_rejected (test_verification.VerificationTests.test_stale_report_table_is_rejected) ... ok
 test_stale_sweep_table_is_rejected (test_verification.VerificationTests.test_stale_sweep_table_is_rejected) ... ok
 test_surplus_csv_cells_are_rejected (test_verification.VerificationTests.test_surplus_csv_cells_are_rejected) ... ok
@@ -31,14 +35,15 @@ test_title_block_is_excluded_from_word_count (test_verification.VerificationTest
 test_wrong_recommendation_is_rejected (test_verification.VerificationTests.test_wrong_recommendation_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 31 tests in 0.521s
+Ran 35 tests in 0.708s
 
 OK
 PASS: Original input hashes and all 90 consecutive observation rows
 PASS: All 90 predictions, posterior vectors, state labels, utilities, actions and margins
 PASS: Bayesian cases, worked HMM step, fixed-belief threshold, and 1,260 sweep rows / 42 summaries
 PASS: Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count
-PASS: All 12 report tables and key narrative calculations; main body 2162 words
+PASS: Section word counts within brief targets: S1 189, S2 449, S3 648, S4 489, S5 191; sensitivity subsection and Table 6 in Appendix C
+PASS: All 12 report tables and key narrative calculations; main body 1966 words
 PASS: Report PDF matches the checked Markdown, numerical results and embedded figure bytes
 PASS: Fresh run reproduced all 13 numerical CSV/JSON files and all six PNG plots byte-for-byte
 PASS: Complete unittest suite passed

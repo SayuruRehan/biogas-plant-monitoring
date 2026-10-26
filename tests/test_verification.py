@@ -76,6 +76,38 @@ Date: 26 October 2026
         with self.assertRaisesRegex(VerificationError,'PDF Author'):
             verify_submission(self.root)
 
+    def test_report_sections_meet_their_word_budgets(self):
+        text=(self.root/'report'/'COMP6009_Part_B_Report.md').read_text()
+        sections=re.findall(r'^## ([1-5])\. .*?(?=^## |\Z)',text,re.M|re.S)
+        self.assertEqual(sections,['1','2','3','4','5'])
+        for number,lower,upper in [(1,150,200),(2,400,450),(3,550,650),(4,400,500),(5,150,200)]:
+            section=re.search(rf'^## {number}\. .*?(?=^## |\Z)',text,re.M|re.S).group()
+            with self.subTest(section=number):
+                self.assertGreaterEqual(report_word_count(section),lower)
+                self.assertLessEqual(report_word_count(section),upper)
+        self.assertGreaterEqual(report_word_count(text),1950)
+        self.assertLessEqual(report_word_count(text),2100)
+
+    def test_oversized_introduction_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        text=path.read_text().replace('## 2. Probabilistic','Extra words. '*101+'\n\n## 2. Probabilistic',1)
+        path.write_text(text)
+        with self.assertRaisesRegex(VerificationError,'Section 1 word count'):
+            verify_submission(self.root)
+
+    def test_missing_numbered_section_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        path.write_text(path.read_text().replace('## 3. HMM','## 6. HMM',1))
+        with self.assertRaisesRegex(VerificationError,'report sections'):
+            verify_submission(self.root)
+
+    def test_sensitivity_in_main_body_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        text=path.read_text().replace('## 5. Conclusion','### Sensitivity to modelling choices\n\n## 5. Conclusion',1)
+        path.write_text(text)
+        with self.assertRaisesRegex(VerificationError,'Sensitivity.*Appendix C'):
+            verify_submission(self.root)
+
     def test_modified_dataset_is_rejected(self):
         path=self.root/'data'/'scenario_A_stable.csv'
         path.write_text(path.read_text().replace('1,Normal','1,Alarm',1))

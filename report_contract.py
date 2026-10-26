@@ -17,6 +17,8 @@ Student ID: 24071158
 Date: 26 October 2026
 <!-- /title-block -->'''
 
+REPORT_SECTION_TARGETS={1:(150,200),2:(400,450),3:(550,650),4:(400,500),5:(150,200)}
+
 
 def report_word_count(text):
     # Exclude only the exact, audited front matter at the start of the file.
@@ -24,6 +26,16 @@ def report_word_count(text):
     body=text.removeprefix(REPORT_TITLE_BLOCK).split('## References')[0]
     lines=[line for line in body.splitlines() if line and not line.startswith(('![','*Table','*Figure','$$'))]
     return len(re.findall(r"\b[\w]+(?:[-'][\w]+)*\b",'\n'.join(lines)))
+
+
+def report_sections(text):
+    """Return all five numbered sections, including their counted headings."""
+    body=text.removeprefix(REPORT_TITLE_BLOCK).split('## References')[0]
+    headings=list(re.finditer(r'^## (\d+)\. [^\n]+$',body,re.M))
+    if [int(m[1]) for m in headings]!=list(REPORT_SECTION_TARGETS):
+        raise ValueError('Numbered report sections must occur exactly once in order from 1 to 5')
+    return {int(m[1]):body[m.start():headings[i+1].start() if i+1<len(headings) else len(body)]
+            for i,m in enumerate(headings)}
 
 
 def report_fingerprints(root):
@@ -76,7 +88,7 @@ def expected_report_tables(payload, extension):
     labels=['25% uniform sensor mixture','50% identity transition mixture','Continue/Critical utility -40']
     for i,label in enumerate(labels):
         sensitivity.append([label]+[str(r['changed_actions']) for r in payload['sensitivity'][3*i:3*i+3]])
-    tables.append([['Separate perturbation','Changed actions: A','B','C']]+sensitivity)
+    sensitivity_table=[['Separate perturbation','Changed actions: A','B','C']]+sensitivity
     tables.append([['True state','Prior','Sensor 1: Normal','Warning','Alarm']]+[
         [s,f"{model['prior'][s]:.2f}"]+[f"{model['sensor1'][s][o]:.2f}" for o in ('Normal','Warning','Alarm')] for s in states])
     tables.append([['True state','Sensor 2: Normal pH','Abnormal pH']]+[
@@ -85,6 +97,8 @@ def expected_report_tables(payload, extension):
         [s]+[f"{model['transition'][s][x]:.2f}" for x in states] for s in states])
     tables.append([['Action','Stable','Stressed','Critical']]+[
         [a]+[f'{row[s]:+d}' for s in states] for a,row in model['utility'].items()])
+    # Table 6 now opens Appendix C, after the four baseline-model tables.
+    tables.append(sensitivity_table)
     tables.append([['Scenario / step','Choice','Runner-up','EU choice','EU runner-up','Margin']]+[
         [f"{r['scenario']}, t={r['time']}",r['action'],r['runner_up'],fmt(r['best_utility']),fmt(r['runner_up_utility']),fmt(r['decision_margin'])]
         for r in extension['closest_decisions']])
