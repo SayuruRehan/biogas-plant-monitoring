@@ -28,7 +28,7 @@ strip showing the inferred most probable state; neither gives ground truth.
 
 | Appendix | What to use it for |
 | --- | --- |
-| A | Check the supplied prior, sensor, transition and utility tables; complete the Generative AI use declaration |
+| A | Check the supplied prior, sensor, transition and utility tables |
 | B | Compare all three actions' expected utilities over time |
 | C | Read the sensitivity subsection and Table 6, close-decision margins, switching threshold and full sweeps |
 | D | Trace all 90 observations, posterior vectors, most probable states and recommended actions in three generated tables |
@@ -161,5 +161,4 @@ This verifies mathematical consistency and reproducibility, not real-world
 digester accuracy or the benefits of actually implementing the actions.
 GitHub Actions also runs the suite and audit for pushes and pull requests to
 `dev`, `master` and `main`. The verification record is
-`results/verification.txt`. The AI-use placeholder in README and Appendix A
-must be completed with the tools actually used and how they were used.
+`results/verification.txt`.

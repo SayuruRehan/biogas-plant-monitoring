@@ -19,6 +19,7 @@ class VerificationTests(unittest.TestCase):
         original=Path(__file__).resolve().parents[1]
         for folder in ('data','results','report','figures'):
             shutil.copytree(original/folder,self.root/folder,ignore=shutil.ignore_patterns('_equations'))
+        shutil.copy2(original/'README.md',self.root/'README.md')
 
     def edit_csv(self, filename, change):
         path=self.root/'results'/filename
@@ -55,6 +56,27 @@ Date: 26 October 2026
         body='## 1. Introduction\n\nThree body words.\n\n## References\n\nExcluded reference.'
         self.assertEqual(report_word_count(title+'\n\n'+body),report_word_count(body))
         self.assertEqual(report_word_count(body),5)
+
+    def test_incorrect_appendix_a_title_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        title='## Appendix A. Baseline model tables\n\n'
+        self.assertIn(title,path.read_text())
+        path.write_text(path.read_text().replace(title,'## Appendix A. Baseline model tables and declaration\n\n',1))
+        with self.assertRaisesRegex(VerificationError,'Appendix A.*title'):
+            verify_submission(self.root)
+
+    def test_unfilled_template_marker_is_rejected(self):
+        for filename,marker in [('report/COMP6009_Part_B_Report.md','[DECLARE missing details]'),
+                                ('README.md','[declare missing details]')]:
+            with self.subTest(filename=filename):
+                path=self.root/filename
+                original=path.read_text()
+                try:
+                    path.write_text(original+'\n'+marker+'\n')
+                    with self.assertRaisesRegex(VerificationError,'unfilled template marker'):
+                        verify_submission(self.root)
+                finally:
+                    path.write_text(original)
 
     def test_missing_title_block_is_rejected(self):
         path=self.root/'report'/'COMP6009_Part_B_Report.md'

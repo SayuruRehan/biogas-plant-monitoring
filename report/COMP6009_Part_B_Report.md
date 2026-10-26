@@ -173,7 +173,7 @@ Mathematical correctness does not establish biological calibration or beneficial
 
 [6] T. Schmidt, B. McCabe, and P. Harris, "Process monitoring and control for an anaerobic covered lagoon treating abattoir wastewater," Chemical Engineering & Technology, vol. 41, no. 4, pp. 755-760, 2018, doi: 10.1002/ceat.201700391.
 
-## Appendix A. Baseline model tables and declaration
+## Appendix A. Baseline model tables
 
 The following tables reproduce the supplied models [1]. Probability rows sum to one. Transition rows refer to current state and columns to next state. Utility rows refer to action and columns to true state.
 
@@ -200,10 +200,6 @@ The following tables reproduce the supplied models [1]. Probability rows sum to 
 | Continue | +10 | +2 | -20 |
 | Reduce Feed | +5 | +6 | -5 |
 | Intervene | -4 | +3 | +8 |
-
-### Generative AI use
-
-[DECLARE TOOLS USED AND HOW, per COMP6009 policy]
 
 ## Appendix B. Additional expected-utility plots
 

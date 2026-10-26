@@ -12,10 +12,9 @@ were rendered again and individually inspected; no page count or font-size
 change was needed. Bibliographic evidence is recorded in
 `REFERENCE_VERIFICATION.md`.
 
-The repository cleanup revision adds the requested Generative AI use placeholder
-under Appendix A's model tables. It fits on page 8 without adding a page or
-changing the main-body count. All 14 final pages were rendered and inspected
-again; the declaration and its heading are together and clear.
+Appendix A contains only the supplied baseline model tables. Its title and all
+four tables fit on page 8. Pages 7-9 were re-rendered and checked after the
+latest cleanup; the main-body text and count remain unchanged.
 
 ## Changes
 
@@ -46,7 +45,7 @@ again; the declaration and its heading are together and clear.
 | 5 | Scenario C plot, strip and caption; loading-response delay and probe-error discussion; decision section and equation complete. |
 | 6 | Action plot and Table 4 with captions; decision introduction and Table 5 paired; decision analysis flows naturally. |
 | 7 | Decision discussion continuation, conclusion and all six references; bibliography fits above the footer with no spillover page. |
-| 8 | Appendix A starts at the top of a fresh page; all four baseline tables readable and complete; Generative AI use heading and requested declaration placeholder fit below them. |
+| 8 | Appendix A starts at the top of a fresh page; corrected title and all four baseline tables readable and complete; no stray heading or template text. |
 | 9 | Appendix B starts on a fresh page; full expected-utility figure and caption together. |
 | 10 | Appendix C starts on a fresh page; sensitivity introduction, Table 6 and caption together; closest-decision table and caption together. |
 | 11 | Full sweep introduction, Table C2 and caption, then sweep figure and caption; all fit with a clear footer. |
@@ -70,7 +69,7 @@ again; the declaration and its heading are together and clear.
 
 All four required commands passed: `python -m unittest discover -s tests`,
 `python run_analysis.py`, `python build_report.py`, and
-`python verify_submission.py`. The suite contains 44 tests and the audit checks
+`python verify_submission.py --reproduce --run-tests`. The suite contains 46 tests and the audit checks
 all 16 tables, including the original 12. Full numerical and PNG reproduction
 also passed. Tests also pass without third-party site packages.
 

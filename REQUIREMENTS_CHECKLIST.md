@@ -27,11 +27,10 @@
 | Evaluate effects of uncertainty/modelling assumptions | Appendix C: relocated sensitivity subsection and Table 6; Section 4 retains only a pointer; original and extended sensitivity CSV files |
 | Decision strength and switching threshold | Section 4 and Appendix C; `results/decision_margins.csv` and `robustness.json` |
 | Parameter sweeps across plausible modelling choices | Appendix C: 42 settings/scenarios and 1,260 evaluated time steps |
-| Reusable dataset, results and report audit | `verify_submission.py`; 44 tests, 16 report tables, section budgets, appendix placement and GitHub Actions for pushes/PRs to dev, master and main |
+| Reusable dataset, results and report audit | `verify_submission.py`; 46 tests, 16 report tables, section budgets, appendix title/placement, unfilled-template detection and GitHub Actions for pushes/PRs to dev, master and main |
 | Report PDF and recommended word range | `report/COMP6009_Part_B_Report.pdf`; 1,961 main-body words; section counts 189 / 446 / 648 / 487 / 191; title, references, captions, display equations and appendices excluded |
 | IEEE-style references | Report references [1]-[6]; textbook Chapter 16 and two added peer-reviewed domain sources; verified details in `docs/REFERENCE_VERIFICATION.md` |
 | Supplied model tables and additional utility plot | Appendix A model tables and Appendix B Figure B1 |
-| Generative AI use declaration | README and report Appendix A contain the requested placeholder; student must complete it before submission |
 | Python source and data/results | Package source, `data/`, `results/` and `figures/` |
 | Reproduction instructions and recorded results | `README.md`; `results/verification.txt`; `python verify_submission.py --reproduce --run-tests` |
 

@@ -139,6 +139,12 @@ def verify_submission(root):
     _require(report.count('<!-- title-block -->')==report.count('<!-- /title-block -->')==1,
              'Report title block markers must occur exactly once')
     checks.append('Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count')
+    _require(report.count('## Appendix A. Baseline model tables\n\n')==1,
+             'Appendix A must use the baseline model tables title')
+    readme=(root/'README.md').read_text(encoding='utf-8')
+    for name,text in (('Report',report),('README',readme)):
+        _require('[declare' not in text.casefold(),f'{name} contains an unfilled template marker')
+    checks.append('Appendix A uses the baseline model tables title; report and README contain no unfilled template markers')
     try:
         sections=report_sections(report)
     except ValueError as exc:

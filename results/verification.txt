@@ -2,9 +2,9 @@ Verification record - 26 October 2026
 Branch: polish
 
 $ python -m unittest discover -s tests
-............................................
+..............................................
 ----------------------------------------------------------------------
-Ran 44 tests in 1.009s
+Ran 46 tests in 0.986s
 
 OK
 Exit status: 0
@@ -405,6 +405,7 @@ PASS: Original input hashes and all 90 consecutive observation rows
 PASS: All 90 predictions, posterior vectors, state labels, utilities, actions and margins
 PASS: Bayesian cases, worked HMM step, fixed-belief threshold, and 1,260 sweep rows / 42 summaries
 PASS: Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count
+PASS: Appendix A uses the baseline model tables title; report and README contain no unfilled template markers
 PASS: Section word counts within brief targets: S1 189, S2 446, S3 648, S4 487, S5 191; sensitivity subsection and Table 6 in Appendix C
 PASS: Generated Section 3 comparison and all 90 Appendix D steps match independently computed results
 PASS: All 16 report tables and key narrative calculations; main body 1961 words
@@ -436,6 +437,7 @@ test_comparison_generator_reads_analysis_json (test_verification.VerificationTes
 test_complete_submission_passes (test_verification.VerificationTests.test_complete_submission_passes) ... ok
 test_corrupt_appendix_probability_is_rejected (test_verification.VerificationTests.test_corrupt_appendix_probability_is_rejected) ... ok
 test_generation_markers_are_not_report_words (test_verification.VerificationTests.test_generation_markers_are_not_report_words) ... ok
+test_incorrect_appendix_a_title_is_rejected (test_verification.VerificationTests.test_incorrect_appendix_a_title_is_rejected) ... ok
 test_incorrect_comparison_peak_time_is_rejected (test_verification.VerificationTests.test_incorrect_comparison_peak_time_is_rejected) ... ok
 test_incorrect_pdf_author_is_rejected (test_verification.VerificationTests.test_incorrect_pdf_author_is_rejected) ... ok
 test_incorrect_student_id_is_rejected (test_verification.VerificationTests.test_incorrect_student_id_is_rejected) ... ok
@@ -455,16 +457,18 @@ test_stale_report_table_is_rejected (test_verification.VerificationTests.test_st
 test_stale_sweep_table_is_rejected (test_verification.VerificationTests.test_stale_sweep_table_is_rejected) ... ok
 test_surplus_csv_cells_are_rejected (test_verification.VerificationTests.test_surplus_csv_cells_are_rejected) ... ok
 test_title_block_is_excluded_from_word_count (test_verification.VerificationTests.test_title_block_is_excluded_from_word_count) ... ok
+test_unfilled_template_marker_is_rejected (test_verification.VerificationTests.test_unfilled_template_marker_is_rejected) ... ok
 test_wrong_recommendation_is_rejected (test_verification.VerificationTests.test_wrong_recommendation_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 0.995s
+Ran 46 tests in 0.987s
 
 OK
 PASS: Original input hashes and all 90 consecutive observation rows
 PASS: All 90 predictions, posterior vectors, state labels, utilities, actions and margins
 PASS: Bayesian cases, worked HMM step, fixed-belief threshold, and 1,260 sweep rows / 42 summaries
 PASS: Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count
+PASS: Appendix A uses the baseline model tables title; report and README contain no unfilled template markers
 PASS: Section word counts within brief targets: S1 189, S2 446, S3 648, S4 487, S5 191; sensitivity subsection and Table 6 in Appendix C
 PASS: Generated Section 3 comparison and all 90 Appendix D steps match independently computed results
 PASS: All 16 report tables and key narrative calculations; main body 1961 words
@@ -499,6 +503,7 @@ test_comparison_generator_reads_analysis_json (test_verification.VerificationTes
 test_complete_submission_passes (test_verification.VerificationTests.test_complete_submission_passes) ... ok
 test_corrupt_appendix_probability_is_rejected (test_verification.VerificationTests.test_corrupt_appendix_probability_is_rejected) ... ok
 test_generation_markers_are_not_report_words (test_verification.VerificationTests.test_generation_markers_are_not_report_words) ... ok
+test_incorrect_appendix_a_title_is_rejected (test_verification.VerificationTests.test_incorrect_appendix_a_title_is_rejected) ... ok
 test_incorrect_comparison_peak_time_is_rejected (test_verification.VerificationTests.test_incorrect_comparison_peak_time_is_rejected) ... ok
 test_incorrect_pdf_author_is_rejected (test_verification.VerificationTests.test_incorrect_pdf_author_is_rejected) ... ok
 test_incorrect_student_id_is_rejected (test_verification.VerificationTests.test_incorrect_student_id_is_rejected) ... ok
@@ -518,16 +523,18 @@ test_stale_report_table_is_rejected (test_verification.VerificationTests.test_st
 test_stale_sweep_table_is_rejected (test_verification.VerificationTests.test_stale_sweep_table_is_rejected) ... ok
 test_surplus_csv_cells_are_rejected (test_verification.VerificationTests.test_surplus_csv_cells_are_rejected) ... ok
 test_title_block_is_excluded_from_word_count (test_verification.VerificationTests.test_title_block_is_excluded_from_word_count) ... ok
+test_unfilled_template_marker_is_rejected (test_verification.VerificationTests.test_unfilled_template_marker_is_rejected) ... ok
 test_wrong_recommendation_is_rejected (test_verification.VerificationTests.test_wrong_recommendation_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 0.991s
+Ran 46 tests in 1.063s
 
 OK
 PASS: Original input hashes and all 90 consecutive observation rows
 PASS: All 90 predictions, posterior vectors, state labels, utilities, actions and margins
 PASS: Bayesian cases, worked HMM step, fixed-belief threshold, and 1,260 sweep rows / 42 summaries
 PASS: Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count
+PASS: Appendix A uses the baseline model tables title; report and README contain no unfilled template markers
 PASS: Section word counts within brief targets: S1 189, S2 446, S3 648, S4 487, S5 191; sensitivity subsection and Table 6 in Appendix C
 PASS: Generated Section 3 comparison and all 90 Appendix D steps match independently computed results
 PASS: All 16 report tables and key narrative calculations; main body 1961 words
@@ -536,10 +543,7 @@ PASS: Fresh run reproduced all 13 numerical CSV/JSON files and all six PNG plots
 PASS: Complete unittest suite passed
 Exit status: 0
 
-PASS: workflow push/PR targets dev, master and main; manual trigger preserved.
-PASS: planning directory and all references removed.
-PASS: exact AI-use placeholder in README and Appendix A.
-PASS: all 13 protected-file hashes match baseline.
-PASS: final protected-file hashes and git diff confirm no inference or numerical-result changes.
-PASS: generated report tables are idempotent.
-PASS: all 14 PDF pages rendered at 120 dpi and inspected; declaration on page 8; no new layout issues.
+PASS: Sections 1-5 are byte-for-byte unchanged; main-body counter is exactly 1961.
+PASS: all 16 report tables, numerical results, inference code and figure files match their saved hashes/content.
+PASS: git diff is empty for results/*.csv, results/analysis.json and results/robustness.json.
+PASS: PDF pages 7-9 rendered at 120 dpi and inspected; Appendix A title and four tables intact; no stray heading, template text or extra blank page.
