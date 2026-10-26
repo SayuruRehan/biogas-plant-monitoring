@@ -35,7 +35,7 @@ test_title_block_is_excluded_from_word_count (test_verification.VerificationTest
 test_wrong_recommendation_is_rejected (test_verification.VerificationTests.test_wrong_recommendation_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 35 tests in 0.708s
+Ran 35 tests in 0.804s
 
 OK
 PASS: Original input hashes and all 90 consecutive observation rows

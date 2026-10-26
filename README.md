@@ -172,6 +172,12 @@ captions, display equations and appendices. The main body is 1,966 words;
 the exact total and section counts are printed by `build_report.py` and
 checked by `verify_submission.py`.
 
+The PDF is typeset in 11 pages. Tables stay with their captions and immediate
+lead-ins, figures stay with captions and their immediate headings, and each
+appendix starts on a fresh page. Equations use DejaVu Serif math to match the
+body font. The build prints the page count; the visual review is recorded in
+`docs/PDF_LAYOUT_REVIEW.md`.
+
 | Section | Brief target | Current count |
 | --- | ---: | ---: |
 | 1 Introduction | 150-200 | 189 |
