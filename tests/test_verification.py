@@ -1,11 +1,13 @@
 """End-to-end audit tests, including deliberately corrupted submissions."""
 import csv
+import re
 import shutil
 import tempfile
 import unittest
 from pathlib import Path
 
 from verify_submission import VerificationError, verify_submission
+from report_contract import report_word_count
 
 
 class VerificationTests(unittest.TestCase):
@@ -33,6 +35,46 @@ class VerificationTests(unittest.TestCase):
         checks=verify_submission(self.root)
         self.assertTrue(any('90' in check for check in checks))
         self.assertTrue(any('report' in check.lower() for check in checks))
+        self.assertTrue(any('title block' in check.lower() for check in checks))
+
+    def test_title_block_is_excluded_from_word_count(self):
+        title='''<!-- title-block -->
+# Biogas Plant Intelligent Monitoring and Decision System
+
+Unit: COMP6009
+
+Assignment Part B
+
+Student name: Sayuru Bopitiya
+
+Student ID: 24071158
+
+Date: 26 October 2026
+<!-- /title-block -->'''
+        body='## 1. Introduction\n\nThree body words.\n\n## References\n\nExcluded reference.'
+        self.assertEqual(report_word_count(title+'\n\n'+body),report_word_count(body))
+        self.assertEqual(report_word_count(body),5)
+
+    def test_missing_title_block_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        report=path.read_text()
+        path.write_text(report[report.index('## 1. Introduction'):])
+        with self.assertRaisesRegex(VerificationError,'title block'):
+            verify_submission(self.root)
+
+    def test_incorrect_student_id_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.md'
+        path.write_text(path.read_text().replace('24071158','99999999',1))
+        with self.assertRaisesRegex(VerificationError,'title block'):
+            verify_submission(self.root)
+
+    def test_incorrect_pdf_author_is_rejected(self):
+        path=self.root/'report'/'COMP6009_Part_B_Report.pdf'
+        content,count=re.subn(rb'/Author\s*\([^)]*\)',b'/Author (Incorrect Student)',path.read_bytes(),count=1)
+        self.assertEqual(count,1)
+        path.write_bytes(content)
+        with self.assertRaisesRegex(VerificationError,'PDF Author'):
+            verify_submission(self.root)
 
     def test_modified_dataset_is_rejected(self):
         path=self.root/'data'/'scenario_A_stable.csv'

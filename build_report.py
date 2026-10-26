@@ -16,7 +16,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle, KeepTogether, PageBreak
-from report_contract import report_fingerprints, report_word_count
+from report_contract import REPORT_TITLE_BLOCK, report_fingerprints, report_word_count
 
 
 def register_fonts():
@@ -58,8 +58,18 @@ def main():
     styles.add(ParagraphStyle(name='Cell',fontName='Sans',fontSize=8.4,leading=11))
     styles.add(ParagraphStyle(name='HeaderCell',fontName='SansBold',fontSize=8.4,leading=11,textColor=colors.white))
     styles.add(ParagraphStyle(name='Reference',fontName='Body',fontSize=9,leading=13,spaceAfter=8,wordWrap='CJK'))
-    blocks=source.read_text(encoding='utf-8').strip().split('\n\n')
-    story=[]
+    source_text=source.read_text(encoding='utf-8')
+    if not source_text.startswith(REPORT_TITLE_BLOCK+'\n\n'):
+        raise ValueError('Report title block is missing or differs from the submission details')
+    blocks=source_text[len(REPORT_TITLE_BLOCK):].strip().split('\n\n')
+    title_lines=REPORT_TITLE_BLOCK.splitlines()[1:-1]
+    title_story=[]
+    for line in title_lines:
+        if line.startswith('# '):
+            title_story.append(Paragraph(escape(line[2:]),styles['ReportTitle']))
+        elif line:
+            title_story.append(Paragraph(escape(line),styles['ReportBody']))
+    story=[KeepTogether(title_story+[Spacer(1,10)])]
     equation_count=0
     references=False
     for block in blocks:
@@ -158,7 +168,7 @@ def main():
         canvas.drawString(54,29,'COMP6009 | Biogas monitoring and decisions')
         canvas.drawRightString(A4[0]-54,29,str(doc.page))
     fingerprints=';'.join(f'{key}:{value}' for key,value in report_fingerprints(root).items())
-    doc=SimpleDocTemplate(str(output),pagesize=A4,rightMargin=54,leftMargin=54,topMargin=45,bottomMargin=48,title='Biogas Plant Intelligent Monitoring and Decision System',author='',subject='COMP6009 Assignment Part B',keywords=fingerprints)
+    doc=SimpleDocTemplate(str(output),pagesize=A4,rightMargin=54,leftMargin=54,topMargin=45,bottomMargin=48,title='Biogas Plant Intelligent Monitoring and Decision System',author='Sayuru Bopitiya',subject='COMP6009 Assignment Part B',keywords=fingerprints)
     doc.build(packed,onFirstPage=footer,onLaterPages=footer)
     words=report_word_count(source.read_text(encoding='utf-8'))
     print(f'Created {output.name}; main-body word count including tables and headings: {words}')

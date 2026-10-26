@@ -1,6 +1,16 @@
+<!-- title-block -->
 # Biogas Plant Intelligent Monitoring and Decision System
 
-COMP6009 Assignment Part B
+Unit: COMP6009
+
+Assignment Part B
+
+Student name: Sayuru Bopitiya
+
+Student ID: 24071158
+
+Date: 26 October 2026
+<!-- /title-block -->
 
 ## 1. Introduction and problem formulation
 

@@ -47,7 +47,7 @@ requires access to Python's package index.
 | `build_report.py` | Rebuilds the PDF from Markdown and generated figures |
 | `tests/test_inference.py` | Ten numerical and validation checks, including independent hidden-path enumeration |
 | `tests/test_robustness.py` | Six checks of the worked step, margins, threshold and sweeps |
-| `tests/test_verification.py` | Eleven end-to-end checks, including deliberate input/output/report corruption |
+| `tests/test_verification.py` | Fifteen end-to-end checks, including deliberate input/output/report corruption, title details, PDF author and word-count exclusions |
 | `data/` | The three original supplied CSV datasets |
 | `results/` | Full numerical outputs, audit records and sensitivity results |
 | `figures/` | PNG and vector PDF charts |
@@ -142,6 +142,8 @@ python verify_submission.py --reproduce --run-tests
 The default command checks original SHA-256 input hashes, exactly 30 steps per
 dataset, every baseline prediction/posterior/state/utility/action, all sweep
 outputs, every report table, key worked calculations and the word limit.
+It also validates the complete title block and PDF Author metadata against
+the submission details, and excludes the title block from the word count.
 The PDF records fingerprints of its Markdown source, numerical JSON outputs
 and embedded figures; the audit rejects a PDF that predates an edit to any
 of these inputs. It exits with status 1 and a specific `FAIL` message when
@@ -152,7 +154,7 @@ that all 13 numerical CSV/JSON files and six PNG figures reproduce byte for
 byte. It compares freshly generated artifacts to the checked-in outputs,
 so strict image reproduction uses the pinned rendering environment. The
 ordinary audit compares numbers with a 1e-12 tolerance and requires no plotting
-dependencies. `--run-tests` also runs the complete 27-test suite. GitHub Actions
+dependencies. `--run-tests` also runs the complete 31-test suite. GitHub Actions
 runs the suite and audit on pushes to `dev` and pull requests targeting `dev`.
 
 After an intentional change, use this order: regenerate analysis, review and
@@ -162,9 +164,19 @@ PDF metadata alone cannot repair stale CSVs or mismatched report tables.
 ## Report and final review
 
 The report stays within the recommended 1,800-2,200 main-body words, including
-its tables and headings and excluding references, captions and appendices.
-The exact count is printed by `build_report.py`. Add your student details in
-the format required by your lecturer, review the interpretation, and ensure
-you can explain the calculation and code before submitting.
+its body tables and headings and excluding the title block, references,
+captions and appendices. The main body is 2,162 words; the exact count is
+printed by `build_report.py` and checked by `verify_submission.py`.
+
+The Markdown and PDF title block identify unit COMP6009, Assignment Part B,
+student Sayuru Bopitiya, student ID 24071158 and date 26 October 2026.
+`build_report.py` sets the PDF Author metadata to `Sayuru Bopitiya`.
+The dated title block is fixed submission information, so rebuilding does
+not silently replace its date with the build date. The exact title block
+is defined in `report_contract.py` and delimited by HTML comments in the
+Markdown. If the submission details change, update the Markdown and shared
+contract together, update the PDF author setting and its audit if needed,
+then rebuild and verify. Review the interpretation and ensure you can explain
+the calculation and code before submitting.
 
 `results/verification.txt` records the checks run while preparing this package.

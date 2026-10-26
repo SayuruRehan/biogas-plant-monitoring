@@ -16,7 +16,7 @@ from collections import Counter
 from pathlib import Path
 
 from biogas import BASELINE, bayesian_update
-from report_contract import expected_report_tables, parse_tables, report_fingerprints, report_word_count
+from report_contract import REPORT_TITLE_BLOCK, expected_report_tables, parse_tables, report_fingerprints, report_word_count
 from robustness import build_extensions
 from run_analysis import SCENARIOS, analyse_sequence, flatten, load_observations, sensitivity_models
 
@@ -134,6 +134,11 @@ def verify_submission(root):
         _csv(root,filename,rows)
     checks.append('Bayesian cases, worked HMM step, fixed-belief threshold, and 1,260 sweep rows / 42 summaries')
     report=(root/'report'/'COMP6009_Part_B_Report.md').read_text(encoding='utf-8')
+    _require(report.startswith(REPORT_TITLE_BLOCK+'\n\n## 1. Introduction'),
+             'Report title block is missing or differs from the submission details')
+    _require(report.count('<!-- title-block -->')==report.count('<!-- /title-block -->')==1,
+             'Report title block markers must occur exactly once')
+    checks.append('Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count')
     tables=parse_tables(report)
     expected_tables=expected_report_tables(expected,extension)
     _require(len(tables)==len(expected_tables),'report table count differs')
@@ -156,6 +161,7 @@ def verify_submission(root):
     _require(pdf.is_file(),'Missing report PDF')
     content=pdf.read_bytes()
     _require(content.startswith(b'%PDF-') and content.rstrip().endswith(b'%%EOF'),'Report PDF is incomplete')
+    _require(b'/Author (Sayuru Bopitiya)' in content,'Report PDF Author must be Sayuru Bopitiya')
     for key,value in report_fingerprints(root).items():
         _require(f'{key}:{value}'.encode() in content,f'Report PDF is stale: {key}; rerun build_report.py')
     checks.append('Report PDF matches the checked Markdown, numerical results and embedded figure bytes')

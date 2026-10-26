@@ -3,8 +3,25 @@ import hashlib
 import re
 
 
+REPORT_TITLE_BLOCK='''<!-- title-block -->
+# Biogas Plant Intelligent Monitoring and Decision System
+
+Unit: COMP6009
+
+Assignment Part B
+
+Student name: Sayuru Bopitiya
+
+Student ID: 24071158
+
+Date: 26 October 2026
+<!-- /title-block -->'''
+
+
 def report_word_count(text):
-    body=text.split('## References')[0]
+    # Exclude only the exact, audited front matter at the start of the file.
+    # A marker elsewhere must never hide words from the report body.
+    body=text.removeprefix(REPORT_TITLE_BLOCK).split('## References')[0]
     lines=[line for line in body.splitlines() if line and not line.startswith(('![','*Table','*Figure','$$'))]
     return len(re.findall(r"\b[\w]+(?:[-'][\w]+)*\b",'\n'.join(lines)))
 
