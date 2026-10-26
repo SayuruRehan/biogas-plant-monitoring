@@ -12,6 +12,11 @@ were rendered again and individually inspected; no page count or font-size
 change was needed. Bibliographic evidence is recorded in
 `REFERENCE_VERIFICATION.md`.
 
+The repository cleanup revision adds the requested Generative AI use placeholder
+under Appendix A's model tables. It fits on page 8 without adding a page or
+changing the main-body count. All 14 final pages were rendered and inspected
+again; the declaration and its heading are together and clear.
+
 ## Changes
 
 - Replaced whole-scenario, whole-conclusion and whole-reference grouping with
@@ -41,7 +46,7 @@ change was needed. Bibliographic evidence is recorded in
 | 5 | Scenario C plot, strip and caption; loading-response delay and probe-error discussion; decision section and equation complete. |
 | 6 | Action plot and Table 4 with captions; decision introduction and Table 5 paired; decision analysis flows naturally. |
 | 7 | Decision discussion continuation, conclusion and all six references; bibliography fits above the footer with no spillover page. |
-| 8 | Appendix A starts at the top of a fresh page; all four baseline tables readable and complete. |
+| 8 | Appendix A starts at the top of a fresh page; all four baseline tables readable and complete; Generative AI use heading and requested declaration placeholder fit below them. |
 | 9 | Appendix B starts on a fresh page; full expected-utility figure and caption together. |
 | 10 | Appendix C starts on a fresh page; sensitivity introduction, Table 6 and caption together; closest-decision table and caption together. |
 | 11 | Full sweep introduction, Table C2 and caption, then sweep figure and caption; all fit with a clear footer. |

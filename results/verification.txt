@@ -1,9 +1,14 @@
+Verification record - 26 October 2026
+Branch: polish
+
 $ python -m unittest discover -s tests
 ............................................
 ----------------------------------------------------------------------
-Ran 44 tests in 0.914s
+Ran 44 tests in 1.009s
 
 OK
+Exit status: 0
+
 $ python run_analysis.py
 Bayesian results:
 {'evidence': 'Normal', 'Stable': 0.9105691056910569, 'Stressed': 0.0813008130081301, 'Critical': 0.008130081300813009}
@@ -387,10 +392,14 @@ Sensitivity: [
     "Intervene": 6
   }
 ]
+Exit status: 0
+
 $ python build_report.py
 PDF pages: 14
 Created COMP6009_Part_B_Report.pdf; main-body word count including tables and headings: 1961
 Section word counts: S1 189, S2 446, S3 648, S4 487, S5 191
+Exit status: 0
+
 $ python verify_submission.py
 PASS: Original input hashes and all 90 consecutive observation rows
 PASS: All 90 predictions, posterior vectors, state labels, utilities, actions and margins
@@ -400,6 +409,7 @@ PASS: Section word counts within brief targets: S1 189, S2 446, S3 648, S4 487, 
 PASS: Generated Section 3 comparison and all 90 Appendix D steps match independently computed results
 PASS: All 16 report tables and key narrative calculations; main body 1961 words
 PASS: Report PDF matches the checked Markdown, numerical results and embedded figure bytes
+Exit status: 0
 
 $ python verify_submission.py --reproduce --run-tests
 test_combined_evidence_matches_manual_fraction (test_inference.InferenceTests.test_combined_evidence_matches_manual_fraction) ... ok
@@ -448,7 +458,7 @@ test_title_block_is_excluded_from_word_count (test_verification.VerificationTest
 test_wrong_recommendation_is_rejected (test_verification.VerificationTests.test_wrong_recommendation_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 0.910s
+Ran 44 tests in 0.995s
 
 OK
 PASS: Original input hashes and all 90 consecutive observation rows
@@ -461,6 +471,75 @@ PASS: All 16 report tables and key narrative calculations; main body 1961 words
 PASS: Report PDF matches the checked Markdown, numerical results and embedded figure bytes
 PASS: Fresh run reproduced all 13 numerical CSV/JSON files and all six PNG plots byte-for-byte
 PASS: Complete unittest suite passed
+Exit status: 0
 
-Protected-file hashes and git diff: all 13 protected files unchanged.
-Visual review: all 14 page PNGs inspected; see docs/PDF_LAYOUT_REVIEW.md.
+Final compacted PDF validation:
+$ python verify_submission.py --reproduce --run-tests
+test_combined_evidence_matches_manual_fraction (test_inference.InferenceTests.test_combined_evidence_matches_manual_fraction) ... ok
+test_empty_sequence_and_bad_transition (test_inference.InferenceTests.test_empty_sequence_and_bad_transition) ... ok
+test_filter_matches_enumeration_of_all_hidden_paths (test_inference.InferenceTests.test_filter_matches_enumeration_of_all_hidden_paths) ... ok
+test_first_step_has_no_transition (test_inference.InferenceTests.test_first_step_has_no_transition) ... ok
+test_general_observations_and_sensor_order (test_inference.InferenceTests.test_general_observations_and_sensor_order) ... ok
+test_impossible_evidence_rejected (test_inference.InferenceTests.test_impossible_evidence_rejected) ... ok
+test_invalid_probability_and_observation_rejected (test_inference.InferenceTests.test_invalid_probability_and_observation_rejected) ... ok
+test_pure_states_and_deterministic_ties (test_inference.InferenceTests.test_pure_states_and_deterministic_ties) ... ok
+test_utility_can_disagree_with_most_likely_state (test_inference.InferenceTests.test_utility_can_disagree_with_most_likely_state) ... ok
+test_warning_matches_manual_fraction (test_inference.InferenceTests.test_warning_matches_manual_fraction) ... ok
+test_strip_encodes_most_probable_state_not_observation (test_plot_data.PlotDataTests.test_strip_encodes_most_probable_state_not_observation) ... ok
+test_unknown_state_label_is_rejected (test_plot_data.PlotDataTests.test_unknown_state_label_is_rejected) ... ok
+test_analytical_threshold_and_zero_mass (test_robustness.RobustnessTests.test_analytical_threshold_and_zero_mass) ... ok
+test_b28_threshold_is_a_global_switch_not_a_dominated_tie (test_robustness.RobustnessTests.test_b28_threshold_is_a_global_switch_not_a_dominated_tie) ... ok
+test_baseline_models_and_scenarios_are_not_mutated (test_robustness.RobustnessTests.test_baseline_models_and_scenarios_are_not_mutated) ... ok
+test_closest_choices_and_all_90_margins (test_robustness.RobustnessTests.test_closest_choices_and_all_90_margins) ... ok
+test_sweeps_cover_all_settings_and_baseline_anchors (test_robustness.RobustnessTests.test_sweeps_cover_all_settings_and_baseline_anchors) ... ok
+test_worked_second_step_matches_independent_fractions (test_robustness.RobustnessTests.test_worked_second_step_matches_independent_fractions) ... ok
+test_appendix_d_contains_all_90_steps (test_verification.VerificationTests.test_appendix_d_contains_all_90_steps) ... ok
+test_appendix_generator_reads_csv (test_verification.VerificationTests.test_appendix_generator_reads_csv) ... ok
+test_comparison_generator_reads_analysis_json (test_verification.VerificationTests.test_comparison_generator_reads_analysis_json) ... ok
+test_complete_submission_passes (test_verification.VerificationTests.test_complete_submission_passes) ... ok
+test_corrupt_appendix_probability_is_rejected (test_verification.VerificationTests.test_corrupt_appendix_probability_is_rejected) ... ok
+test_generation_markers_are_not_report_words (test_verification.VerificationTests.test_generation_markers_are_not_report_words) ... ok
+test_incorrect_comparison_peak_time_is_rejected (test_verification.VerificationTests.test_incorrect_comparison_peak_time_is_rejected) ... ok
+test_incorrect_pdf_author_is_rejected (test_verification.VerificationTests.test_incorrect_pdf_author_is_rejected) ... ok
+test_incorrect_student_id_is_rejected (test_verification.VerificationTests.test_incorrect_student_id_is_rejected) ... ok
+test_missing_baseline_row_is_rejected (test_verification.VerificationTests.test_missing_baseline_row_is_rejected) ... ok
+test_missing_figure_is_rejected (test_verification.VerificationTests.test_missing_figure_is_rejected) ... ok
+test_missing_numbered_section_is_rejected (test_verification.VerificationTests.test_missing_numbered_section_is_rejected) ... ok
+test_missing_title_block_is_rejected (test_verification.VerificationTests.test_missing_title_block_is_rejected) ... ok
+test_modified_dataset_is_rejected (test_verification.VerificationTests.test_modified_dataset_is_rejected) ... ok
+test_nonfinite_probability_is_rejected (test_verification.VerificationTests.test_nonfinite_probability_is_rejected) ... ok
+test_oversized_introduction_is_rejected (test_verification.VerificationTests.test_oversized_introduction_is_rejected) ... ok
+test_pdf_becomes_stale_after_a_narrative_edit (test_verification.VerificationTests.test_pdf_becomes_stale_after_a_narrative_edit) ... ok
+test_pdf_becomes_stale_after_an_embedded_figure_changes (test_verification.VerificationTests.test_pdf_becomes_stale_after_an_embedded_figure_changes) ... ok
+test_report_sections_meet_their_word_budgets (test_verification.VerificationTests.test_report_sections_meet_their_word_budgets) ... ok
+test_scenario_comparison_contains_counts_peaks_and_final_beliefs (test_verification.VerificationTests.test_scenario_comparison_contains_counts_peaks_and_final_beliefs) ... ok
+test_sensitivity_in_main_body_is_rejected (test_verification.VerificationTests.test_sensitivity_in_main_body_is_rejected) ... ok
+test_stale_report_table_is_rejected (test_verification.VerificationTests.test_stale_report_table_is_rejected) ... ok
+test_stale_sweep_table_is_rejected (test_verification.VerificationTests.test_stale_sweep_table_is_rejected) ... ok
+test_surplus_csv_cells_are_rejected (test_verification.VerificationTests.test_surplus_csv_cells_are_rejected) ... ok
+test_title_block_is_excluded_from_word_count (test_verification.VerificationTests.test_title_block_is_excluded_from_word_count) ... ok
+test_wrong_recommendation_is_rejected (test_verification.VerificationTests.test_wrong_recommendation_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 44 tests in 0.991s
+
+OK
+PASS: Original input hashes and all 90 consecutive observation rows
+PASS: All 90 predictions, posterior vectors, state labels, utilities, actions and margins
+PASS: Bayesian cases, worked HMM step, fixed-belief threshold, and 1,260 sweep rows / 42 summaries
+PASS: Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count
+PASS: Section word counts within brief targets: S1 189, S2 446, S3 648, S4 487, S5 191; sensitivity subsection and Table 6 in Appendix C
+PASS: Generated Section 3 comparison and all 90 Appendix D steps match independently computed results
+PASS: All 16 report tables and key narrative calculations; main body 1961 words
+PASS: Report PDF matches the checked Markdown, numerical results and embedded figure bytes
+PASS: Fresh run reproduced all 13 numerical CSV/JSON files and all six PNG plots byte-for-byte
+PASS: Complete unittest suite passed
+Exit status: 0
+
+PASS: workflow push/PR targets dev, master and main; manual trigger preserved.
+PASS: planning directory and all references removed.
+PASS: exact AI-use placeholder in README and Appendix A.
+PASS: all 13 protected-file hashes match baseline.
+PASS: final protected-file hashes and git diff confirm no inference or numerical-result changes.
+PASS: generated report tables are idempotent.
+PASS: all 14 PDF pages rendered at 120 dpi and inspected; declaration on page 8; no new layout issues.

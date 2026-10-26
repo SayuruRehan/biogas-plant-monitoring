@@ -160,7 +160,8 @@ byte. It compares freshly generated artifacts to the checked-in outputs,
 so strict image reproduction uses the pinned rendering environment. The
 ordinary audit compares numbers with a 1e-12 tolerance and requires no plotting
 dependencies. `--run-tests` also runs the complete 44-test suite. GitHub Actions
-runs the suite and audit on pushes to `dev` and pull requests targeting `dev`.
+runs the suite and audit on pushes to `dev`, `master` and `main`, and on pull
+requests targeting any of those branches. Manual workflow runs remain available.
 
 After an intentional change, use this order: regenerate analysis, review and
 update the report's narrative/tables, rebuild the PDF, then verify. Updating the
@@ -193,6 +194,19 @@ The sensitivity subsection, its original Table 6 and all full sweeps are in
 Appendix C. Section 4 retains a short pointer; its decision examples remain
 in the main body. All 12 original computed-table checks remain. The generated
 comparison and three complete scenario tables increase the audit to 16 tables.
+
+The current appendix structure is:
+
+| Appendix | Contents |
+| --- | --- |
+| A | Supplied baseline model tables and the Generative AI use declaration |
+| B | Expected-utility figure for all three scenarios |
+| C | Relocated sensitivity subsection and Table 6, closest decisions, switching threshold and full parameter sweeps |
+| D | All 90 steps in three generated scenario tables |
+
+There is no sensitivity subsection in Section 4; only its appendix pointer
+remains. Appendix D adds full step-level evidence without increasing the
+main-body word count.
 
 `build_report.py` refreshes the marked Markdown regions before typesetting.
 The comparison in Section 3 (Table 3a) reads `results/analysis.json`, including
@@ -232,3 +246,10 @@ then rebuild and verify. Review the interpretation and ensure you can explain
 the calculation and code before submitting.
 
 `results/verification.txt` records the checks run while preparing this package.
+
+## Generative AI use
+
+[DECLARE TOOLS USED AND HOW, per COMP6009 policy]
+
+Complete this declaration and the matching section in report Appendix A before
+submission. The appendix declaration is excluded from the main-body word count.

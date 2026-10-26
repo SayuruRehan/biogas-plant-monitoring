@@ -6,6 +6,40 @@ The system answers three related questions:
 2. **How does that belief evolve as readings arrive?** HMM filtering.
 3. **Which action has the best expected consequence?** Expected utility.
 
+## Finding the report evidence
+
+The report's five main sections cover the introduction, Bayesian inference,
+HMM estimation, expected-utility decisions and conclusion. The main body is
+1,961 words, including its tables and headings; the title block, references,
+captions, display equations and appendices are excluded.
+
+Section 2 labels its digester-state descriptions as the student's illustrative
+interpretation, not definitions supplied by the brief. Stable suggests steady
+methane yield and normal pH; Stressed suggests rising volatile fatty acids or
+drifting pH; Critical suggests acidification or process-failure risk. The Alarm
+posterior is a model belief requiring investigation, not proof of failure.
+Limitations address variable fat/protein loading, ammonia, delayed sensor
+responses, pH probe fouling/drift and correlated errors in red-meat digestion.
+
+Section 3 Table 3a compares observation counts, most probable state counts,
+Critical peaks and final posteriors across A, B and C. It is generated from
+`results/analysis.json`. Figures 1-3 distinguish observations from a thin MAP
+strip showing the inferred most probable state; neither gives ground truth.
+
+| Appendix | What to use it for |
+| --- | --- |
+| A | Check the supplied prior, sensor, transition and utility tables; complete the Generative AI use declaration |
+| B | Compare all three actions' expected utilities over time |
+| C | Read the sensitivity subsection and Table 6, close-decision margins, switching threshold and full sweeps |
+| D | Trace all 90 observations, posterior vectors, most probable states and recommended actions in three generated tables |
+
+The sensitivity subsection was moved out of Section 4 into Appendix C.
+Section 4 keeps its decision examples and a short appendix pointer. Appendix D
+is generated from `results/scenario_*_results.csv`; do not edit its marked
+region by hand. The audit checks all 16 report tables against recomputation.
+References [1]-[6] include the supplied brief, Russell and Norvig's textbook
+decision-theory chapter, HMM theory and peer-reviewed digestion literature.
+
 ## 1. A sensor reading is evidence, not the true state
 
 Stable, Stressed and Critical describe the hidden biological condition.
@@ -102,6 +136,9 @@ The `from_stable`, `from_stressed` and `from_critical` columns of
 
 ## 5. Understanding decision robustness
 
+This material is in Appendix C; it is separate from the baseline inference
+and the Section 4 decision analyses.
+
 At B, step 16, Reduce Feed wins by only 0.245874 utility units over Continue.
 This is a close choice under the supplied utility model. It does not mean
 there is a 24.59% chance of correctness: utilities and probabilities have
@@ -122,3 +159,7 @@ avoid claiming that greater uncertainty always produces fewer switches.
 Use `python verify_submission.py --reproduce --run-tests` to rerun the checks.
 This verifies mathematical consistency and reproducibility, not real-world
 digester accuracy or the benefits of actually implementing the actions.
+GitHub Actions also runs the suite and audit for pushes and pull requests to
+`dev`, `master` and `main`. The verification record is
+`results/verification.txt`. The AI-use placeholder in README and Appendix A
+must be completed with the tools actually used and how they were used.
