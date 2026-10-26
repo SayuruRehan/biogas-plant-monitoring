@@ -16,6 +16,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle, KeepTogether, PageBreak
+from report_contract import report_fingerprints, report_word_count
 
 
 def register_fonts():
@@ -91,7 +92,11 @@ def main():
         elif block.startswith('|'):
             rows=[[cell.strip() for cell in line.strip('|').split('|')] for line in block.splitlines() if not re.match(r'^\|\s*:?-',line)]
             ncols=len(rows[0])
-            if ncols==6:
+            if ncols==6 and rows[0][0]=='State':
+                col_widths=[width*x for x in [0.16,0.17,0.17,0.13,0.18,0.19]]
+            elif ncols==6 and rows[0][0]=='Scenario / step':
+                col_widths=[width*x for x in [0.15,0.18,0.17,0.17,0.17,0.16]]
+            elif ncols==6:
                 col_widths=[width*x for x in [0.12,0.31,0.13,0.13,0.14,0.17]]
             elif ncols==3 and 'Weight' in rows[0]:
                 col_widths=[width*x for x in [0.17,0.66,0.17]]
@@ -152,11 +157,10 @@ def main():
         canvas.setFillColor(colors.HexColor('#667078'))
         canvas.drawString(54,29,'COMP6009 | Biogas monitoring and decisions')
         canvas.drawRightString(A4[0]-54,29,str(doc.page))
-    doc=SimpleDocTemplate(str(output),pagesize=A4,rightMargin=54,leftMargin=54,topMargin=45,bottomMargin=48,title='Biogas Plant Intelligent Monitoring and Decision System',author='',subject='COMP6009 Assignment Part B')
+    fingerprints=';'.join(f'{key}:{value}' for key,value in report_fingerprints(root).items())
+    doc=SimpleDocTemplate(str(output),pagesize=A4,rightMargin=54,leftMargin=54,topMargin=45,bottomMargin=48,title='Biogas Plant Intelligent Monitoring and Decision System',author='',subject='COMP6009 Assignment Part B',keywords=fingerprints)
     doc.build(packed,onFirstPage=footer,onLaterPages=footer)
-    text=source.read_text().split('## References')[0]
-    included=[line for line in text.splitlines() if line and not line.startswith(('![','*Table','*Figure','$$'))]
-    words=len(re.findall(r"\b[\w]+(?:[-'][\w]+)*\b",'\n'.join(included)))
+    words=report_word_count(source.read_text(encoding='utf-8'))
     print(f'Created {output.name}; main-body word count including tables and headings: {words}')
     if not 1800 <= words <= 2200:
         raise ValueError('Report is outside the recommended 1800-2200 word range')

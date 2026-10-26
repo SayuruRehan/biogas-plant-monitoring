@@ -115,8 +115,20 @@ def main(data_dir=None, output_dir=None):
     write_csv(results/'sensitivity_details.csv', sensitivity_details)
     payload = {'baseline_model': BASELINE, 'task1': bayes_rows, 'scenarios': all_rows, 'summary': summary, 'sensitivity': sensitivity}
     (results/'analysis.json').write_text(json.dumps(payload, indent=2)+'\n', encoding='utf-8')
+    # These additions never feed back into the baseline filtering or choices.
+    from robustness import build_extensions
+    extension = build_extensions(sequences, all_rows)
+    for name, rows in (
+        ('worked_hmm_step', extension['worked_hmm_step']['states']),
+        ('decision_margins', extension['decision_margins']),
+        ('closest_decisions', extension['closest_decisions']),
+        ('parameter_sweep_summary', extension['sweep_summary']),
+        ('parameter_sweep_details', extension['sweep_details']),
+    ):
+        write_csv(results/f'{name}.csv', rows)
+    (results/'robustness.json').write_text(json.dumps(extension, indent=2)+'\n', encoding='utf-8')
     from plot_results import make_figures
-    make_figures(payload, figures)
+    make_figures(payload, figures, extension)
     print('Bayesian results:')
     for row in bayes_rows:
         print(row)

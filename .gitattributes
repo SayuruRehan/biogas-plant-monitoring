@@ -1,0 +1,8 @@
+*.pdf binary
+*.png binary
+*.csv -text
+*.json -text
+*.md text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.txt text eol=lf
