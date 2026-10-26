@@ -16,7 +16,7 @@ from collections import Counter
 from pathlib import Path
 
 from biogas import BASELINE, bayesian_update
-from report_contract import expected_report_tables, parse_tables, report_fingerprints, report_word_count
+from report_contract import REPORT_TITLE_BLOCK, REPORT_SECTION_TARGETS, expected_report_tables, parse_tables, report_fingerprints, report_sections, report_word_count
 from robustness import build_extensions
 from run_analysis import SCENARIOS, analyse_sequence, flatten, load_observations, sensitivity_models
 
@@ -134,13 +134,46 @@ def verify_submission(root):
         _csv(root,filename,rows)
     checks.append('Bayesian cases, worked HMM step, fixed-belief threshold, and 1,260 sweep rows / 42 summaries')
     report=(root/'report'/'COMP6009_Part_B_Report.md').read_text(encoding='utf-8')
+    _require(report.startswith(REPORT_TITLE_BLOCK+'\n\n## 1. Introduction'),
+             'Report title block is missing or differs from the submission details')
+    _require(report.count('<!-- title-block -->')==report.count('<!-- /title-block -->')==1,
+             'Report title block markers must occur exactly once')
+    checks.append('Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count')
+    _require(report.count('## Appendix A. Baseline model tables\n\n')==1,
+             'Appendix A must use the baseline model tables title')
+    readme=(root/'README.md').read_text(encoding='utf-8')
+    for name,text in (('Report',report),('README',readme)):
+        _require('[declare' not in text.casefold(),f'{name} contains an unfilled template marker')
+    checks.append('Appendix A uses the baseline model tables title; report and README contain no unfilled template markers')
+    try:
+        sections=report_sections(report)
+    except ValueError as exc:
+        raise VerificationError(str(exc)) from exc
+    section_counts={number:report_word_count(text) for number,text in sections.items()}
+    for number,(lower,upper) in REPORT_SECTION_TARGETS.items():
+        count=section_counts[number]
+        _require(lower<=count<=upper,f'Section {number} word count is {count}; expected {lower}-{upper}')
+    main_body=report.split('## References')[0]
+    appendix_c=report.partition('## Appendix C. Decision robustness and full sensitivity sweeps\n\n')[2]
+    _require('### Sensitivity to modelling choices' not in main_body and
+             '### Sensitivity to modelling choices' in appendix_c and
+             '*Table 6.' in appendix_c and '| Separate perturbation |' in appendix_c,
+             'Sensitivity subsection and Table 6 must be in Appendix C')
+    _require('sensitivity' not in sections[1].lower(),'Introduction must omit the sensitivity sentence')
+    checks.append('Section word counts within brief targets: '+', '.join(f'S{n} {c}' for n,c in section_counts.items())+'; sensitivity subsection and Table 6 in Appendix C')
     tables=parse_tables(report)
     expected_tables=expected_report_tables(expected,extension)
     _require(len(tables)==len(expected_tables),'report table count differs')
     for i,(actual,wanted) in enumerate(zip(tables,expected_tables),1):
         _require(actual==wanted,f'report table {i} differs from computed results')
+    appendix_d=report.partition('## Appendix D. Complete scenario results\n\n')[2]
+    _require(len(parse_tables(appendix_d))==3,'Appendix D must contain all three complete scenario tables')
+    _require(any(t[0][1]=='Observed N / W / A' for t in parse_tables(sections[3])),
+             'Section 3 must contain the generated scenario comparison table')
+    checks.append('Generated Section 3 comparison and all 90 Appendix D steps match independently computed results')
     words=report_word_count(report)
     _require(1800<=words<=2200,f'Report word count is {words}; expected 1,800-2,200')
+    _require(1950<=words<=2100,f'Report word count is {words}; expected safety margin 1,950-2,100')
     # Bind key narrative calculations as well as every numeric table.
     narrative_values=[f"{extension['worked_hmm_step']['evidence_probability']:.6f}",
                       f"{extension['switching_threshold']['threshold']:.6f}",
@@ -156,6 +189,7 @@ def verify_submission(root):
     _require(pdf.is_file(),'Missing report PDF')
     content=pdf.read_bytes()
     _require(content.startswith(b'%PDF-') and content.rstrip().endswith(b'%%EOF'),'Report PDF is incomplete')
+    _require(b'/Author (Sayuru Bopitiya)' in content,'Report PDF Author must be Sayuru Bopitiya')
     for key,value in report_fingerprints(root).items():
         _require(f'{key}:{value}'.encode() in content,f'Report PDF is stale: {key}; rerun build_report.py')
     checks.append('Report PDF matches the checked Markdown, numerical results and embedded figure bytes')

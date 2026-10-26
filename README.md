@@ -43,11 +43,13 @@ requires access to Python's package index.
 | `robustness.py` | Worked HMM step, utility margins, analytical switch threshold and one-factor parameter sweeps |
 | `verify_submission.py` | Rerunnable input, numerical, report-table and PDF-freshness audit |
 | `report_contract.py` | Shared report word-count, table and provenance contracts |
-| `plot_results.py` | State probability, action timeline and expected-utility plots |
+| `generate_report_tables.py` | Generates the Section 3 comparison from `analysis.json` and Appendix D from the three result CSVs |
+| `plot_results.py` | State probability plots with inferred-state strips, action timeline and expected-utility plots |
 | `build_report.py` | Rebuilds the PDF from Markdown and generated figures |
 | `tests/test_inference.py` | Ten numerical and validation checks, including independent hidden-path enumeration |
 | `tests/test_robustness.py` | Six checks of the worked step, margins, threshold and sweeps |
-| `tests/test_verification.py` | Eleven end-to-end checks, including deliberate input/output/report corruption |
+| `tests/test_verification.py` | Twenty-eight end-to-end checks, including corruption detection, report budgets, generated-table provenance, appendix title and unfilled-template detection |
+| `tests/test_plot_data.py` | Two checks that the inferred-state strip encodes state labels rather than observations |
 | `data/` | The three original supplied CSV datasets |
 | `results/` | Full numerical outputs, audit records and sensitivity results |
 | `figures/` | PNG and vector PDF charts |
@@ -142,6 +144,13 @@ python verify_submission.py --reproduce --run-tests
 The default command checks original SHA-256 input hashes, exactly 30 steps per
 dataset, every baseline prediction/posterior/state/utility/action, all sweep
 outputs, every report table, key worked calculations and the word limit.
+It also validates the complete title block and PDF Author metadata against
+the submission details, and excludes the title block from the word count.
+Each numbered section must meet its own brief target, the main body must
+stay within the tighter 1,950-2,100 safety margin, and the sensitivity
+subsection and Table 6 must appear in Appendix C.
+Appendix A must use the baseline model tables title, and the report and README
+must contain no unfilled template markers.
 The PDF records fingerprints of its Markdown source, numerical JSON outputs
 and embedded figures; the audit rejects a PDF that predates an edit to any
 of these inputs. It exits with status 1 and a specific `FAIL` message when
@@ -152,8 +161,9 @@ that all 13 numerical CSV/JSON files and six PNG figures reproduce byte for
 byte. It compares freshly generated artifacts to the checked-in outputs,
 so strict image reproduction uses the pinned rendering environment. The
 ordinary audit compares numbers with a 1e-12 tolerance and requires no plotting
-dependencies. `--run-tests` also runs the complete 27-test suite. GitHub Actions
-runs the suite and audit on pushes to `dev` and pull requests targeting `dev`.
+dependencies. `--run-tests` also runs the complete 46-test suite. GitHub Actions
+runs the suite and audit on pushes to `dev`, `master` and `main`, and on pull
+requests targeting any of those branches. Manual workflow runs remain available.
 
 After an intentional change, use this order: regenerate analysis, review and
 update the report's narrative/tables, rebuild the PDF, then verify. Updating the
@@ -162,9 +172,79 @@ PDF metadata alone cannot repair stale CSVs or mismatched report tables.
 ## Report and final review
 
 The report stays within the recommended 1,800-2,200 main-body words, including
-its tables and headings and excluding references, captions and appendices.
-The exact count is printed by `build_report.py`. Add your student details in
-the format required by your lecturer, review the interpretation, and ensure
-you can explain the calculation and code before submitting.
+its body tables and headings and excluding the title block, references,
+captions, display equations, generation markers and appendices. The main body is 1,961 words;
+the exact total and section counts are printed by `build_report.py` and
+checked by `verify_submission.py`.
+
+The PDF is typeset in 14 pages, including three new pages for Appendix D.
+Tables stay with their captions and immediate
+lead-ins, figures stay with captions and their immediate headings, and each
+appendix starts on a fresh page. Equations use DejaVu Serif math to match the
+body font. The build prints the page count; the visual review is recorded in
+`docs/PDF_LAYOUT_REVIEW.md`.
+
+| Section | Brief target | Current count |
+| --- | ---: | ---: |
+| 1 Introduction | 150-200 | 189 |
+| 2 Bayesian inference | 400-450 | 446 |
+| 3 HMM estimation | 550-650 | 648 |
+| 4 Expected utility | 400-500 | 487 |
+| 5 Conclusion | 150-200 | 191 |
+
+The sensitivity subsection, its original Table 6 and all full sweeps are in
+Appendix C. Section 4 retains a short pointer; its decision examples remain
+in the main body. All 12 original computed-table checks remain. The generated
+comparison and three complete scenario tables increase the audit to 16 tables.
+
+The current appendix structure is:
+
+| Appendix | Contents |
+| --- | --- |
+| A | Supplied baseline model tables |
+| B | Expected-utility figure for all three scenarios |
+| C | Relocated sensitivity subsection and Table 6, closest decisions, switching threshold and full parameter sweeps |
+| D | All 90 steps in three generated scenario tables |
+
+There is no sensitivity subsection in Section 4; only its appendix pointer
+remains. Appendix D adds full step-level evidence without increasing the
+main-body word count.
+
+`build_report.py` refreshes the marked Markdown regions before typesetting.
+The comparison in Section 3 (Table 3a) reads `results/analysis.json`, including
+observation/state counts, the peak Critical probability and earliest peak step,
+and the final posterior. Appendix D reads `results/scenario_*_results.csv` and
+shows all 90 observations, posterior vectors, most probable states and actions.
+Probabilities are displayed to six decimals; no result file is changed.
+Regenerate these tables without plotting or building a PDF using
+`python generate_report_tables.py`. Do not hand-edit the marked regions.
+The audit compares every cell with independently recomputed baseline results.
+
+Belief figures distinguish observed N/W/A readings from a thin MAP strip below
+them. The strip encodes the most probable posterior state at each step, using
+the state colours and a separate legend row. It represents inference, not a
+measured hidden-state label or the recommended action.
+
+Section 2 explicitly identifies its Stable/Stressed/Critical digester examples
+as the student's interpretation rather than definitions from the brief. It
+interprets the Alarm posterior operationally and discusses red-meat processing
+loads, ammonia inhibition, pH probe fouling/drift and correlated sensor errors.
+Section 3 addresses the delay between loading changes and sensor response.
+Reference [2] is the Russell and Norvig fourth-edition textbook, Chapter 16;
+two peer-reviewed digestion papers supply domain context. Verified bibliographic
+details, source links and the US/Global edition distinction are recorded in
+`docs/REFERENCE_VERIFICATION.md`. These contextual edits reduce the body count
+by three words and leave all numerical results, tables and audit checks intact.
+
+The Markdown and PDF title block identify unit COMP6009, Assignment Part B,
+student Sayuru Bopitiya, student ID 24071158 and date 26 October 2026.
+`build_report.py` sets the PDF Author metadata to `Sayuru Bopitiya`.
+The dated title block is fixed submission information, so rebuilding does
+not silently replace its date with the build date. The exact title block
+is defined in `report_contract.py` and delimited by HTML comments in the
+Markdown. If the submission details change, update the Markdown and shared
+contract together, update the PDF author setting and its audit if needed,
+then rebuild and verify. Review the interpretation and ensure you can explain
+the calculation and code before submitting.
 
 `results/verification.txt` records the checks run while preparing this package.
