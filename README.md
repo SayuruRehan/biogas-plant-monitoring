@@ -248,3 +248,22 @@ then rebuild and verify. Review the interpretation and ensure you can explain
 the calculation and code before submitting.
 
 `results/verification.txt` records the checks run while preparing this package.
+
+## Submission archive
+
+`COMP6009_Part_B_Code_24071158.zip` contains the eight Python modules, four
+test files, pinned requirements, original datasets, numerical outputs,
+verification record, figures, editable report, PDF and supporting documentation.
+All files are inside one folder named `COMP6009_Part_B_Code_24071158`.
+`MANIFEST.sha256` records the SHA-256 checksum of every packaged file.
+
+Extract the ZIP, open a terminal in that folder, and follow Quick start above.
+The package works without Git or access to files outside the extracted folder.
+The submitted archive is checked with the full suite and fresh-output
+reproduction from an independent extraction.
+
+Git history, CI configuration, virtual environments, Python caches, generated
+equation images, one-off development helpers and the redundant analysis console
+transcript are excluded. The runtime and report-generation modules remain in
+the package because they are needed for reproduction. Generated ZIPs belong in
+the ignored `submission/` directory rather than the repository history.

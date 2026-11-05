@@ -4,3 +4,7 @@ __pycache__/
 report/_equations/
 reproduced/
 .superpowers/
+submission/
+.pytest_cache/
+.DS_Store
+Thumbs.db
