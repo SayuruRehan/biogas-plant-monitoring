@@ -19,9 +19,13 @@ class DocxFormatTests(unittest.TestCase):
         self.footer = read_part('word/footer1.xml')
 
     def test_every_font_is_times_new_roman(self):
+        # The styles must set Times New Roman. Body text and the footer may
+        # inherit it from the styles (Word drops run-level fonts on save),
+        # but must never name a different font.
+        self.assertEqual(set(re.findall(r'w:(?:ascii|hAnsi|cs)="([^"]+)"', self.styles)), {'Times New Roman'})
         for part in (self.document, self.styles, self.footer):
             fonts = set(re.findall(r'w:(?:ascii|hAnsi|cs)="([^"]+)"', part))
-            self.assertEqual(fonts, {'Times New Roman'})
+            self.assertLessEqual(fonts, {'Times New Roman'})
             self.assertIsNone(re.search(r'w:\w*[Tt]heme\w*="', part), 'theme font or colour attribute found')
 
     def test_every_text_colour_is_black(self):

@@ -1,26 +1,24 @@
 <!-- title-block -->
 # Biogas Plant Intelligent Monitoring and Decision System
 
-Unit: COMP6009
+COMP6009 Assignment Part B
 
-Assignment Part B
+Sayuru Rehan Bopitiya
 
-Student name: Sayuru Bopitiya
+24071158
 
-Student ID: 24071158
-
-Date: 26 October 2026
+26 October 2026
 <!-- /title-block -->
 
 ## 1. Introduction and problem formulation
 
 An anaerobic digester at a Western Australian red-meat processing facility converts organic waste into useful biogas. Variable waste composition and loading can make its condition difficult to assess. Operators observe sensor readings, while the underlying biological state remains hidden. A warning therefore provides evidence of a problem rather than establishing that the digester is stressed with certainty.
 
-This system represents the hidden state as Stable, Stressed or Critical, and Sensor 1 observations as Normal, Warning or Alarm. Its purpose is to maintain a probability distribution over the states and recommend Continue, Reduce Feed or Intervene. The supplied probability and utility tables define the baseline model [1]. Bayesian inference first investigates individual and combined observations. Hidden Markov Model (HMM) filtering then tracks condition across three 30-step sequences. Finally, expected utility converts each belief distribution into an operational recommendation. A useful agent must balance maintaining energy production against responding early enough to potentially damaging conditions, while making the basis of each recommendation understandable. The analysis evaluates inference and decision behaviour; the supplied datasets contain no measured hidden states or outcomes with which to establish real-world accuracy.
+This system represents the hidden state as Stable, Stressed or Critical, and Sensor 1 observations as Normal, Warning or Alarm. Its purpose is to maintain a probability distribution over the states and recommend Continue, Reduce Feed or Intervene. The supplied probability and utility tables define the baseline model. Bayesian inference first investigates individual and combined observations. Hidden Markov Model (HMM) filtering then tracks condition across three 30-step sequences. Finally, expected utility converts each belief distribution into an operational recommendation. A useful agent must balance maintaining energy production against responding early enough to potentially damaging conditions, while making the basis of each recommendation understandable. The analysis evaluates inference and decision behaviour; the supplied datasets contain no measured hidden states or outcomes with which to establish real-world accuracy.
 
 ## 2. Probabilistic modelling and Bayesian inference
 
-The priors for Stable, Stressed and Critical are 0.70, 0.20 and 0.10. I interpret Stable as steady methane yield and normal pH; Stressed as early signs such as rising volatile fatty acids or drifting pH; and Critical as acidification or process-failure risk. These illustrative digester descriptions are my interpretation, not definitions supplied by the brief; literature informs their biological context [5], [6].
+The priors for Stable, Stressed and Critical are 0.70, 0.20 and 0.10. I interpret Stable as steady methane yield and normal pH; Stressed as early signs such as rising volatile fatty acids or drifting pH; and Critical as acidification or process-failure risk. These illustrative digester descriptions are my interpretation, not definitions supplied by the brief; literature informs their biological context [1], [2].
 
 Bayesian updating multiplies priors by likelihoods and normalises. Conditional independence permits multiplying sensor likelihoods. Python accepts valid observation-model pairs, rejecting invalid tables, unknown observations and zero-probability evidence. P(Alarm | Critical) = 0.70 is a likelihood, not a 70% Critical posterior.
 
@@ -51,11 +49,11 @@ For the manual combined-evidence calculation, the unnormalised weights are shown
 
 Adding Abnormal pH reduces Stable by 30.56 percentage points and increases Stressed and Critical by 17.40 and 13.16 points because abnormal pH favours these states under the supplied model.
 
-At a red-meat processing digester, variable fat/protein loading and ammonia inhibition challenge fixed likelihoods [5], [6]. Protein degradation can release ammonia, disrupting methane production [5]. pH probe fouling or drift can distort observations [6]. Shared probes or disturbances could correlate sensor errors even given the state, breaking conditional independence: multiplying likelihoods would double-count evidence. A joint sensor model and plant-specific calibration are needed. Three categories also compress the biochemical and physicochemical processes represented in mechanistic models [4].
+At a red-meat processing digester, variable fat/protein loading and ammonia inhibition challenge fixed likelihoods [1], [2]. Protein degradation can release ammonia, disrupting methane production [1]. pH probe fouling or drift can distort observations [2]. Shared probes or disturbances could correlate sensor errors even given the state, breaking conditional independence: multiplying likelihoods would double-count evidence. A joint sensor model and plant-specific calibration are needed. Three categories also compress the biochemical and physicochemical processes represented in mechanistic models [3].
 
 ## 3. HMM-based state estimation
 
-HMM filtering estimates P(X_t | e_1:t) from available observations. It predicts through the transition model, incorporates the likelihood, and normalises. This is forward filtering, not retrospective smoothing or complete-sequence decoding [3]. Transition rows represent current states and columns next states; diagonal probabilities 0.80, 0.60 and 0.65 encode persistence.
+HMM filtering estimates P(X_t | e_1:t) from available observations. It predicts through the transition model, incorporates the likelihood, and normalises. This is forward filtering, not retrospective smoothing or complete-sequence decoding [4]. Transition rows represent current states and columns next states; diagonal probabilities 0.80, 0.60 and 0.65 encode persistence.
 
 $$\hat b_t(x)=\sum_y b_{t-1}(y)T_{yx},\quad w_t(x)=\hat b_t(x)P(e_t\mid x),\quad b_t(x)=\frac{w_t(x)}{\sum_y w_t(y)}$$
 
@@ -111,11 +109,11 @@ At steps 4 and 5, Warning followed by Alarm increases Critical from 0.032197 to 
 
 A mainly shows short departures from stability; B accumulates evidence of stress; C changes sharply and can briefly appear more critical than B. Identical observation labels can yield different posteriors because their preceding beliefs differ.
 
-The first-order, time-homogeneous HMM omits feed history and delays between loading changes and sensor response. Variable fat/protein inputs and ammonia inhibition challenge fixed transitions [5], [6]. Conditional observation independence also misses persistent pH probe fouling/drift [6], potentially mistaking correlated errors for sustained deterioration. Without a sampling interval, transitions apply per supplied step, not per hour or day.
+The first-order, time-homogeneous HMM omits feed history and delays between loading changes and sensor response. Variable fat/protein inputs and ammonia inhibition challenge fixed transitions [1], [2]. Conditional observation independence also misses persistent pH probe fouling/drift [2], potentially mistaking correlated errors for sustained deterioration. Without a sampling interval, transitions apply per supplied step, not per hour or day.
 
 ## 4. Expected-utility decision making
 
-The decision function calculates each action's probability-weighted utility and selects the largest value, following decision theory [2, ch. 16]. It uses the full posterior, so a less probable but costly state can influence the recommendation. Utilities are dimensionless scores rather than measured financial returns. Exact ties follow the supplied action order.
+The decision function calculates each action's probability-weighted utility and selects the largest value, following decision theory [5, ch. 16]. It uses the full posterior, so a less probable but costly state can influence the recommendation. Utilities are dimensionless scores rather than measured financial returns. Exact ties follow the supplied action order.
 
 $$EU(a\mid b_t)=\sum_x b_t(x)U(a,x),\qquad a_t^*=\arg\max_a EU(a\mid b_t)$$
 
@@ -161,21 +159,19 @@ Mathematical correctness does not establish biological calibration or beneficial
 
 ## References
 
-[1] COMP6009, "Assignment Part B: Biogas Plant Intelligent Monitoring and Decision System," supplied assignment brief and scenario datasets, undated.
+[1] Y. Chen, J. J. Cheng, and K. S. Creamer, "Inhibition of anaerobic digestion process: A review," Bioresource Technology, vol. 99, no. 10, pp. 4044-4064, Jul. 2008, doi: 10.1016/j.biortech.2007.01.057.
 
-[2] S. Russell and P. Norvig, Artificial Intelligence: A Modern Approach, 4th ed. Pearson, 2021, ch. 16, "Making Simple Decisions."
+[2] T. Schmidt, B. McCabe, and P. Harris, "Process monitoring and control for an anaerobic covered lagoon treating abattoir wastewater," Chemical Engineering & Technology, vol. 41, no. 4, pp. 755-760, 2018, doi: 10.1002/ceat.201700391.
 
-[3] L. R. Rabiner, "A tutorial on hidden Markov models and selected applications in speech recognition," Proceedings of the IEEE, vol. 77, no. 2, pp. 257-286, Feb. 1989, doi: 10.1109/5.18626.
+[3] D. J. Batstone et al., "The IWA Anaerobic Digestion Model No 1 (ADM1)," Water Science and Technology, vol. 45, no. 10, pp. 65-73, 2002, doi: 10.2166/wst.2002.0292.
 
-[4] D. J. Batstone et al., "The IWA Anaerobic Digestion Model No 1 (ADM1)," Water Science and Technology, vol. 45, no. 10, pp. 65-73, 2002, doi: 10.2166/wst.2002.0292.
+[4] L. R. Rabiner, "A tutorial on hidden Markov models and selected applications in speech recognition," Proceedings of the IEEE, vol. 77, no. 2, pp. 257-286, Feb. 1989, doi: 10.1109/5.18626.
 
-[5] Y. Chen, J. J. Cheng, and K. S. Creamer, "Inhibition of anaerobic digestion process: A review," Bioresource Technology, vol. 99, no. 10, pp. 4044-4064, Jul. 2008, doi: 10.1016/j.biortech.2007.01.057.
-
-[6] T. Schmidt, B. McCabe, and P. Harris, "Process monitoring and control for an anaerobic covered lagoon treating abattoir wastewater," Chemical Engineering & Technology, vol. 41, no. 4, pp. 755-760, 2018, doi: 10.1002/ceat.201700391.
+[5] S. Russell and P. Norvig, Artificial Intelligence: A Modern Approach, 4th ed. Pearson, 2021, ch. 16, "Making Simple Decisions."
 
 ## Appendix A. Baseline model tables
 
-The following tables reproduce the supplied models [1]. Probability rows sum to one. Transition rows refer to current state and columns to next state. Utility rows refer to action and columns to true state.
+The following tables reproduce the supplied models. Probability rows sum to one. Transition rows refer to current state and columns to next state. Utility rows refer to action and columns to true state.
 
 | True state | Prior | Sensor 1: Normal | Warning | Alarm |
 | --- | ---: | ---: | ---: | ---: |
