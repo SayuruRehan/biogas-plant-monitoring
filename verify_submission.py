@@ -138,7 +138,7 @@ def verify_submission(root):
              'Report title block is missing or differs from the submission details')
     _require(report.count('<!-- title-block -->')==report.count('<!-- /title-block -->')==1,
              'Report title block markers must occur exactly once')
-    checks.append('Report title block identifies COMP6009 Assignment Part B, Sayuru Bopitiya, 24071158 and 26 October 2026; excluded from word count')
+    checks.append('Report title block identifies COMP6009 Assignment Part B, Sayuru Rehan Bopitiya, 24071158 and 26 October 2026; excluded from word count')
     _require(report.count('## Appendix A. Baseline model tables\n\n')==1,
              'Appendix A must use the baseline model tables title')
     readme=(root/'README.md').read_text(encoding='utf-8')
@@ -189,7 +189,7 @@ def verify_submission(root):
     _require(pdf.is_file(),'Missing report PDF')
     content=pdf.read_bytes()
     _require(content.startswith(b'%PDF-') and content.rstrip().endswith(b'%%EOF'),'Report PDF is incomplete')
-    _require(b'/Author (Sayuru Bopitiya)' in content,'Report PDF Author must be Sayuru Bopitiya')
+    _require(b'/Author (Sayuru Rehan Bopitiya)' in content,'Report PDF Author must be Sayuru Rehan Bopitiya')
     for key,value in report_fingerprints(root).items():
         _require(f'{key}:{value}'.encode() in content,f'Report PDF is stale: {key}; rerun build_report.py')
     checks.append('Report PDF matches the checked Markdown, numerical results and embedded figure bytes')

@@ -6,15 +6,13 @@ import re
 REPORT_TITLE_BLOCK='''<!-- title-block -->
 # Biogas Plant Intelligent Monitoring and Decision System
 
-Unit: COMP6009
+COMP6009 Assignment Part B
 
-Assignment Part B
+Sayuru Rehan Bopitiya
 
-Student name: Sayuru Bopitiya
+24071158
 
-Student ID: 24071158
-
-Date: 26 October 2026
+26 October 2026
 <!-- /title-block -->'''
 
 REPORT_SECTION_TARGETS={1:(150,200),2:(400,450),3:(550,650),4:(400,500),5:(150,200)}

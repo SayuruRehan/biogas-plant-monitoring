@@ -283,19 +283,23 @@ def main():
     add_footer(section)
     properties = document.core_properties
     properties.title = 'Biogas Plant Intelligent Monitoring and Decision System'
-    properties.author = properties.last_modified_by = 'Sayuru Bopitiya'
+    properties.author = properties.last_modified_by = 'Sayuru Rehan Bopitiya'
     properties.subject = 'COMP6009 Assignment Part B'
     properties.keywords = 'COMP6009; Assignment Part B; biogas monitoring'
     properties.comments = ''
 
+    # Cover page: centred title, then the unit, name, ID and date further down.
     for line in REPORT_TITLE_BLOCK.splitlines()[1:-1]:
         if line.startswith('# '):
-            add_text(document.add_paragraph(style='Title'), line[2:])
+            paragraph = document.add_paragraph(style='Title')
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            paragraph.paragraph_format.space_after = Pt(120)
+            add_text(paragraph, line[2:])
         elif line:
             paragraph = document.add_paragraph()
+            paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
             paragraph.paragraph_format.space_after = Pt(2)
             add_text(paragraph, line)
-    document.paragraphs[-1].paragraph_format.space_after = Pt(12)
 
     equation_count = 0
     references = False
@@ -310,7 +314,8 @@ def main():
             references = heading == 'References'
             current_section = heading
             paragraph = document.add_paragraph(style='Heading 1')
-            paragraph.paragraph_format.page_break_before = heading.startswith('Appendix')
+            # Section 1 starts after the cover page; each appendix starts a new page.
+            paragraph.paragraph_format.page_break_before = heading.startswith(('Appendix', '1. '))
             add_text(paragraph, heading)
         elif block.startswith('### '):
             paragraph = document.add_paragraph(style='Heading 2')

@@ -43,15 +43,13 @@ class VerificationTests(unittest.TestCase):
         title='''<!-- title-block -->
 # Biogas Plant Intelligent Monitoring and Decision System
 
-Unit: COMP6009
+COMP6009 Assignment Part B
 
-Assignment Part B
+Sayuru Rehan Bopitiya
 
-Student name: Sayuru Bopitiya
+24071158
 
-Student ID: 24071158
-
-Date: 26 October 2026
+26 October 2026
 <!-- /title-block -->'''
         body='## 1. Introduction\n\nThree body words.\n\n## References\n\nExcluded reference.'
         self.assertEqual(report_word_count(title+'\n\n'+body),report_word_count(body))

@@ -10,7 +10,7 @@ from xml.sax.saxutils import escape
 
 from PIL import Image as PILImage
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
@@ -69,13 +69,16 @@ def main():
         raise ValueError('Report title block is missing or differs from the submission details')
     blocks=source_text[len(REPORT_TITLE_BLOCK):].strip().split('\n\n')
     title_lines=REPORT_TITLE_BLOCK.splitlines()[1:-1]
-    title_story=[]
+    # Cover page: centred title, then the unit, name, ID and date further down.
+    cover_title=ParagraphStyle(name='CoverTitle',parent=styles['ReportTitle'],alignment=TA_CENTER)
+    cover_line=ParagraphStyle(name='CoverLine',parent=styles['ReportBody'],alignment=TA_CENTER,spaceAfter=2)
+    story=[Spacer(1,40)]
     for line in title_lines:
         if line.startswith('# '):
-            title_story.append(Paragraph(escape(line[2:]),styles['ReportTitle']))
+            story+=[Paragraph(escape(line[2:]),cover_title),Spacer(1,120)]
         elif line:
-            title_story.append(Paragraph(escape(line),styles['ReportBody']))
-    story=[KeepTogether(title_story+[Spacer(1,10)])]
+            story.append(Paragraph(escape(line),cover_line))
+    story.append(PageBreak())
     equation_count=0
     references=False
     for block in blocks:
@@ -183,7 +186,7 @@ def main():
         canvas.drawString(54,29,'COMP6009 | Biogas monitoring and decisions')
         canvas.drawRightString(A4[0]-54,29,str(doc.page))
     fingerprints=';'.join(f'{key}:{value}' for key,value in report_fingerprints(root).items())
-    doc=SimpleDocTemplate(str(output),pagesize=A4,rightMargin=54,leftMargin=54,topMargin=36,bottomMargin=36,title='Biogas Plant Intelligent Monitoring and Decision System',author='Sayuru Bopitiya',subject='COMP6009 Assignment Part B',keywords=fingerprints)
+    doc=SimpleDocTemplate(str(output),pagesize=A4,rightMargin=54,leftMargin=54,topMargin=36,bottomMargin=36,title='Biogas Plant Intelligent Monitoring and Decision System',author='Sayuru Rehan Bopitiya',subject='COMP6009 Assignment Part B',keywords=fingerprints)
     doc.build(packed,onFirstPage=footer,onLaterPages=footer)
     print(f'PDF pages: {doc.page}')
     words=report_word_count(source.read_text(encoding='utf-8'))
