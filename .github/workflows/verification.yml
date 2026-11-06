@@ -22,3 +22,6 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Audit committed results and report
         run: python verify_submission.py
+      - name: Test the code submission folder
+        working-directory: submission/code
+        run: python -m unittest discover -s tests -v

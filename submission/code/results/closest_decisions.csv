@@ -1,0 +1,4 @@
+scenario,time,observation,action,best_utility,runner_up,runner_up_utility,decision_margin
+A,6,Warning,Reduce Feed,5.193697971012466,Continue,4.911806934957089,0.28189103605537724
+B,16,Normal,Reduce Feed,4.520862384391563,Continue,4.274988104756839,0.24587427963472397
+C,4,Warning,Reduce Feed,5.193509429741757,Continue,4.910288797603882,0.2832206321378754
