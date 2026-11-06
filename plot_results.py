@@ -1,31 +1,50 @@
 """Publication-quality charts from computed results, with no inference logic."""
 from pathlib import Path
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 
 COLORS = {'Stable': '#176B65', 'Stressed': '#B97812', 'Critical': '#B4444A'}
 TITLES = {'A':'Stable operation', 'B':'Deteriorating operation', 'C':'Noisy monitoring'}
 ACTION_COLORS = ['#176B65', '#B97812', '#B4444A']
 
 
+def most_probable_strip(rows):
+    """Encode inferred labels in the same Stable/Stressed/Critical colour order."""
+    states=list(COLORS)
+    return [states.index(row['most_probable_state']) for row in rows]
+
+
 def make_figures(payload, destination, extension=None):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import ListedColormap
+    from matplotlib.patches import Patch
     destination = Path(destination)
     plt.rcParams.update({'font.family':'DejaVu Sans', 'font.size':10, 'axes.spines.top':False, 'axes.spines.right':False, 'axes.titleweight':'bold', 'savefig.facecolor':'white'})
     for scenario, rows in payload['scenarios'].items():
         times = [r['time'] for r in rows]
-        fig, (ax, sensor_ax) = plt.subplots(2,1,figsize=(8.0,3.6),sharex=True, layout='constrained', gridspec_kw={'height_ratios':[5,1],'hspace':0.08})
+        fig, (ax, sensor_ax, state_ax) = plt.subplots(3,1,figsize=(8.0,4.05),sharex=True, layout='constrained', gridspec_kw={'height_ratios':[5,0.6,0.25],'hspace':0.05})
         for state,color in COLORS.items():
-            ax.plot(times, [r['posterior'][state] for r in rows], label=state, color=color, linewidth=2, marker='o', markersize=2.5)
+            ax.plot(times, [r['posterior'][state] for r in rows], label=f'Belief: {state}', color=color, linewidth=2, marker='o', markersize=2.5)
         ax.set(ylim=(0,1), ylabel='Filtered state probability', title=f'Scenario {scenario}: {TITLES[scenario]}')
         ax.grid(axis='y', alpha=0.2)
-        ax.legend(ncol=3, loc='upper right', fontsize=9, frameon=False)
+        handles=[]
+        for line,(state,color) in zip(ax.lines,COLORS.items()):
+            handles.extend([line,Patch(facecolor=color,label=f'Most probable: {state}')])
+        fig.legend(handles=handles,ncol=3,loc='outside lower center',fontsize=8,frameon=False)
         sensor_colors={'Normal':'#176B65','Warning':'#B97812','Alarm':'#B4444A'}
         for r in rows:
             sensor_ax.text(r['time'],0.5,r['observation'][0],ha='center',va='center',fontsize=9,color=sensor_colors[r['observation']],fontweight='bold')
-        sensor_ax.set(xlabel='Time step (N = Normal, W = Warning, A = Alarm)',xlim=(0.4,30.6),ylim=(0,1),yticks=[],xticks=[1,5,10,15,20,25,30])
+        sensor_ax.set(xlim=(0.4,30.6),ylim=(0,1),yticks=[])
+        sensor_ax.set_ylabel('Obs.',rotation=0,ha='right',va='center',fontsize=8)
+        sensor_ax.tick_params(axis='x',bottom=False,labelbottom=False)
         sensor_ax.spines['left'].set_visible(False)
+        sensor_ax.spines['bottom'].set_visible(False)
+        state_ax.imshow([most_probable_strip(rows)],cmap=ListedColormap(list(COLORS.values())),vmin=-0.5,vmax=2.5,
+                        aspect='auto',interpolation='nearest',extent=(0.5,30.5,0,1))
+        state_ax.set(xlabel='Time step (N = Normal, W = Warning, A = Alarm)',xlim=(0.4,30.6),ylim=(0,1),yticks=[],xticks=[1,5,10,15,20,25,30])
+        state_ax.set_ylabel('MAP',rotation=0,ha='right',va='center',fontsize=8)
+        state_ax.spines['left'].set_visible(False)
+        state_ax.spines['bottom'].set_visible(False)
         fig.savefig(destination/f'scenario_{scenario}_beliefs.png',dpi=220,bbox_inches='tight')
         fig.savefig(destination/f'scenario_{scenario}_beliefs.pdf',bbox_inches='tight')
         plt.close(fig)
@@ -61,6 +80,7 @@ def make_figures(payload, destination, extension=None):
 
 def make_sweep_figure(summary, destination):
     """Show how each separate assumption changes the 30 baseline decisions."""
+    import matplotlib.pyplot as plt
     specifications=[('sensor_noise','Uniform sensor mixture (fraction)'),
                     ('persistence','Identity transition mixture (fraction)'),
                     ('critical_utility','Magnitude of Continue/Critical penalty')]
