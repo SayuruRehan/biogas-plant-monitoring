@@ -14,6 +14,14 @@ condition over time, and recommends an operational action:
 All inference code uses only the Python standard library. No HMM or probabilistic
 inference library is used.
 
+## Code submission folder
+
+`submission/code/` is the self-contained code deliverable: zip the `submission`
+folder and upload it. It contains `main.py`, the algorithms in `src/`, the unit
+tests, the supplied data and all results and figures used in the report. See
+`submission/code/README.md` for how to run it. Its numerical outputs are
+identical to those in `results/` here.
+
 ## Requirements
 
 - Python 3.10 or newer (tested with 3.12)
